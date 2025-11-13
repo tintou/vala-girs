@@ -18,10 +18,10 @@ namespace GUPnP {
 		[Version (since = "0.20.11")]
 		public void add_server_handler (bool use_acl, string path, owned Soup.ServerCallback callback);
 		[CCode (has_construct_function = false)]
-		[Version (since = "1.6.")]
+		[Version (since = "1.6.0")]
 		public Context.for_address (GLib.InetAddress? addr, uint16 port, GSSDP.UDAVersion uda_version) throws GLib.Error;
 		[CCode (has_construct_function = false)]
-		[Version (since = "1.6.")]
+		[Version (since = "1.6.0")]
 		public Context.full (string? iface, GLib.InetAddress? addr, uint16 port, GSSDP.UDAVersion uda_version) throws GLib.Error;
 		[Version (since = "0.20.11")]
 		public unowned GUPnP.Acl get_acl ();
@@ -328,6 +328,8 @@ namespace GUPnP {
 	public class ServiceProxyAction {
 		[CCode (has_construct_function = false)]
 		public ServiceProxyAction (string action, ...);
+		[Version (since = "1.6.6")]
+		public unowned GUPnP.ServiceProxyAction add_argument (string name, GLib.Value value);
 		[CCode (has_construct_function = false)]
 		public ServiceProxyAction.from_list (string action, GLib.List<string> in_names, GLib.List<GLib.Value?> in_values);
 		public bool get_result (...) throws GLib.Error;
@@ -335,12 +337,28 @@ namespace GUPnP {
 		public bool get_result_hash (ref unowned GLib.HashTable<string,GLib.Value?> out_hash) throws GLib.Error;
 		[Version (since = "1.2.0")]
 		public bool get_result_list (GLib.List<string> out_names, GLib.List<GLib.Type?> out_types, out GLib.List<GLib.Value?> out_values) throws GLib.Error;
+		[Version (since = "1.6.6")]
+		public GUPnP.ServiceProxyActionIter? iterate () throws GLib.Error;
+		[CCode (has_construct_function = false)]
+		[Version (since = "1.6.6")]
+		public ServiceProxyAction.plain (string action);
 		[Version (since = "1.2.0")]
 		public GUPnP.ServiceProxyAction? @ref ();
 		[Version (since = "1.4.0")]
 		public bool @set (string key, GLib.Value value) throws GLib.Error;
 		[Version (since = "1.2.0")]
 		public void unref ();
+	}
+	[CCode (cheader_filename = "libgupnp/gupnp.h", type_id = "gupnp_service_proxy_action_iter_get_type ()")]
+	[Version (since = "1.6.6")]
+	public sealed class ServiceProxyActionIter : GLib.Object {
+		[CCode (has_construct_function = false)]
+		protected ServiceProxyActionIter ();
+		public unowned string get_name ();
+		public bool get_value (out GLib.Value value);
+		[Version (since = "1.6.8")]
+		public bool get_value_as (GLib.Type type, out GLib.Value value);
+		public bool next ();
 	}
 	[CCode (cheader_filename = "libgupnp/gupnp.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gupnp_service_state_variable_info_get_type ()")]
 	[Compact]

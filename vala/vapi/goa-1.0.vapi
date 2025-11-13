@@ -197,21 +197,26 @@ namespace Goa {
 		public MapsSkeleton ();
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_media_server_proxy_get_type ()")]
-	[Version (since = "3.14")]
+	[Version (deprecated = true, since = "3.14")]
 	public class MediaServerProxy : GLib.DBusProxy, GLib.AsyncInitable, GLib.DBusInterface, GLib.Initable, Goa.MediaServer {
 		[CCode (cname = "goa_media_server_proxy_new", has_construct_function = false)]
+		[Version (deprecated = true, since = "3.14")]
 		public async MediaServerProxy (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (cname = "goa_media_server_proxy_new_for_bus", has_construct_function = false)]
+		[Version (deprecated = true, since = "3.14")]
 		public async MediaServerProxy.for_bus (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (has_construct_function = false, type = "GoaMediaServer*")]
+		[Version (deprecated = true, since = "3.14")]
 		public MediaServerProxy.for_bus_sync (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[CCode (has_construct_function = false, type = "GoaMediaServer*")]
+		[Version (deprecated = true, since = "3.14")]
 		public MediaServerProxy.sync (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_media_server_skeleton_get_type ()")]
-	[Version (since = "3.14")]
+	[Version (deprecated = true, since = "3.14")]
 	public class MediaServerSkeleton : GLib.DBusInterfaceSkeleton, GLib.DBusInterface, Goa.MediaServer {
 		[CCode (has_construct_function = false, type = "GoaMediaServer*")]
+		[Version (deprecated = true, since = "3.14")]
 		public MediaServerSkeleton ();
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_music_proxy_get_type ()")]
@@ -299,7 +304,7 @@ namespace Goa {
 		public void set_manager (Goa.Manager? interface_);
 		[Version (deprecated = true, since = "3.14.0")]
 		public void set_maps (Goa.Maps? interface_);
-		[Version (since = "3.14")]
+		[Version (deprecated = true, since = "3.14")]
 		public void set_media_server (Goa.MediaServer? interface_);
 		[Version (since = "3.18.0")]
 		public void set_music (Goa.Music? interface_);
@@ -309,7 +314,7 @@ namespace Goa {
 		public void set_password_based (Goa.PasswordBased? interface_);
 		[Version (since = "3.8.0")]
 		public void set_photos (Goa.Photos? interface_);
-		[Version (since = "3.12.0")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public void set_printers (Goa.Printers? interface_);
 		[Version (deprecated = true, since = "3.12.0")]
 		public void set_read_later (Goa.ReadLater? interface_);
@@ -355,21 +360,26 @@ namespace Goa {
 		public PhotosSkeleton ();
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_printers_proxy_get_type ()")]
-	[Version (since = "3.12.0")]
+	[Version (deprecated = true, since = "3.12.0")]
 	public class PrintersProxy : GLib.DBusProxy, GLib.AsyncInitable, GLib.DBusInterface, GLib.Initable, Goa.Printers {
 		[CCode (cname = "goa_printers_proxy_new", has_construct_function = false)]
+		[Version (deprecated = true, since = "3.12.0")]
 		public async PrintersProxy (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (cname = "goa_printers_proxy_new_for_bus", has_construct_function = false)]
+		[Version (deprecated = true, since = "3.12.0")]
 		public async PrintersProxy.for_bus (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (has_construct_function = false, type = "GoaPrinters*")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public PrintersProxy.for_bus_sync (GLib.BusType bus_type, GLib.DBusProxyFlags flags, string name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[CCode (has_construct_function = false, type = "GoaPrinters*")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public PrintersProxy.sync (GLib.DBusConnection connection, GLib.DBusProxyFlags flags, string? name, string object_path, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_printers_skeleton_get_type ()")]
-	[Version (since = "3.12.0")]
+	[Version (deprecated = true, since = "3.12.0")]
 	public class PrintersSkeleton : GLib.DBusInterfaceSkeleton, GLib.DBusInterface, Goa.Printers {
 		[CCode (has_construct_function = false, type = "GoaPrinters*")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public PrintersSkeleton ();
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_read_later_proxy_get_type ()")]
@@ -459,32 +469,28 @@ namespace Goa {
 		[Version (deprecated = true)]
 		public abstract bool documents_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool files_disabled { get; set; }
 		[NoAccessorMethod]
 		public abstract string id { owned get; set; }
 		[NoAccessorMethod]
 		public abstract string identity { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.16.0")]
 		public abstract bool is_locked { get; set; }
 		[NoAccessorMethod]
 		public abstract bool is_temporary { get; set; }
 		[NoAccessorMethod]
 		public abstract bool mail_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (deprecated = true, since = "3.14.0")]
+		[Version (deprecated = true)]
 		public abstract bool maps_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.18.0")]
 		public abstract bool music_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool photos_disabled { get; set; }
 		[NoAccessorMethod]
 		public abstract string presentation_identity { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.12.0")]
+		[Version (deprecated = true)]
 		public abstract bool printers_disabled { get; set; }
 		[NoAccessorMethod]
 		public abstract string provider_icon { owned get; set; }
@@ -493,13 +499,12 @@ namespace Goa {
 		[NoAccessorMethod]
 		public abstract string provider_type { owned get; set; }
 		[NoAccessorMethod]
-		[Version (deprecated = true, since = "3.12.0")]
+		[Version (deprecated = true)]
 		public abstract bool read_later_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.6.0")]
 		public abstract bool ticketing_disabled { get; set; }
 		[NoAccessorMethod]
-		[Version (deprecated = true, since = "3.26.0")]
+		[Version (deprecated = true)]
 		public abstract bool todo_disabled { get; set; }
 		public virtual signal bool handle_ensure_credentials (GLib.DBusMethodInvocation invocation);
 		public virtual signal bool handle_remove (GLib.DBusMethodInvocation invocation);
@@ -509,10 +514,8 @@ namespace Goa {
 		public static unowned GLib.DBusInterfaceInfo interface_info ();
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool accept_ssl_errors { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract string uri { owned get; set; }
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_chat_get_type ()")]
@@ -525,10 +528,8 @@ namespace Goa {
 		public static unowned GLib.DBusInterfaceInfo interface_info ();
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool accept_ssl_errors { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract string uri { owned get; set; }
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_documents_get_type ()")]
@@ -545,7 +546,6 @@ namespace Goa {
 		public static unowned GLib.DBusInterfaceInfo interface_info ();
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool accept_ssl_errors { get; set; }
 		[NoAccessorMethod]
 		public abstract string host { owned get; set; }
@@ -567,43 +567,34 @@ namespace Goa {
 		[NoAccessorMethod]
 		public abstract string email_address { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool imap_accept_ssl_errors { get; set; }
 		[NoAccessorMethod]
 		public abstract string imap_host { owned get; set; }
 		[NoAccessorMethod]
 		public abstract bool imap_supported { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool imap_use_ssl { get; set; }
 		[NoAccessorMethod]
 		public abstract bool imap_use_tls { get; set; }
 		[NoAccessorMethod]
 		public abstract string imap_user_name { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract string name { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool smtp_accept_ssl_errors { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.12.0")]
 		public abstract bool smtp_auth_login { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.12.0")]
 		public abstract bool smtp_auth_plain { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.12.0")]
 		public abstract bool smtp_auth_xoauth2 { get; set; }
 		[NoAccessorMethod]
 		public abstract string smtp_host { owned get; set; }
 		[NoAccessorMethod]
 		public abstract bool smtp_supported { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool smtp_use_auth { get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.8.0")]
 		public abstract bool smtp_use_ssl { get; set; }
 		[NoAccessorMethod]
 		public abstract bool smtp_use_tls { get; set; }
@@ -634,13 +625,17 @@ namespace Goa {
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_media_server_get_type ()")]
-	[Version (since = "3.14")]
+	[Version (deprecated = true, since = "3.14")]
 	public interface MediaServer : GLib.Object {
+		[Version (deprecated = true, since = "3.14")]
 		public static unowned GLib.DBusInterfaceInfo interface_info ();
+		[Version (deprecated = true, since = "3.14")]
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 		[NoAccessorMethod]
+		[Version (deprecated = true, since = "3.14")]
 		public abstract bool dlna_supported { get; set; }
 		[NoAccessorMethod]
+		[Version (deprecated = true, since = "3.14")]
 		public abstract string udn { owned get; set; }
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_music_get_type ()")]
@@ -693,7 +688,7 @@ namespace Goa {
 		public Goa.Manager? get_manager ();
 		[Version (deprecated = true, since = "3.14.0")]
 		public Goa.Maps? get_maps ();
-		[Version (since = "3.14")]
+		[Version (deprecated = true, since = "3.14")]
 		public Goa.MediaServer? get_media_server ();
 		[Version (since = "3.18.0")]
 		public Goa.Music? get_music ();
@@ -703,7 +698,7 @@ namespace Goa {
 		public Goa.PasswordBased? get_password_based ();
 		[Version (since = "3.8.0")]
 		public Goa.Photos? get_photos ();
-		[Version (since = "3.12.0")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public Goa.Printers? get_printers ();
 		[Version (deprecated = true, since = "3.12.0")]
 		public Goa.ReadLater? get_read_later ();
@@ -736,7 +731,7 @@ namespace Goa {
 		[Version (deprecated = true, since = "3.14.0")]
 		public abstract Goa.Maps maps { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.14")]
+		[Version (deprecated = true, since = "3.14")]
 		public abstract Goa.MediaServer media_server { owned get; set; }
 		[NoAccessorMethod]
 		[Version (since = "3.18.0")]
@@ -752,7 +747,7 @@ namespace Goa {
 		[Version (since = "3.8.0")]
 		public abstract Goa.Photos photos { owned get; set; }
 		[NoAccessorMethod]
-		[Version (since = "3.12.0")]
+		[Version (deprecated = true, since = "3.12.0")]
 		public abstract Goa.Printers printers { owned get; set; }
 		[NoAccessorMethod]
 		[Version (deprecated = true, since = "3.12.0")]
@@ -782,9 +777,11 @@ namespace Goa {
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_printers_get_type ()")]
-	[Version (since = "3.12.0")]
+	[Version (deprecated = true, since = "3.12.0")]
 	public interface Printers : GLib.Object {
+		[Version (deprecated = true, since = "3.12.0")]
 		public static unowned GLib.DBusInterfaceInfo interface_info ();
+		[Version (deprecated = true, since = "3.12.0")]
 		public static uint override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	}
 	[CCode (cheader_filename = "goa/goa.h", type_id = "goa_read_later_get_type ()")]
@@ -904,10 +901,10 @@ namespace Goa {
 	[Version (deprecated = true, replacement = "Maps.override_properties", since = "3.14.0")]
 	public static uint maps_override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	[CCode (cheader_filename = "goa/goa.h")]
-	[Version (replacement = "MediaServer.interface_info", since = "3.14")]
+	[Version (deprecated = true, replacement = "MediaServer.interface_info", since = "3.14")]
 	public static unowned GLib.DBusInterfaceInfo media_server_interface_info ();
 	[CCode (cheader_filename = "goa/goa.h")]
-	[Version (replacement = "MediaServer.override_properties", since = "3.14")]
+	[Version (deprecated = true, replacement = "MediaServer.override_properties", since = "3.14")]
 	public static uint media_server_override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	[CCode (cheader_filename = "goa/goa.h")]
 	[Version (replacement = "Music.interface_info", since = "3.18.0")]
@@ -940,10 +937,10 @@ namespace Goa {
 	[Version (replacement = "Photos.override_properties", since = "3.8.0")]
 	public static uint photos_override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	[CCode (cheader_filename = "goa/goa.h")]
-	[Version (replacement = "Printers.interface_info", since = "3.12.0")]
+	[Version (deprecated = true, replacement = "Printers.interface_info", since = "3.12.0")]
 	public static unowned GLib.DBusInterfaceInfo printers_interface_info ();
 	[CCode (cheader_filename = "goa/goa.h")]
-	[Version (replacement = "Printers.override_properties", since = "3.12.0")]
+	[Version (deprecated = true, replacement = "Printers.override_properties", since = "3.12.0")]
 	public static uint printers_override_properties (GLib.ObjectClass klass, uint property_id_begin);
 	[CCode (cheader_filename = "goa/goa.h")]
 	[Version (deprecated = true, replacement = "ReadLater.interface_info", since = "3.12.0")]

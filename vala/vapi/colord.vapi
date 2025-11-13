@@ -649,7 +649,7 @@ namespace Cd {
 		[Version (since = "0.1.20")]
 		public bool has_option (string option);
 		[Version (since = "0.1.20")]
-		public bool load_from_data ([CCode (array_length_cname = "size", array_length_pos = 1.1, array_length_type = "gsize")] string[] data) throws GLib.Error;
+		public bool load_from_data ([CCode (array_length_cname = "size", array_length_pos = 1.1, array_length_type = "gsize")] char[] data) throws GLib.Error;
 		[Version (since = "0.1.20")]
 		public bool load_from_file (GLib.File file) throws GLib.Error;
 		[Version (since = "0.1.26")]

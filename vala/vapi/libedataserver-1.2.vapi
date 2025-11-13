@@ -239,14 +239,14 @@ namespace E {
 		public bool tasklists_delete_sync (string tasklist_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasklists_get_sync (string tasklist_id, out Json.Object out_tasklist, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasklists_insert_sync (string title, out Json.Object out_inserted_tasklist, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool tasklists_list_sync (E.GDataQuery? query, [CCode (delegate_target_pos = 2.5)] E.GDataObjectCallback? cb, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool tasklists_list_sync (E.GDataQuery? query, [CCode (delegate_target_pos = 2.5)] E.GDataObjectCallback cb, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasklists_patch_sync (string tasklist_id, Json.Builder tasklist_properties, out Json.Object out_patched_tasklist, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasklists_update_sync (string tasklist_id, Json.Builder tasklist, out Json.Object out_updated_tasklist, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_clear_sync (string tasklist_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_delete_sync (string tasklist_id, string task_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_get_sync (string tasklist_id, string task_id, out Json.Object out_task, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_insert_sync (string tasklist_id, Json.Builder task, string? parent_task_id, string? previous_task_id, out Json.Object out_inserted_task, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool tasks_list_sync (string tasklist_id, E.GDataQuery? query, [CCode (delegate_target_pos = 3.5)] E.GDataObjectCallback? cb, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool tasks_list_sync (string tasklist_id, E.GDataQuery? query, [CCode (delegate_target_pos = 3.5)] E.GDataObjectCallback cb, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_move_sync (string tasklist_id, string task_id, string? parent_task_id, string? previous_task_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_patch_sync (string tasklist_id, string task_id, Json.Builder task_properties, out Json.Object out_patched_task, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool tasks_update_sync (string tasklist_id, string task_id, Json.Builder task, out Json.Object out_updated_task, GLib.Cancellable? cancellable = null) throws GLib.Error;
@@ -267,6 +267,18 @@ namespace E {
 		[Version (since = "3.16")]
 		public static E.Module load_file (string filename);
 		public string filename { get; construct; }
+	}
+	[CCode (cheader_filename = "libedataserver/libedataserver.h", type_id = "e_ms_oapxbc_get_type ()")]
+	public sealed class MsOapxbc : GLib.Object {
+		[CCode (has_construct_function = false)]
+		protected MsOapxbc ();
+		[Version (since = "3.54")]
+		public Soup.Cookie? acquire_prt_sso_cookie_sync (Json.Object account, string sso_url, Json.Array scopes, string redirect_uri, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "3.54")]
+		public Json.Object? get_accounts_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[CCode (has_construct_function = false)]
+		[Version (since = "3.54")]
+		public MsOapxbc.sync (string client_id, string authority, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	}
 	[CCode (cheader_filename = "libedataserver/libedataserver.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "e_named_parameters_get_type ()")]
 	[Compact]
@@ -376,6 +388,8 @@ namespace E {
 		public bool get_authentication_requires_credentials ();
 		[Version (since = "3.48")]
 		public bool get_force_http1 ();
+		[Version (since = "3.54")]
+		public bool get_handle_backoff_responses ();
 		public Soup.LoggerLogLevel get_log_level ();
 		public unowned E.Source? get_source ();
 		public bool get_ssl_error_details (out string out_certificate_pem, out GLib.TlsCertificateFlags out_certificate_errors);
@@ -393,6 +407,8 @@ namespace E {
 		public void set_credentials (E.NamedParameters? credentials);
 		[Version (since = "3.48")]
 		public void set_force_http1 (bool force_http1);
+		[Version (since = "3.54")]
+		public void set_handle_backoff_responses (bool handle_backoff_responses);
 		public void setup_logging (string? logging_level);
 		[Version (since = "3.48")]
 		public static bool util_get_force_http1_supported ();
@@ -411,6 +427,8 @@ namespace E {
 		public E.NamedParameters credentials { owned get; set; }
 		[Version (since = "3.48")]
 		public bool force_http1 { get; set; }
+		[Version (since = "3.54")]
+		public bool handle_backoff_responses { get; set; }
 		public E.Source source { get; construct; }
 	}
 	[CCode (cheader_filename = "libedataserver/libedataserver.h", type_id = "e_source_get_type ()")]
@@ -559,10 +577,15 @@ namespace E {
 		[CCode (has_construct_function = false)]
 		protected SourceAlarms ();
 		public string? dup_last_notified ();
+		[Version (since = "3.52")]
+		public bool get_for_every_event ();
 		public bool get_include_me ();
 		public unowned string? get_last_notified ();
+		[Version (since = "3.52")]
+		public void set_for_every_event (bool for_every_event);
 		public void set_include_me (bool include_me);
 		public void set_last_notified (string? last_notified);
+		public bool for_every_event { get; set construct; }
 		public bool include_me { get; set construct; }
 		public string last_notified { get; set construct; }
 	}
@@ -1056,6 +1079,8 @@ namespace E {
 		public string dup_key_id ();
 		public string dup_signing_algorithm ();
 		public bool get_always_trust ();
+		[Version (since = "3.52")]
+		public bool get_ask_send_public_key ();
 		[Version (since = "3.18")]
 		public bool get_encrypt_by_default ();
 		public bool get_encrypt_to_self ();
@@ -1071,6 +1096,8 @@ namespace E {
 		public bool get_sign_by_default ();
 		public unowned string get_signing_algorithm ();
 		public void set_always_trust (bool always_trust);
+		[Version (since = "3.52")]
+		public void set_ask_send_public_key (bool ask_send_public_key);
 		[Version (since = "3.18")]
 		public void set_encrypt_by_default (bool encrypt_by_default);
 		public void set_encrypt_to_self (bool encrypt_to_self);
@@ -1086,6 +1113,7 @@ namespace E {
 		public void set_sign_by_default (bool sign_by_default);
 		public void set_signing_algorithm (string signing_algorithm);
 		public bool always_trust { get; set construct; }
+		public bool ask_send_public_key { get; set construct; }
 		public bool encrypt_by_default { get; set construct; }
 		public bool encrypt_to_self { get; set construct; }
 		public string key_id { get; set construct; }
@@ -1399,6 +1427,8 @@ namespace E {
 		public unowned string? get_color ();
 		public unowned string? get_display_name ();
 		public unowned string? get_email_address ();
+		[Version (since = "3.60")]
+		public uint get_limit_download_days ();
 		[Version (since = "3.40")]
 		public uint get_order ();
 		public unowned string? get_resource_path ();
@@ -1407,12 +1437,16 @@ namespace E {
 		public unowned string? get_ssl_trust ();
 		[Version (since = "3.32")]
 		public E.TrustPromptResponse get_ssl_trust_response ();
+		[Version (since = "3.54")]
+		public uint get_timeout ();
 		public void set_avoid_ifmatch (bool avoid_ifmatch);
 		public void set_calendar_auto_schedule (bool calendar_auto_schedule);
 		[Version (since = "3.30")]
 		public void set_color (string? color);
 		public void set_display_name (string? display_name);
 		public void set_email_address (string? email_address);
+		[Version (since = "3.60")]
+		public void set_limit_download_days (uint value);
 		[Version (since = "3.40")]
 		public void set_order (uint order);
 		public void set_resource_path (string? resource_path);
@@ -1421,6 +1455,8 @@ namespace E {
 		public void set_ssl_trust (string? ssl_trust);
 		[Version (since = "3.32")]
 		public void set_ssl_trust_response (E.TrustPromptResponse response);
+		[Version (since = "3.54")]
+		public void set_timeout (uint timeout);
 		[Version (since = "3.46")]
 		public void set_uri (GLib.Uri uri);
 		[Version (since = "3.8")]
@@ -1433,10 +1469,13 @@ namespace E {
 		public string color { get; set construct; }
 		public string display_name { get; set construct; }
 		public string email_address { get; set construct; }
+		[Version (since = "3.60")]
+		public uint limit_download_days { get; set construct; }
 		public uint order { get; set construct; }
 		public string resource_path { get; set construct; }
 		public string resource_query { get; set construct; }
 		public string ssl_trust { get; set construct; }
+		public uint timeout { get; set construct; }
 		[NoAccessorMethod]
 		public GLib.Uri uri { owned get; set; }
 	}
@@ -1568,7 +1607,7 @@ namespace E {
 		[Version (since = "3.32")]
 		public bool post_sync (string? uri, string data, size_t data_length, string? in_content_type, Soup.MessageHeaders? in_headers, out string? out_content_type, out Soup.MessageHeaders out_headers, out GLib.ByteArray? out_content, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool principal_property_search_sync (string? uri, bool apply_to_principal_collection_set, string? match_ns_uri, string match_property, string match_value, out GLib.SList<E.WebDAVResource> out_principals, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool propfind_sync (string? uri, string depth, E.XmlDocument? xml, [CCode (delegate_target_pos = 4.5)] E.WebDAVPropstatTraverseFunc? func, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool propfind_sync (string? uri, string depth, E.XmlDocument? xml, [CCode (delegate_target_pos = 4.5)] E.WebDAVPropstatTraverseFunc func, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool proppatch_sync (string? uri, E.XmlDocument xml, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool put_data_sync (string uri, string? etag, string content_type, Soup.MessageHeaders? in_headers, string bytes, size_t length, out string? out_href, out string? out_etag, out Soup.MessageHeaders out_headers, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool put_sync (string uri, string? etag, string content_type, Soup.MessageHeaders? in_headers, GLib.InputStream stream, ssize_t stream_length, out string? out_href, out string? out_etag, out Soup.MessageHeaders out_headers, GLib.Cancellable? cancellable = null) throws GLib.Error;
@@ -1576,9 +1615,9 @@ namespace E {
 		public bool replace_with_detailed_error (Soup.Message message, GLib.ByteArray? response_data, bool ignore_multistatus, string? prefix) throws GLib.Error;
 		public bool report_sync (string? uri, string? depth, E.XmlDocument xml, [CCode (delegate_target_pos = 4.5)] E.WebDAVPropstatTraverseFunc? func, owned string? out_content_type, owned GLib.ByteArray? out_content, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool set_acl_sync (string? uri, GLib.SList<E.WebDAVAccessControlEntry> entries, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool traverse_mkcalendar_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc? func) throws GLib.Error;
-		public bool traverse_mkcol_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc? func) throws GLib.Error;
-		public bool traverse_multistatus_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc? func) throws GLib.Error;
+		public bool traverse_mkcalendar_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc func) throws GLib.Error;
+		public bool traverse_mkcol_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc func) throws GLib.Error;
+		public bool traverse_multistatus_response (Soup.Message? message, GLib.ByteArray xml_data, E.WebDAVPropstatTraverseFunc func) throws GLib.Error;
 		public bool unlock_sync (string? uri, string lock_token, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool update_properties_sync (string? uri, GLib.SList<E.WebDAVPropertyChange> changes, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public static void util_free_privileges (GLib.Node? privileges);
@@ -1594,9 +1633,9 @@ namespace E {
 		public void add_attribute (string? ns_href, string name, string value);
 		public void add_attribute_double (string? ns_href, string name, double value);
 		public void add_attribute_int (string? ns_href, string name, int64 value);
-		public void add_attribute_time (string? ns_href, string name, long value);
+		public void add_attribute_time (string? ns_href, string name, time_t value);
 		[Version (since = "3.32")]
-		public void add_attribute_time_ical (string? ns_href, string name, long value);
+		public void add_attribute_time_ical (string? ns_href, string name, time_t value);
 		public void add_empty_element (string? ns_href, string name);
 		public void end_element ();
 		public string get_content (out size_t out_length);
@@ -1608,7 +1647,7 @@ namespace E {
 		public void write_double (double value);
 		public void write_int (int64 value);
 		public void write_string (string value);
-		public void write_time (long value);
+		public void write_time (time_t value);
 	}
 	[CCode (cheader_filename = "libedataserver/libedataserver.h", has_type_id = false)]
 	[Compact]
@@ -1644,6 +1683,8 @@ namespace E {
 	public interface OAuth2Service : GLib.Object {
 		public abstract bool can_process (E.Source source);
 		public bool delete_token_sync (E.Source source, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "3.54")]
+		public abstract GLib.SList<Soup.Cookie>? dup_credentials_prompter_cookies_sync (E.Source source, GLib.Cancellable? cancellable = null);
 		public abstract bool extract_authorization_code (E.Source source, string page_title, string page_uri, string? page_content, out string out_authorization_code);
 		[Version (since = "3.48")]
 		public abstract bool extract_error_message (E.Source source, string page_title, string page_uri, string? page_content, out string out_error_message);
@@ -1941,7 +1982,9 @@ namespace E {
 		COLLECTION,
 		RESOURCE,
 		SUBSCRIBED_ICALENDAR,
-		WEBDAV_NOTES
+		WEBDAV_NOTES,
+		SCHEDULE_INBOX,
+		SCHEDULE_OUTBOX
 	}
 	[CCode (cheader_filename = "libedataserver/libedataserver.h", cprefix = "E_WEBDAV_RESOURCE_SUPPORTS_", has_type_id = false)]
 	[Flags]
@@ -2321,9 +2364,9 @@ namespace E {
 	[Version (since = "2.32")]
 	public static unowned string get_user_data_dir ();
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
-	public static void localtime_with_offset (long tt, [CCode (type = "tm*")] Posix.tm tm, int offset);
+	public static void localtime_with_offset (time_t tt, [CCode (type = "tm*")] Posix.tm tm, int offset);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
-	public static long mktime_utc ([CCode (type = "tm*")] Posix.tm tm);
+	public static time_t mktime_utc ([CCode (type = "tm*")] Posix.tm tm);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (replacement = "OAuth2Service.util_compile_value", since = "3.46")]
 	public static unowned string oauth2_service_util_compile_value (string compile_value, out unowned string out_glob_buff, size_t out_glob_buff_size);
@@ -2428,6 +2471,12 @@ namespace E {
 	[Version (since = "2.32")]
 	public static uint64 util_gthread_id (GLib.Thread thread);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
+	[Version (since = "3.50")]
+	public static bool util_guess_source_is_readonly (void* source);
+	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
+	[Version (since = "3.54")]
+	public static bool util_host_is_in_domain (string? host, string? domain);
+	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (since = "3.26")]
 	public static bool util_identity_can_send (void* registry, void* identity_source);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
@@ -2454,7 +2503,7 @@ namespace E {
 	[Version (since = "3.4")]
 	public static GLib.SList<string> util_strv_to_slist (string strv);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
-	public static string? util_unicode_get_utf8 (string text, unichar @out);
+	public static unowned string? util_unicode_get_utf8 (string text, unichar @out);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (since = "3.26")]
 	public static void util_unref_in_thread (void* object);

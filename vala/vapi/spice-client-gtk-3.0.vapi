@@ -3,11 +3,13 @@
 [CCode (cprefix = "Spice", gir_namespace = "SpiceClientGtk", gir_version = "3.0", lower_case_cprefix = "spice_")]
 namespace Spice {
 	[CCode (cheader_filename = "spice-widget.h", type_id = "spice_display_get_type ()")]
-	public class Display : Gtk.EventBox, Atk.Implementor, Gtk.Buildable {
+	public sealed class Display : Gtk.EventBox, Atk.Implementor, Gtk.Buildable {
 		[CCode (has_construct_function = false)]
 		public Display (Spice.Session session, int channel_id);
 		public unowned Spice.GrabSequence get_grab_keys ();
 		public Gdk.Pixbuf get_pixbuf ();
+		[Version (since = "0.40")]
+		public void keyboard_ungrab ();
 		public void mouse_ungrab ();
 		public void send_keys ([CCode (array_length_cname = "nkeyvals", array_length_pos = 1.5)] uint[] keyvals, Spice.DisplayKeyEvent kind);
 		public void set_grab_keys (Spice.GrabSequence seq);
@@ -60,7 +62,7 @@ namespace Spice {
 		public GrabSequence.from_string (string str);
 	}
 	[CCode (cheader_filename = "spice-widget.h", type_id = "spice_gtk_session_get_type ()")]
-	public class GtkSession : GLib.Object {
+	public sealed class GtkSession : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected GtkSession ();
 		public void copy_to_guest ();
@@ -83,7 +85,7 @@ namespace Spice {
 		public bool sync_modifiers { get; set construct; }
 	}
 	[CCode (cheader_filename = "spice-widget.h", type_id = "spice_usb_device_widget_get_type ()")]
-	public class UsbDeviceWidget : Gtk.Box, Atk.Implementor, Gtk.Buildable, Gtk.Orientable {
+	public sealed class UsbDeviceWidget : Gtk.Box, Atk.Implementor, Gtk.Buildable, Gtk.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public UsbDeviceWidget (Spice.Session session, string? device_format_string);
 		[NoAccessorMethod]

@@ -2049,8 +2049,6 @@ namespace Pk {
 	[Version (since = "0.9.6")]
 	public static Pk.PackageSack offline_get_prepared_sack () throws GLib.Error;
 	[CCode (cheader_filename = "packagekit-glib2/packagekit.h")]
-	public static bool offline_get_prepared_upgrade (string name, string release_ver) throws GLib.Error;
-	[CCode (cheader_filename = "packagekit-glib2/packagekit.h")]
 	[Version (since = "1.0.12")]
 	public static GLib.FileMonitor offline_get_prepared_upgrade_monitor (GLib.Cancellable? cancellable = null) throws GLib.Error;
 	[CCode (cheader_filename = "packagekit-glib2/packagekit.h")]

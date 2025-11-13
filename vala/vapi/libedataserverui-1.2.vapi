@@ -23,7 +23,6 @@ namespace E {
 	public class CredentialsPrompter : GLib.Object, E.Extensible {
 		[CCode (has_construct_function = false)]
 		public CredentialsPrompter (E.SourceRegistry registry);
-		public void complete_prompt_call (GLib.SimpleAsyncResult async_result, E.Source source, E.NamedParameters? credentials, GLib.Error error);
 		public bool get_auto_prompt ();
 		public bool get_auto_prompt_disabled_for (E.Source source);
 		public unowned E.SourceCredentialsProvider get_provider ();

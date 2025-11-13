@@ -15,12 +15,12 @@ namespace ECal {
 		public bool check_recurrences_no_master ();
 		public bool check_save_schedules ();
 		[Version (since = "3.34")]
-		public static bool check_timezones_sync (ICal.Component vcalendar, GLib.SList<ICal.Component>? icalcomps, [CCode (delegate_target_pos = 3.5)] ECal.RecurResolveTimezoneCb? tzlookup, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public static bool check_timezones_sync (ICal.Component vcalendar, GLib.SList<ICal.Component>? icalcomps, [CCode (delegate_target_pos = 3.5)] ECal.RecurResolveTimezoneCb tzlookup, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.8")]
 		public static async E.Client? connect (E.Source source, ECal.ClientSourceType source_type, uint32 wait_for_connected_seconds, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "3.8")]
 		public static E.Client? connect_sync (E.Source source, ECal.ClientSourceType source_type, uint32 wait_for_connected_seconds, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public async bool create_object (ICal.Component icalcomp, ECal.OperationFlags opflags, GLib.Cancellable? cancellable, out string? out_uid) throws GLib.Error;
+		public async bool create_object (ICal.Component icalcomp, ECal.OperationFlags opflags, GLib.Cancellable? cancellable, out string out_uid) throws GLib.Error;
 		public bool create_object_sync (ICal.Component icalcomp, ECal.OperationFlags opflags, out string? out_uid, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.6")]
 		public async bool create_objects (GLib.SList<ICal.Component> icalcomps, ECal.OperationFlags opflags, GLib.Cancellable? cancellable, out GLib.SList<string> out_uids) throws GLib.Error;
@@ -31,20 +31,20 @@ namespace ECal {
 		public static GLib.Error error_create (ECal.ClientError code, string? custom_msg);
 		public static GLib.Quark error_quark ();
 		public static unowned string error_to_string (ECal.ClientError code);
-		public void generate_instances (long start, long end, GLib.Cancellable? cancellable, owned ECal.RecurInstanceCb cb);
-		public void generate_instances_for_object (ICal.Component icalcomp, long start, long end, GLib.Cancellable? cancellable, owned ECal.RecurInstanceCb cb);
-		public void generate_instances_for_object_sync (ICal.Component icalcomp, long start, long end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
+		public void generate_instances (time_t start, time_t end, GLib.Cancellable? cancellable, owned ECal.RecurInstanceCb cb);
+		public void generate_instances_for_object (ICal.Component icalcomp, time_t start, time_t end, GLib.Cancellable? cancellable, owned ECal.RecurInstanceCb cb);
+		public void generate_instances_for_object_sync (ICal.Component icalcomp, time_t start, time_t end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
 		[Version (since = "3.48")]
-		public void generate_instances_for_uid_sync (string uid, long start, long end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
-		public void generate_instances_sync (long start, long end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
+		public void generate_instances_for_uid_sync (string uid, time_t start, time_t end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
+		public void generate_instances_sync (time_t start, time_t end, GLib.Cancellable? cancellable, ECal.RecurInstanceCb cb);
 		public async bool get_attachment_uris (string uid, string? rid, GLib.Cancellable? cancellable, out GLib.SList<string> out_attachment_uris) throws GLib.Error;
 		public bool get_attachment_uris_sync (string uid, string? rid, out GLib.SList<string> out_attachment_uris, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public string? get_component_as_string (ICal.Component icalcomp);
 		public async bool get_default_object (GLib.Cancellable? cancellable, out ICal.Component out_icalcomp) throws GLib.Error;
 		public bool get_default_object_sync (out ICal.Component out_icalcomp, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public unowned ICal.Timezone get_default_timezone ();
-		public async bool get_free_busy (long start, long end, GLib.SList<string> users, GLib.Cancellable? cancellable, out GLib.SList<ECal.Component> out_freebusy) throws GLib.Error;
-		public bool get_free_busy_sync (long start, long end, GLib.SList<string> users, out GLib.SList<ECal.Component> out_freebusy, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public async bool get_free_busy (time_t start, time_t end, GLib.SList<string> users, GLib.Cancellable? cancellable, out GLib.SList<ECal.Component> out_freebusy) throws GLib.Error;
+		public bool get_free_busy_sync (time_t start, time_t end, GLib.SList<string> users, out GLib.SList<ECal.Component> out_freebusy, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public unowned string get_local_attachment_store ();
 		public async bool get_object (string uid, string? rid, GLib.Cancellable? cancellable, out ICal.Component out_icalcomp) throws GLib.Error;
 		public async bool get_object_list (string sexp, GLib.Cancellable? cancellable, out GLib.SList<ICal.Component> out_icalcomps) throws GLib.Error;
@@ -399,31 +399,31 @@ namespace ECal {
 	public class ComponentAlarmInstance {
 		[CCode (has_construct_function = false)]
 		[Version (since = "3.34")]
-		public ComponentAlarmInstance (string uid, long instance_time, long occur_start, long occur_end);
+		public ComponentAlarmInstance (string uid, time_t instance_time, time_t occur_start, time_t occur_end);
 		[Version (since = "3.34")]
 		public ECal.ComponentAlarmInstance copy ();
 		[Version (since = "3.48")]
 		public void* get_component ();
 		[Version (since = "3.34")]
-		public long get_occur_end ();
+		public time_t get_occur_end ();
 		[Version (since = "3.34")]
-		public long get_occur_start ();
+		public time_t get_occur_start ();
 		[Version (since = "3.40")]
 		public unowned string? get_rid ();
 		[Version (since = "3.34")]
-		public long get_time ();
+		public time_t get_time ();
 		[Version (since = "3.34")]
 		public unowned string get_uid ();
 		[Version (since = "3.48")]
 		public void set_component (void* component);
 		[Version (since = "3.34")]
-		public void set_occur_end (long occur_end);
+		public void set_occur_end (time_t occur_end);
 		[Version (since = "3.34")]
-		public void set_occur_start (long occur_start);
+		public void set_occur_start (time_t occur_start);
 		[Version (since = "3.40")]
 		public void set_rid (string? rid);
 		[Version (since = "3.34")]
-		public void set_time (long instance_time);
+		public void set_time (time_t instance_time);
 		[Version (since = "3.34")]
 		public void set_uid (string uid);
 	}
@@ -579,6 +579,94 @@ namespace ECal {
 		public void set_sentby (string? sentby);
 		[Version (since = "3.34")]
 		public void set_value (string? value);
+	}
+	[CCode (cheader_filename = "libecal/libecal.h", type_id = "e_cal_component_bag_get_type ()")]
+	public sealed class ComponentBag : GLib.Object {
+		[CCode (has_construct_function = false)]
+		[Version (since = "3.58")]
+		public ComponentBag ();
+		[Version (since = "3.58")]
+		public void add (ECal.Client client, ECal.Component comp);
+		[Version (since = "3.58")]
+		public void add_with_user_data (ECal.Client client, ECal.Component comp, owned void* user_data, GLib.BoxedCopyFunc? copy_user_data, GLib.BoxedFreeFunc? free_user_data);
+		[Version (since = "3.58")]
+		public void clear ();
+		[Version (since = "3.58")]
+		public ECal.ComponentBagItem? dup_item (ECal.Client client, string uid, string? rid);
+		[Version (since = "3.58")]
+		public GLib.GenericArray<weak ECal.ComponentBagItem>? dup_span (uint index);
+		[Version (since = "3.58")]
+		public void @foreach (ECal.ComponentBagForeachFunc func);
+		[Version (since = "3.58")]
+		public unowned ECal.ComponentBagItem? get_item (ECal.Client client, string uid, string? rid);
+		[Version (since = "3.58")]
+		public uint get_min_duration_minutes ();
+		[Version (since = "3.58")]
+		public uint get_n_items ();
+		[Version (since = "3.58")]
+		public uint get_n_spans ();
+		[Version (since = "3.58")]
+		public unowned GLib.GenericArray<ECal.ComponentBagItem>? get_span (uint index);
+		[Version (since = "3.58")]
+		public unowned ICal.Timezone? get_timezone ();
+		[Version (since = "3.58")]
+		public GLib.GenericArray<weak ECal.ComponentBagItem> list ();
+		[Version (since = "3.58")]
+		public void @lock ();
+		[Version (since = "3.58")]
+		public void rebuild ();
+		[Version (since = "3.58")]
+		public void remove (ECal.Client client, string uid, string? rid);
+		[Version (since = "3.58")]
+		public void set_min_duration_minutes (uint value);
+		[Version (since = "3.58")]
+		public void set_timezone (ICal.Timezone zone);
+		[Version (since = "3.58")]
+		public void @unlock ();
+		[Version (since = "3.58")]
+		public uint n_items { get; }
+		[Version (since = "3.58")]
+		public uint n_spans { get; }
+		[Version (since = "3.58")]
+		public ICal.Timezone timezone { get; set; }
+		[Version (since = "3.58")]
+		public signal void added (ECal.ComponentBagItem item);
+		[Version (since = "3.58")]
+		public signal void item_changed (ECal.ComponentBagItem item);
+		[Version (since = "3.58")]
+		public signal void removed (GLib.GenericArray<ECal.ComponentBagItem> items);
+		[Version (since = "3.58")]
+		public signal void span_changed (GLib.GenericArray<ECal.ComponentBagItem> items);
+	}
+	[CCode (cheader_filename = "libecal/libecal.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "e_cal_component_bag_item_get_type ()")]
+	[Compact]
+	public class ComponentBagItem {
+		public weak ECal.Client client;
+		public weak ECal.Component comp;
+		public weak GLib.BoxedCopyFunc copy_user_data;
+		public uint64 duration_minutes;
+		public weak GLib.BoxedFreeFunc free_user_data;
+		public weak string rid;
+		public uint span_index;
+		public time_t start;
+		public weak string uid;
+		public void* user_data;
+		[CCode (has_construct_function = false)]
+		[Version (since = "3.58")]
+		public ComponentBagItem (ECal.Client client, ECal.Component comp, uint min_duration_minutes, ICal.Timezone? timezone);
+		[Version (since = "3.58")]
+		public ECal.ComponentBagItem copy ();
+		[Version (since = "3.58")]
+		public static bool equal_by_comp (void* item1, void* item2);
+		[DestroysInstance]
+		[Version (since = "3.58")]
+		public void free ();
+		[Version (since = "3.58")]
+		public static uint hash_by_comp (void* self);
+		[Version (since = "3.58")]
+		public bool read_times (uint min_duration_minutes, ICal.Timezone? timezone);
+		[Version (since = "3.58")]
+		public void set_user_data (owned void* user_data, GLib.BoxedCopyFunc? copy_user_data, GLib.BoxedFreeFunc? free_user_data);
 	}
 	[CCode (cheader_filename = "libecal/libecal.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", lower_case_csuffix = "component_datetime", type_id = "e_cal_component_datetime_get_type ()")]
 	[Compact]
@@ -978,6 +1066,14 @@ namespace ECal {
 		FREEBUSY,
 		TIMEZONE
 	}
+	[CCode (cheader_filename = "libecal/libecal.h", cprefix = "E_CAL_INTERVAL_UNIT_", type_id = "e_cal_interval_units_get_type ()")]
+	[Version (since = "3.52")]
+	public enum IntervalUnits {
+		NONE,
+		MINUTES,
+		HOURS,
+		DAYS
+	}
 	[CCode (cheader_filename = "libecal/libecal.h", cprefix = "E_CAL_OBJ_MOD_", type_id = "e_cal_obj_mod_type_get_type ()")]
 	[Flags]
 	[Version (since = "3.8")]
@@ -1015,6 +1111,9 @@ namespace ECal {
 		NONE,
 		MARKUP
 	}
+	[CCode (cheader_filename = "libecal/libecal.h", instance_pos = 2.9)]
+	[Version (since = "3.58")]
+	public delegate bool ComponentBagForeachFunc (ECal.ComponentBag bag, ECal.ComponentBagItem item);
 	[CCode (cheader_filename = "libecal/libecal.h", instance_pos = 1.9)]
 	[Version (since = "3.34")]
 	public delegate bool ComponentParameterBagFilterFunc (ICal.Parameter parameter);
@@ -1030,6 +1129,9 @@ namespace ECal {
 	[CCode (cheader_filename = "libecal/libecal.h", instance_pos = 1.9)]
 	[Version (since = "3.34")]
 	public delegate unowned ICal.Timezone? RecurResolveTimezoneCb (string tzid, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	[CCode (cheader_filename = "libecal/libecal.h", instance_pos = 1.9)]
+	[Version (since = "3.52")]
+	public delegate bool UtilFilterPropertyFunc (ICal.Property prop);
 	[CCode (cheader_filename = "libecal/libecal.h", instance_pos = 2.9)]
 	[Version (since = "3.48")]
 	public delegate bool UtilForeachCategoryFunc (ICal.Component comp, ref string inout_category);
@@ -1160,8 +1262,17 @@ namespace ECal {
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "E_CAL_STATIC_CAPABILITY_TASK_NO_ALARM")]
 	[Version (since = "3.30")]
 	public const string STATIC_CAPABILITY_TASK_NO_ALARM;
+	[CCode (cheader_filename = "libecal/libecal.h", cname = "E_CAL_STATIC_CAPABILITY_USER_IS_ORGANIZER_ONLY")]
+	[Version (since = "3.56")]
+	public const string STATIC_CAPABILITY_USER_IS_ORGANIZER_ONLY;
+	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (replacement = "ComponentBagItem.equal_by_comp", since = "3.58")]
+	public static bool component_bag_item_equal_by_comp (void* item1, void* item2);
+	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (replacement = "ComponentBagItem.hash_by_comp", since = "3.58")]
+	public static uint component_bag_item_hash_by_comp (void* self);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "isodate_from_time_t")]
-	public static string isodate_from_time_t (long t);
+	public static string isodate_from_time_t (time_t t);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "2.24")]
 	public static unowned string? match_tzid (string tzid);
@@ -1176,33 +1287,33 @@ namespace ECal {
 	public static bool recur_ensure_end_dates (ECal.Component comp, bool refresh, [CCode (delegate_target_pos = 3.5)] ECal.RecurResolveTimezoneCb tz_cb, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.20")]
-	public static bool recur_generate_instances_sync (ICal.Component icalcomp, ICal.Time interval_start, ICal.Time interval_end, [CCode (delegate_target_pos = 4.5)] ECal.RecurInstanceCb? callback, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb? get_tz_callback, ICal.Timezone default_timezone, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	public static bool recur_generate_instances_sync (ICal.Component icalcomp, ICal.Time interval_start, ICal.Time interval_end, [CCode (delegate_target_pos = 4.5)] ECal.RecurInstanceCb callback, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb get_tz_callback, ICal.Timezone default_timezone, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.28")]
 	public static unowned string recur_get_localized_nth (int nth);
 	[CCode (cheader_filename = "libecal/libecal.h")]
-	public static long recur_obtain_enddate (ICal.Recurrence ir, ICal.Property prop, ICal.Timezone zone, bool convert_end_date);
+	public static time_t recur_obtain_enddate (ICal.Recurrence ir, ICal.Property prop, ICal.Timezone zone, bool convert_end_date);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "2.28")]
 	public static string? system_timezone_get_location ();
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_add_day")]
-	public static long time_add_day (long time, int days);
+	public static time_t time_add_day (time_t time, int days);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_add_day_with_zone")]
-	public static long time_add_day_with_zone (long time, int days, ICal.Timezone zone);
+	public static time_t time_add_day_with_zone (time_t time, int days, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_add_month_with_zone")]
-	public static long time_add_month_with_zone (long time, int months, ICal.Timezone zone);
+	public static time_t time_add_month_with_zone (time_t time, int months, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_add_week")]
-	public static long time_add_week (long time, int weeks);
+	public static time_t time_add_week (time_t time, int weeks);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_add_week_with_zone")]
-	public static long time_add_week_with_zone (long time, int weeks, ICal.Timezone zone);
+	public static time_t time_add_week_with_zone (time_t time, int weeks, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_begin")]
-	public static long time_day_begin (long t);
+	public static time_t time_day_begin (time_t t);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_begin_with_zone")]
-	public static long time_day_begin_with_zone (long time, ICal.Timezone zone);
+	public static time_t time_day_begin_with_zone (time_t time, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_end")]
-	public static long time_day_end (long t);
+	public static time_t time_day_end (time_t t);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_end_with_zone")]
-	public static long time_day_end_with_zone (long time, ICal.Timezone zone);
+	public static time_t time_day_end_with_zone (time_t time, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_of_week")]
 	public static int time_day_of_week (int day, int month, int year);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_day_of_year")]
@@ -1210,21 +1321,24 @@ namespace ECal {
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_days_in_month")]
 	public static int time_days_in_month (int year, int month);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_from_isodate")]
-	public static long time_from_isodate (string str);
+	public static time_t time_from_isodate (string str);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_is_leap_year")]
 	public static bool time_is_leap_year (int year);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_leap_years_up_to")]
 	public static int time_leap_years_up_to (int year);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_month_begin_with_zone")]
-	public static long time_month_begin_with_zone (long time, ICal.Timezone zone);
+	public static time_t time_month_begin_with_zone (time_t time, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_to_gdate_with_zone")]
-	public static void time_to_gdate_with_zone (GLib.Date date, long time, ICal.Timezone? zone);
+	public static void time_to_gdate_with_zone (GLib.Date date, time_t time, ICal.Timezone? zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_week_begin_with_zone")]
-	public static long time_week_begin_with_zone (long time, int week_start_day, ICal.Timezone zone);
+	public static time_t time_week_begin_with_zone (time_t time, int week_start_day, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h", cname = "time_year_begin_with_zone")]
-	public static long time_year_begin_with_zone (long time, ICal.Timezone zone);
+	public static time_t time_year_begin_with_zone (time_t time, ICal.Timezone zone);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	public static void util_add_timezones_from_component (ICal.Component vcal_comp, ICal.Component icalcomp);
+	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.58")]
+	public static bool util_check_may_remove_all (ECal.Component comp, GLib.SList<ECal.Component>? detached_instances, ICal.Time? rid, ECal.ObjModType mod, ECal.RecurResolveTimezoneCb tz_cb);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.40")]
 	public static void util_clamp_vtimezone (ref ICal.Component vtimezone, ICal.Time from, ICal.Time? to);
@@ -1232,11 +1346,17 @@ namespace ECal {
 	[Version (since = "3.40")]
 	public static void util_clamp_vtimezone_by_component (ref ICal.Component vtimezone, ICal.Component component);
 	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.58")]
+	public static time_t util_comp_time_to_zone (ICal.Component icomp, ICal.PropertyKind prop_kind, ICal.Timezone? to_zone, ICal.Component? vcalendar, ECal.TimezoneCache? tz_cache, out ICal.Time out_itt);
+	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.34")]
 	public static string? util_component_dup_x_property (ICal.Component icalcomp, string x_name);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.46")]
 	public static ICal.Property? util_component_find_property_for_locale (ICal.Component icalcomp, ICal.PropertyKind prop_kind, string? locale);
+	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.52")]
+	public static ICal.Property? util_component_find_property_for_locale_filtered (ICal.Component icalcomp, ICal.PropertyKind prop_kind, string? locale, ECal.UtilFilterPropertyFunc? func);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.34")]
 	public static ICal.Property? util_component_find_x_property (ICal.Component icalcomp, string x_name);
@@ -1290,18 +1410,18 @@ namespace ECal {
 	[Version (since = "3.48")]
 	public static void util_foreach_category (ICal.Component comp, ECal.UtilForeachCategoryFunc func);
 	[CCode (cheader_filename = "libecal/libecal.h")]
-	public static ECal.ComponentAlarms? util_generate_alarms_for_comp (ECal.Component comp, long start, long end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
+	public static ECal.ComponentAlarms? util_generate_alarms_for_comp (ECal.Component comp, time_t start, time_t end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
 	[CCode (cheader_filename = "libecal/libecal.h")]
-	public static int util_generate_alarms_for_list (GLib.List<ECal.Component> comps, long start, long end, ECal.ComponentAlarmAction omit, out GLib.SList<ECal.ComponentAlarms> comp_alarms, [CCode (delegate_target_pos = 6.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
+	public static int util_generate_alarms_for_list (GLib.List<ECal.Component> comps, time_t start, time_t end, ECal.ComponentAlarmAction omit, out GLib.SList<ECal.ComponentAlarms> comp_alarms, [CCode (delegate_target_pos = 6.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.48")]
-	public static ECal.ComponentAlarms? util_generate_alarms_for_uid_sync (void* client, string uid, long start, long end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 6.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	public static ECal.ComponentAlarms? util_generate_alarms_for_uid_sync (void* client, string uid, time_t start, time_t end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 6.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone, int def_reminder_before_start_seconds, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.50")]
 	public static unowned string? util_get_attendee_email (ECal.ComponentAttendee? attendee);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "2.32")]
-	public static void util_get_component_occur_times (ECal.Component comp, out long out_start, out long out_end, [CCode (delegate_target_pos = 4.5)] ECal.RecurResolveTimezoneCb tz_cb, ICal.Timezone default_timezone, ICal.ComponentKind kind);
+	public static void util_get_component_occur_times (ECal.Component comp, out time_t out_start, out time_t out_end, [CCode (delegate_target_pos = 4.5)] ECal.RecurResolveTimezoneCb tz_cb, ICal.Timezone default_timezone, ICal.ComponentKind kind);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.50")]
 	public static bool util_get_default_name_and_address (E.SourceRegistry registry, out string out_name, out string out_address);
@@ -1318,8 +1438,11 @@ namespace ECal {
 	[Version (since = "2.28")]
 	public static string? util_get_system_timezone_location ();
 	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.58")]
+	public static unowned ICal.Timezone? util_guess_timezone (string tzid);
+	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.48")]
-	public static bool util_has_alarms_in_range (ECal.Component comp, long start, long end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
+	public static bool util_has_alarms_in_range (ECal.Component comp, time_t start, time_t end, ECal.ComponentAlarmAction omit, [CCode (delegate_target_pos = 5.5)] ECal.RecurResolveTimezoneCb resolve_tzid, ICal.Timezone default_timezone);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "2.22")]
 	public static Posix.tm? util_icaltime_to_tm (ICal.Time itt);
@@ -1337,7 +1460,7 @@ namespace ECal {
 	public static bool util_is_first_instance (ECal.Component comp, ICal.Time rid, ECal.RecurResolveTimezoneCb tz_cb);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.30")]
-	public static bool util_mark_task_complete_sync (ICal.Component vtodo, long completed_time, ECal.Client cal_client, GLib.Cancellable? cancellable = null) throws GLib.Error;
+	public static bool util_mark_task_complete_sync (ICal.Component vtodo, time_t completed_time, ECal.Client cal_client, GLib.Cancellable? cancellable = null) throws GLib.Error;
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	public static ICal.Component util_new_component (ICal.ComponentKind kind);
 	[CCode (cheader_filename = "libecal/libecal.h")]
@@ -1360,6 +1483,9 @@ namespace ECal {
 	[Version (since = "3.34")]
 	public static bool util_property_has_parameter (ICal.Property prop, ICal.ParameterKind param_kind);
 	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.58")]
+	public static time_t util_property_time_to_zone (ICal.Property prop, ICal.Timezone? to_zone, ICal.Component? vcalendar, ECal.TimezoneCache? tz_cache, out ICal.Time out_itt);
+	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (deprecated = true, deprecated_since = "3.38")]
 	public static void util_remove_instances (ICal.Component icalcomp, ICal.Time rid, ECal.ObjModType mod);
 	[CCode (cheader_filename = "libecal/libecal.h")]
@@ -1380,6 +1506,9 @@ namespace ECal {
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "3.50")]
 	public static unowned string util_strip_mailto (string? address);
+	[CCode (cheader_filename = "libecal/libecal.h")]
+	[Version (since = "3.58")]
+	public static time_t util_time_to_zone (ICal.Time itt, string? tzid, ICal.Timezone to_zone, ICal.Component? vcalendar, ECal.TimezoneCache? tz_cache, out ICal.Time out_itt);
 	[CCode (cheader_filename = "libecal/libecal.h")]
 	[Version (since = "2.22")]
 	public static ICal.Time util_tm_to_icaltime ([CCode (type = "tm*")] Posix.tm tm, bool is_date);

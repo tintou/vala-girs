@@ -25,7 +25,7 @@ namespace E {
 		[Version (since = "3.10")]
 		public string dup_cache_dir ();
 		[Version (since = "3.34")]
-		public bool foreach_view (E.CalBackendForeachViewFunc? func);
+		public bool foreach_view (E.CalBackendForeachViewFunc func);
 		[Version (since = "3.34")]
 		public void foreach_view_notify_progress (bool only_completed_views, int percent, string? message);
 		[Version (since = "3.10")]
@@ -37,9 +37,9 @@ namespace E {
 		[Version (since = "2.32")]
 		public unowned string get_cache_dir ();
 		[Version (since = "3.10")]
-		public async bool get_free_busy (long start, long end, [CCode (array_length = false, array_null_terminated = true)] string[] users, GLib.Cancellable? cancellable) throws GLib.Error;
+		public async bool get_free_busy (time_t start, time_t end, [CCode (array_length = false, array_null_terminated = true)] string[] users, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "3.10")]
-		public bool get_free_busy_sync (long start, long end, [CCode (array_length = false, array_null_terminated = true)] string[] users, GLib.SList<string> out_freebusy, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool get_free_busy_sync (time_t start, time_t end, [CCode (array_length = false, array_null_terminated = true)] string[] users, GLib.SList<string> out_freebusy, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public ICal.ComponentKind get_kind ();
 		[Version (since = "3.10")]
 		public async string get_object (string uid, string? rid, GLib.Cancellable? cancellable) throws GLib.Error;
@@ -109,7 +109,7 @@ namespace E {
 		[Version (since = "3.10")]
 		public bool open_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.10")]
-		public GLib.SimpleAsyncResult prepare_for_completion (uint opid, GLib.Queue result_queue);
+		public GLib.Task prepare_for_completion (uint opid);
 		[Version (since = "3.10")]
 		public async bool receive_objects (string calobj, ECal.OperationFlags opflags, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "3.10")]
@@ -167,7 +167,7 @@ namespace E {
 		[CCode (has_construct_function = false)]
 		public CalBackendSExp (string text);
 		[Version (since = "2.32")]
-		public bool evaluate_occur_times (long start, long end);
+		public bool evaluate_occur_times (time_t start, time_t end);
 		[Version (since = "3.34")]
 		public void @lock ();
 		public bool match_comp (ECal.Component comp, ECal.TimezoneCache cache);
@@ -190,7 +190,7 @@ namespace E {
 		public virtual void discard_alarm_sync (E.DataCal cal, GLib.Cancellable? cancellable, string uid, string rid, string auid, ECal.OperationFlags opflags) throws GLib.Error;
 		[Version (since = "3.2")]
 		public void get_attachment_uris (E.DataCal cal, GLib.Cancellable? cancellable, string uid, string rid, GLib.SList<string> attachments) throws GLib.Error;
-		public void get_free_busy (E.DataCal cal, GLib.Cancellable? cancellable, GLib.SList<string> users, long start, long end, out GLib.SList<string> freebusyobjects) throws GLib.Error;
+		public void get_free_busy (E.DataCal cal, GLib.Cancellable? cancellable, GLib.SList<string> users, time_t start, time_t end, out GLib.SList<string> freebusyobjects) throws GLib.Error;
 		public void get_object (E.DataCal cal, GLib.Cancellable? cancellable, string uid, string? rid, out string calobj) throws GLib.Error;
 		public void get_object_list (E.DataCal cal, GLib.Cancellable? cancellable, string sexp, out GLib.SList<string> calobjs) throws GLib.Error;
 		[NoWrapper]
@@ -229,8 +229,8 @@ namespace E {
 		public bool get_component_extra (string uid, string? rid, out string out_extra, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool get_components_by_uid (string uid, out GLib.SList<ECal.Component> out_components, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool get_components_by_uid_as_string (string uid, out GLib.SList<string> out_icalstrings, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool get_components_in_range (long range_start, long range_end, out GLib.SList<ECal.Component> out_components, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool get_components_in_range_as_strings (long range_start, long range_end, out GLib.SList<string> out_icalstrings, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool get_components_in_range (time_t range_start, time_t range_end, out GLib.SList<ECal.Component> out_components, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool get_components_in_range_as_strings (time_t range_start, time_t range_end, out GLib.SList<string> out_icalstrings, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool get_ids_with_extra (string extra, out GLib.SList<ECal.ComponentId> out_ids, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public GLib.SList<E.CalCacheOfflineChange> get_offline_changes (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.34")]
@@ -249,7 +249,7 @@ namespace E {
 		public bool search (string? sexp, out GLib.SList<E.CalCacheSearchData> out_data, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool search_components (string? sexp, out GLib.SList<ECal.Component> out_components, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool search_ids (string? sexp, out GLib.SList<ECal.ComponentId> out_ids, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool search_with_callback (string? sexp, [CCode (delegate_target_pos = 2.5)] E.CalCacheSearchFunc? func, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool search_with_callback (string? sexp, [CCode (delegate_target_pos = 2.5)] E.CalCacheSearchFunc func, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.34")]
 		public bool set_component_custom_flags (string uid, string? rid, uint32 custom_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool set_component_extra (string uid, string? rid, string? extra, GLib.Cancellable? cancellable = null) throws GLib.Error;
@@ -361,33 +361,33 @@ namespace E {
 		[Version (since = "3.2")]
 		public void report_free_busy_data (GLib.SList<string> freebusy);
 		[Version (since = "3.2")]
-		public void respond_add_timezone (uint32 opid, GLib.Error error);
+		public void respond_add_timezone (uint32 opid, owned GLib.Error? error);
 		[Version (since = "3.6")]
-		public void respond_create_objects (uint32 opid, GLib.Error error, GLib.SList<string> uids, GLib.SList<ECal.Component> new_components);
+		public void respond_create_objects (uint32 opid, owned GLib.Error? error, GLib.SList<string> uids, GLib.SList<ECal.Component> new_components);
 		[Version (since = "3.2")]
-		public void respond_discard_alarm (uint32 opid, GLib.Error error);
+		public void respond_discard_alarm (uint32 opid, owned GLib.Error? error);
 		[Version (since = "3.2")]
-		public void respond_get_attachment_uris (uint32 opid, GLib.Error error, GLib.SList<string> attachment_uris);
+		public void respond_get_attachment_uris (uint32 opid, owned GLib.Error? error, GLib.SList<string> attachment_uris);
 		[Version (since = "3.2")]
-		public void respond_get_free_busy (uint32 opid, GLib.Error error, GLib.SList<string> freebusy);
+		public void respond_get_free_busy (uint32 opid, owned GLib.Error? error, GLib.SList<string> freebusy);
 		[Version (since = "3.2")]
-		public void respond_get_object (uint32 opid, GLib.Error error, string object);
+		public void respond_get_object (uint32 opid, owned GLib.Error? error, string object);
 		[Version (since = "3.2")]
-		public void respond_get_object_list (uint32 opid, GLib.Error error, GLib.SList<string> objects);
+		public void respond_get_object_list (uint32 opid, owned GLib.Error? error, GLib.SList<string> objects);
 		[Version (since = "3.2")]
-		public void respond_get_timezone (uint32 opid, GLib.Error error, string tzobject);
+		public void respond_get_timezone (uint32 opid, owned GLib.Error? error, string tzobject);
 		[Version (since = "3.6")]
-		public void respond_modify_objects (uint32 opid, GLib.Error error, GLib.SList<ECal.Component> old_components, GLib.SList<ECal.Component> new_components);
+		public void respond_modify_objects (uint32 opid, owned GLib.Error? error, GLib.SList<ECal.Component> old_components, GLib.SList<ECal.Component> new_components);
 		[Version (since = "3.2")]
-		public void respond_open (uint32 opid, GLib.Error error);
+		public void respond_open (uint32 opid, owned GLib.Error? error);
 		[Version (since = "3.2")]
-		public void respond_receive_objects (uint32 opid, GLib.Error error);
+		public void respond_receive_objects (uint32 opid, owned GLib.Error? error);
 		[Version (since = "3.2")]
-		public void respond_refresh (uint32 opid, GLib.Error error);
+		public void respond_refresh (uint32 opid, owned GLib.Error? error);
 		[Version (since = "3.6")]
-		public void respond_remove_objects (uint32 opid, GLib.Error error, GLib.SList<ECal.ComponentId> ids, GLib.SList<ECal.Component> old_components, GLib.SList<ECal.Component> new_components);
+		public void respond_remove_objects (uint32 opid, owned GLib.Error? error, GLib.SList<ECal.ComponentId> ids, GLib.SList<ECal.Component> old_components, GLib.SList<ECal.Component> new_components);
 		[Version (since = "3.2")]
-		public void respond_send_objects (uint32 opid, GLib.Error error, GLib.SList<string> users, string calobj);
+		public void respond_send_objects (uint32 opid, owned GLib.Error? error, GLib.SList<string> users, string calobj);
 		[NoAccessorMethod]
 		public E.CalBackend backend { owned get; construct; }
 		public GLib.DBusConnection connection { get; construct; }
@@ -450,14 +450,24 @@ namespace E {
 		public IntervalTree ();
 		public void destroy ();
 		public void dump ();
-		public bool insert (long start, long end, ECal.Component comp);
+		public bool insert (time_t start, time_t end, ECal.Component comp);
 		public bool remove (string uid, string rid);
-		public GLib.List<ECal.Component>? search (long start, long end);
+		public GLib.List<ECal.Component>? search (time_t start, time_t end);
 	}
 	[CCode (cheader_filename = "libedata-cal/libedata-cal.h", type_id = "e_subprocess_cal_factory_get_type ()")]
 	public class SubprocessCalFactory : E.SubprocessFactory, GLib.Initable {
 		[CCode (has_construct_function = false)]
 		public SubprocessCalFactory (GLib.Cancellable? cancellable = null) throws GLib.Error;
+	}
+	[CCode (cheader_filename = "libedata-cal/libedata-cal.h", has_type_id = false)]
+	public struct CalQueueTuple {
+		public weak GLib.Queue first;
+		public weak GLib.Queue second;
+		public weak GLib.Queue third;
+		public weak GLib.DestroyNotify first_free_func;
+		public weak GLib.DestroyNotify second_free_func;
+		public weak GLib.DestroyNotify third_free_func;
+		public void free ();
 	}
 	[CCode (cheader_filename = "libedata-cal/libedata-cal.h", instance_pos = 1.9)]
 	[Version (since = "3.26")]
@@ -485,4 +495,6 @@ namespace E {
 	[CCode (cheader_filename = "libedata-cal/libedata-cal.h")]
 	[Version (replacement = "CalMetaBackendInfo.free", since = "3.26")]
 	public static void cal_meta_backend_info_free (void* ptr);
+	[CCode (cheader_filename = "libedata-cal/libedata-cal.h")]
+	public static void cal_queue_free_strings (GLib.Queue queue);
 }

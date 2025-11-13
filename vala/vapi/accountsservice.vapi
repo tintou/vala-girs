@@ -32,7 +32,7 @@ namespace Act {
 		public unowned string get_session ();
 		public unowned string get_session_type ();
 		public unowned string get_shell ();
-		public uint get_uid ();
+		public uid_t get_uid ();
 		public unowned string get_user_name ();
 		public unowned string get_x_session ();
 		public bool is_local_account ();
@@ -105,7 +105,7 @@ namespace Act {
 		public async bool delete_user_async (Act.User user, bool remove_files, GLib.Cancellable? cancellable) throws GLib.Error;
 		public static unowned Act.UserManager get_default ();
 		public unowned Act.User get_user (string username);
-		public unowned Act.User get_user_by_id (uint id);
+		public unowned Act.User get_user_by_id (uid_t id);
 		public bool goto_login_session ();
 		public GLib.SList<weak Act.User> list_users ();
 		public bool no_service ();

@@ -1069,7 +1069,6 @@ namespace Ggit {
 	[CCode (cheader_filename = "libgit2-glib/ggit.h", cprefix = "GGIT_CHECKOUT_", type_id = "ggit_checkout_strategy_get_type ()")]
 	[Flags]
 	public enum CheckoutStrategy {
-		NONE,
 		SAFE,
 		FORCE,
 		RECREATE_MISSING,
@@ -1089,6 +1088,9 @@ namespace Ggit {
 		CONFLICT_STYLE_DIFF3,
 		DONT_REMOVE_EXISTING,
 		DONT_WRITE_INDEX,
+		DRY_RUN,
+		CONFLICT_STYLE_ZDIFF3,
+		NONE,
 		UPDATE_SUBMODULES,
 		UPDATE_SUBMODULES_IF_CHANGED
 	}
@@ -1106,6 +1108,7 @@ namespace Ggit {
 		XDG,
 		GLOBAL,
 		LOCAL,
+		WORKTREE,
 		APP,
 		HIGHEST
 	}
@@ -1479,6 +1482,8 @@ namespace Ggit {
 	public const string BUILD_TYPE;
 	[CCode (cheader_filename = "libgit2-glib/ggit.h", cname = "GGIT_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
+	[CCode (cheader_filename = "libgit2-glib/ggit.h", cname = "GGIT_MICRO_VERSION")]
+	public const int MICRO_VERSION;
 	[CCode (cheader_filename = "libgit2-glib/ggit.h", cname = "GGIT_MINOR_VERSION")]
 	public const int MINOR_VERSION;
 	[CCode (cheader_filename = "libgit2-glib/ggit.h", cname = "GGIT_VERSION_S")]

@@ -110,9 +110,9 @@ namespace ICal {
 		[Version (since = "1.0")]
 		public ICal.CompIter end_component (ICal.ComponentKind kind);
 		[Version (since = "3.0.5")]
-		public void foreach_recurrence (ICal.Time start, ICal.Time end, ICal.ComponentForeachRecurrenceFunc? callback);
+		public void foreach_recurrence (ICal.Time start, ICal.Time end, ICal.ComponentForeachRecurrenceFunc callback);
 		[Version (since = "3.0.5")]
-		public void foreach_tzid (ICal.ComponentForeachTZIDFunc? callback);
+		public void foreach_tzid (ICal.ComponentForeachTZIDFunc callback);
 		[CCode (has_construct_function = false)]
 		[Version (since = "1.0")]
 		public Component.from_string (string str);
@@ -1841,9 +1841,9 @@ namespace ICal {
 		[Version (since = "1.0")]
 		public string as_ical_string ();
 		[Version (since = "1.0")]
-		public long as_timet ();
+		public time_t as_timet ();
 		[Version (since = "1.0")]
-		public long as_timet_with_zone (ICal.Timezone? zone);
+		public time_t as_timet_with_zone (ICal.Timezone? zone);
 		[Version (since = "1.0")]
 		public ICal.Time clone ();
 		[Version (since = "1.0")]
@@ -1879,7 +1879,7 @@ namespace ICal {
 		public Time.from_string (string str);
 		[CCode (has_construct_function = false)]
 		[Version (since = "1.0")]
-		public Time.from_timet_with_zone (long v, int is_date, ICal.Timezone? zone);
+		public Time.from_timet_with_zone (time_t v, int is_date, ICal.Timezone? zone);
 		[Version (since = "1.0")]
 		public void get_date (out int year, out int month, out int day);
 		[Version (since = "1.0")]
@@ -1964,22 +1964,22 @@ namespace ICal {
 		[Version (since = "1.0")]
 		public int contains (ICal.TimeSpan container);
 		[Version (since = "1.0")]
-		public long get_end ();
+		public time_t get_end ();
 		[Version (since = "1.0")]
 		public bool get_is_busy ();
 		[Version (since = "1.0")]
-		public long get_start ();
+		public time_t get_start ();
 		[Version (since = "1.0")]
 		public int overlaps (ICal.TimeSpan s2);
 		[Version (since = "1.0")]
-		public void set_end (long end);
+		public void set_end (time_t end);
 		[Version (since = "1.0")]
 		public void set_is_busy (bool is_busy);
 		[Version (since = "1.0")]
-		public void set_start (long start);
+		public void set_start (time_t start);
 		[CCode (has_construct_function = false)]
 		[Version (since = "3.0.5")]
-		public TimeSpan.timet (long start, long end, bool is_busy);
+		public TimeSpan.timet (time_t start, time_t end, bool is_busy);
 	}
 	[CCode (cheader_filename = "libical-glib/libical-glib.h", type_id = "i_cal_timezone_get_type ()")]
 	public sealed class Timezone : ICal.Object {
@@ -3198,7 +3198,7 @@ namespace ICal {
 	public static ICal.Component mime_parse (ICal.MimeParseFunc func);
 	[CCode (cheader_filename = "libical-glib/libical-glib.h")]
 	[Version (since = "1.0")]
-	public static GLib.Array<long> recur_expand_recurrence (string rule, long start, int count);
+	public static GLib.Array<time_t> recur_expand_recurrence (string rule, time_t start, int count);
 	[CCode (cheader_filename = "libical-glib/libical-glib.h")]
 	[Version (since = "1.0")]
 	public static int restriction_check (ICal.Component comp);

@@ -76,12 +76,15 @@ namespace Vnc {
 		public Connection ();
 		public bool audio_disable ();
 		public bool audio_enable ();
+		public void clear_pending_flag ();
 		public bool client_cut_text (void* data, size_t length);
+		public void flush_pending_clipboard ();
 		public bool framebuffer_update_request (bool incremental, uint16 x, uint16 y, uint16 width, uint16 height);
 		public bool get_abs_pointer ();
 		public unowned Vnc.AudioFormat get_audio_format ();
 		public unowned Vnc.Cursor get_cursor ();
 		public bool get_ext_key_event ();
+		public bool get_extended_mouse_buttons ();
 		public int get_height ();
 		public int get_ledstate ();
 		public unowned string get_name ();
@@ -89,6 +92,7 @@ namespace Vnc {
 		public bool get_power_control ();
 		public bool get_shared ();
 		public int get_width ();
+		public void handle_clipboard_change ();
 		public bool has_error ();
 		public bool is_initialized ();
 		public bool is_open ();
@@ -98,7 +102,9 @@ namespace Vnc {
 		public bool open_fd_with_hostname (int fd, string? hostname);
 		public bool open_host (string host, string port);
 		public bool pointer_event (uint8 button_mask, uint16 x, uint16 y);
+		public bool pointer_event_ext (uint button_mask, uint16 x, uint16 y);
 		public bool power_control (Vnc.ConnectionPowerAction action);
+		public void send_clipboard_data (string text);
 		public bool set_audio (Vnc.Audio audio);
 		public bool set_audio_format (Vnc.AudioFormat fmt);
 		public bool set_auth_subtype (uint type);
@@ -110,14 +116,18 @@ namespace Vnc {
 		public bool set_shared (bool shared);
 		public Vnc.ConnectionResizeStatus set_size (uint width, uint height);
 		public void shutdown ();
+		[NoWrapper]
+		public virtual void vnc_clipboard_request ();
 		[NoAccessorMethod]
 		public Vnc.Framebuffer framebuffer { owned get; set; }
+		public signal void clipboard_request ();
 		public virtual signal void vnc_auth_choose_subtype (uint type, GLib.ValueArray subtypes);
 		public virtual signal void vnc_auth_choose_type (GLib.ValueArray types);
 		public virtual signal void vnc_auth_credential (GLib.ValueArray creds);
 		public virtual signal void vnc_auth_failure (string reason);
 		public virtual signal void vnc_auth_unsupported (uint authType);
 		public virtual signal void vnc_bell ();
+		public signal void vnc_clipboard_data_received (string object);
 		public virtual signal void vnc_connected ();
 		public virtual signal void vnc_cursor_changed (Vnc.Cursor? cursor);
 		public virtual signal void vnc_desktop_rename (string name);
@@ -143,6 +153,7 @@ namespace Vnc {
 		public uint16 get_hotx ();
 		public uint16 get_hoty ();
 		public uint16 get_width ();
+		public bool is_visible ();
 		[NoAccessorMethod]
 		public void* data { get; set construct; }
 		[NoAccessorMethod]
@@ -282,7 +293,9 @@ namespace Vnc {
 		DESKTOP_NAME,
 		EXTENDED_DESKTOP_RESIZE,
 		XVP,
-		ALPHA_CURSOR
+		ALPHA_CURSOR,
+		EXTENDED_MOUSE_BUTTONS,
+		EXTENDED_CLIPBOARD
 	}
 	[CCode (cheader_filename = "gvnc.h", cprefix = "VNC_CONNECTION_POWER_ACTION_", type_id = "vnc_connection_power_action_get_type ()")]
 	public enum ConnectionPowerAction {
@@ -299,6 +312,30 @@ namespace Vnc {
 		INVALID_LAOUT,
 		FORWARDED
 	}
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_CAPS")]
+	public const int CLIPBOARD_ACTION_CAPS;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_MASK")]
+	public const int CLIPBOARD_ACTION_MASK;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_NOTIFY")]
+	public const int CLIPBOARD_ACTION_NOTIFY;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_PEEK")]
+	public const int CLIPBOARD_ACTION_PEEK;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_PROVIDE")]
+	public const int CLIPBOARD_ACTION_PROVIDE;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_ACTION_REQUEST")]
+	public const int CLIPBOARD_ACTION_REQUEST;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_FORMAT_DIB")]
+	public const int CLIPBOARD_FORMAT_DIB;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_FORMAT_FILES")]
+	public const int CLIPBOARD_FORMAT_FILES;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_FORMAT_HTML")]
+	public const int CLIPBOARD_FORMAT_HTML;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_FORMAT_RTF")]
+	public const int CLIPBOARD_FORMAT_RTF;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_FORMAT_UTF8")]
+	public const int CLIPBOARD_FORMAT_UTF8;
+	[CCode (cheader_filename = "gvnc.h", cname = "VNC_CLIPBOARD_MAX_FORMATS")]
+	public const int CLIPBOARD_MAX_FORMATS;
 	[CCode (cheader_filename = "gvnc.h", cname = "VNC_LEDSTATE_CAPS_LOCK")]
 	public const int LEDSTATE_CAPS_LOCK;
 	[CCode (cheader_filename = "gvnc.h", cname = "VNC_LEDSTATE_NUM_LOCK")]

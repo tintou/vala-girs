@@ -5,10 +5,13 @@ and/or use gtk-doc annotations.  -->
 <repository version="1.2"
             xmlns="http://www.gtk.org/introspection/core/1.0"
             xmlns:c="http://www.gtk.org/introspection/c/1.0"
+            xmlns:doc="http://www.gtk.org/introspection/doc/1.0"
             xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
   <include name="Gtk" version="3.0"/>
   <include name="NM" version="1.0"/>
   <package name="libnma"/>
+  <c:include name="nma.h"/>
+  <doc:format name="unknown"/>
   <namespace name="NMA"
              version="1.0"
              shared-library="libnma.so.0"
@@ -52,7 +55,7 @@ and/or use gtk-doc annotations.  -->
     <function-macro name="BAR_CODE_WIDGET"
                     c:identifier="NMA_BAR_CODE_WIDGET"
                     introspectable="0">
-      <source-position filename="src/nma-bar-code-widget.h" line="26"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -61,7 +64,7 @@ and/or use gtk-doc annotations.  -->
     <function-macro name="BAR_CODE_WIDGET_CLASS"
                     c:identifier="NMA_BAR_CODE_WIDGET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-bar-code-widget.h" line="27"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -70,13 +73,13 @@ and/or use gtk-doc annotations.  -->
     <constant name="BAR_CODE_WIDGET_CONNECTION"
               value="connection"
               c:type="NMA_BAR_CODE_WIDGET_CONNECTION">
-      <source-position filename="src/nma-bar-code-widget.h" line="32"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="35"/>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <function-macro name="BAR_CODE_WIDGET_GET_CLASS"
                     c:identifier="NMA_BAR_CODE_WIDGET_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-bar-code-widget.h" line="30"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="33"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -204,10 +207,29 @@ and/or use gtk-doc annotations.  -->
            glib:type-name="NMABarCodeWidget"
            glib:get-type="nma_bar_code_widget_get_type"
            glib:type-struct="BarCodeWidgetClass">
-      <source-position filename="src/nma-bar-code-widget.h" line="35"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="38"/>
       <implements name="Atk.ImplementorIface"/>
       <implements name="Gtk.Buildable"/>
       <implements name="Gtk.Orientable"/>
+      <constructor name="new"
+                   c:identifier="nma_bar_code_widget_new"
+                   version="1.8.22">
+        <source-position filename="src/nma-bar-code-widget.h" line="48"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/nma-bar-code-widget.c"
+               line="422">the bar code widget instance</doc>
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/nma-bar-code-widget.c"
+                 line="420">connection to get network details from</doc>
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+        </parameters>
+      </constructor>
       <property name="connection" writable="1" transfer-ownership="none">
         <type name="NM.Connection"/>
       </property>
@@ -217,12 +239,12 @@ and/or use gtk-doc annotations.  -->
             disguised="1"
             opaque="1"
             glib:is-gtype-struct-for="BarCodeWidget">
-      <source-position filename="src/nma-bar-code-widget.h" line="35"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="38"/>
     </record>
     <function-macro name="CERT_CHOOSER"
                     c:identifier="NMA_CERT_CHOOSER"
                     introspectable="0">
-      <source-position filename="src/nma-cert-chooser.h" line="43"/>
+      <source-position filename="src/nma-cert-chooser.h" line="45"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -231,7 +253,7 @@ and/or use gtk-doc annotations.  -->
     <function-macro name="CERT_CHOOSER_CLASS"
                     c:identifier="NMA_CERT_CHOOSER_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-cert-chooser.h" line="44"/>
+      <source-position filename="src/nma-cert-chooser.h" line="46"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -240,7 +262,7 @@ and/or use gtk-doc annotations.  -->
     <function-macro name="CERT_CHOOSER_GET_CLASS"
                     c:identifier="NMA_CERT_CHOOSER_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-cert-chooser.h" line="47"/>
+      <source-position filename="src/nma-cert-chooser.h" line="49"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -275,7 +297,7 @@ and/or use gtk-doc annotations.  -->
            glib:type-name="NMACertChooser"
            glib:get-type="nma_cert_chooser_get_type"
            glib:type-struct="CertChooserClass">
-      <source-position filename="src/nma-cert-chooser.h" line="53"/>
+      <source-position filename="src/nma-cert-chooser.h" line="55"/>
       <implements name="Atk.ImplementorIface"/>
       <implements name="Gtk.Buildable"/>
       <implements name="Gtk.Orientable"/>
@@ -284,26 +306,26 @@ and/or use gtk-doc annotations.  -->
                    version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1200">Constructs the button that is capable of selecting a certificate
+             line="1094">Constructs the button that is capable of selecting a certificate
 and a key.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="109"/>
+        <source-position filename="src/nma-cert-chooser.h" line="111"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="1208">the certificate chooser button instance</doc>
+               line="1102">the certificate chooser button instance</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <parameter name="title" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="1202">title of the certificate chooser dialog</doc>
+                 line="1096">title of the certificate chooser dialog</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="1203">the flags that configure the capabilities of the button</doc>
+                 line="1097">the flags that configure the capabilities of the button</doc>
             <type name="CertChooserFlags" c:type="NMACertChooserFlags"/>
           </parameter>
         </parameters>
@@ -313,12 +335,12 @@ and a key.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="463">Adds the labels to the specified size group so that they are aligned
+             line="447">Adds the labels to the specified size group so that they are aligned
 nicely with other entries in a form.
 
 It is expected that the NMACertChooser is a GtkGrid with two columns
 with the labels in the first one.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="114"/>
+        <source-position filename="src/nma-cert-chooser.h" line="116"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -326,13 +348,13 @@ with the labels in the first one.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="465">certificate chooser button instance</doc>
+                 line="449">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="group" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="466">a size group</doc>
+                 line="450">a size group</doc>
             <type name="Gtk.SizeGroup" c:type="GtkSizeGroup*"/>
           </parameter>
         </parameters>
@@ -342,19 +364,19 @@ with the labels in the first one.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="243">Gets the real certificate location from the chooser button along with the scheme.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="72"/>
+             line="237">Gets the real certificate location from the chooser button along with the scheme.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="74"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="250">the certificate path</doc>
+               line="244">the certificate path</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="245">certificate chooser button instance</doc>
+                 line="239">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="scheme"
@@ -363,7 +385,7 @@ with the labels in the first one.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="246">the scheme of the returned certificate path</doc>
+                 line="240">the scheme of the returned certificate path</doc>
             <type name="NM.Setting8021xCKScheme"
                   c:type="NMSetting8021xCKScheme*"/>
           </parameter>
@@ -374,19 +396,19 @@ with the labels in the first one.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="288">Obtains the password or a PIN that was be required to access the certificate.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="83"/>
+             line="281">Obtains the password or a PIN that was be required to access the certificate.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="85"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="294">the certificate PIN or password</doc>
+               line="287">the certificate PIN or password</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="290">certificate chooser button instance</doc>
+                 line="283">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -396,22 +418,22 @@ with the labels in the first one.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="627">Returns secret flags corresponding to the certificate password
+             line="607">Returns secret flags corresponding to the certificate password
 if one is present. The chooser would typically call into
 nma_utils_menu_to_secret_flags() for the certificate password
 entry.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="136"/>
+        <source-position filename="src/nma-cert-chooser.h" line="138"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="636">secret flags corresponding to the certificate password</doc>
+               line="616">secret flags corresponding to the certificate password</doc>
           <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="629">certificate chooser button instance</doc>
+                 line="609">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -421,19 +443,19 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="222">Gets the real certificate URI from the chooser button along with the scheme.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="76"/>
+             line="217">Gets the real certificate URI from the chooser button along with the scheme.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="78"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="228">the certificate URI</doc>
+               line="223">the certificate URI</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="224">certificate chooser button instance</doc>
+                 line="219">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -443,19 +465,19 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="372">Gets the real key location from the chooser button along with the scheme.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="95"/>
+             line="359">Gets the real key location from the chooser button along with the scheme.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="97"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="379">the key path</doc>
+               line="366">the key path</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="374">certificate chooser button instance</doc>
+                 line="361">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="scheme"
@@ -464,7 +486,7 @@ entry.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="375">the scheme of the returned key path</doc>
+                 line="362">the scheme of the returned key path</doc>
             <type name="NM.Setting8021xCKScheme"
                   c:type="NMSetting8021xCKScheme*"/>
           </parameter>
@@ -475,19 +497,19 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="438">Obtains the password or a PIN that was be required to access the key.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="106"/>
+             line="423">Obtains the password or a PIN that was be required to access the key.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="108"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="444">the key PIN or password</doc>
+               line="429">the key PIN or password</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="440">certificate chooser button instance</doc>
+                 line="425">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -497,22 +519,22 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="716">Returns secret flags corresponding to the key password
+             line="693">Returns secret flags corresponding to the key password
 if one is present. The chooser would typically call into
 nma_utils_menu_to_secret_flags() for the key password
 entry.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="153"/>
+        <source-position filename="src/nma-cert-chooser.h" line="155"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="725">secret flags corresponding to the key password</doc>
+               line="702">secret flags corresponding to the key password</doc>
           <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="718">certificate chooser button instance</doc>
+                 line="695">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -522,19 +544,19 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="394">Gets the real key URI from the chooser button along with the scheme.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="99"/>
+             line="381">Gets the real key URI from the chooser button along with the scheme.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="101"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="400">the key URI</doc>
+               line="387">the key URI</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="396">certificate chooser button instance</doc>
+                 line="383">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -544,8 +566,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="198">Sets the certificate location for the chooser button.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="63"/>
+             line="193">Sets the certificate location for the chooser button.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="65"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -553,19 +575,19 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="200">certificate chooser button instance</doc>
+                 line="195">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="201">the path or URI of a certificate</doc>
+                 line="196">the path or URI of a certificate</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="scheme" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="202">the scheme of the certificate path</doc>
+                 line="197">the scheme of the certificate path</doc>
             <type name="NM.Setting8021xCKScheme"
                   c:type="NMSetting8021xCKScheme"/>
           </parameter>
@@ -576,8 +598,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="265">Sets the password or a PIN that might be required to access the certificate.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="79"/>
+             line="259">Sets the password or a PIN that might be required to access the certificate.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="81"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -585,13 +607,13 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="267">certificate chooser button instance</doc>
+                 line="261">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="password" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="268">the certificate PIN or password</doc>
+                 line="262">the certificate PIN or password</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -601,8 +623,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="163">Sets the certificate URI for the chooser button.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="68"/>
+             line="162">Sets the certificate URI for the chooser button.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="70"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -610,13 +632,13 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="165">certificate chooser button instance</doc>
+                 line="164">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="uri" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="166">the path or URI of a certificate</doc>
+                 line="165">the path or URI of a certificate</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -626,8 +648,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="348">Sets the key location for the chooser button.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="86"/>
+             line="335">Sets the key location for the chooser button.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="88"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -635,19 +657,19 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="350">certificate chooser button instance</doc>
+                 line="337">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="351">the path or URI of a key</doc>
+                 line="338">the path or URI of a key</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="scheme" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="352">the scheme of the key path</doc>
+                 line="339">the scheme of the key path</doc>
             <type name="NM.Setting8021xCKScheme"
                   c:type="NMSetting8021xCKScheme"/>
           </parameter>
@@ -658,8 +680,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="415">Sets the password or a PIN that might be required to access the key.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="102"/>
+             line="401">Sets the password or a PIN that might be required to access the key.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="104"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -667,13 +689,13 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="417">certificate chooser button instance</doc>
+                 line="403">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="password" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="418">the key PIN or password</doc>
+                 line="404">the key PIN or password</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -683,8 +705,8 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="313">Sets the key URI for the chooser button.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="91"/>
+             line="305">Sets the key URI for the chooser button.</doc>
+        <source-position filename="src/nma-cert-chooser.h" line="93"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -692,13 +714,13 @@ entry.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="315">certificate chooser button instance</doc>
+                 line="307">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="uri" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="316">the URI of a key</doc>
+                 line="308">the URI of a key</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -708,9 +730,9 @@ entry.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="563">This method basically calls nma_utils_setup_password_storage()
+             line="545">This method basically calls nma_utils_setup_password_storage()
 on the certificate password entry, in case one is present.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="122"/>
+        <source-position filename="src/nma-cert-chooser.h" line="124"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -718,37 +740,37 @@ on the certificate password entry, in case one is present.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="565">certificate chooser button instance</doc>
+                 line="547">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="initial_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="566">initial secret flags to setup password menu from</doc>
+                 line="548">initial secret flags to setup password menu from</doc>
             <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
           </parameter>
           <parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="567">#NMSetting containing the password, or NULL</doc>
+                 line="549">#NMSetting containing the password, or NULL</doc>
             <type name="NM.Setting" c:type="NMSetting*"/>
           </parameter>
           <parameter name="password_flags_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="568">name of the secret flags (like psk-flags), or NULL</doc>
+                 line="550">name of the secret flags (like psk-flags), or NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="with_not_required" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="569">whether to include "Not required" menu item</doc>
+                 line="551">whether to include "Not required" menu item</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
           <parameter name="ask_mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="570">%TRUE if the entry is shown in ASK mode</doc>
+                 line="552">%TRUE if the entry is shown in ASK mode</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -758,9 +780,9 @@ on the certificate password entry, in case one is present.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="652">This method basically calls nma_utils_setup_password_storage()
+             line="631">This method basically calls nma_utils_setup_password_storage()
 on the key password entry, in case one is present.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="139"/>
+        <source-position filename="src/nma-cert-chooser.h" line="141"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -768,37 +790,37 @@ on the key password entry, in case one is present.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="654">certificate chooser button instance</doc>
+                 line="633">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="initial_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="655">initial secret flags to setup password menu from</doc>
+                 line="634">initial secret flags to setup password menu from</doc>
             <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
           </parameter>
           <parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="656">#NMSetting containing the password, or NULL</doc>
+                 line="635">#NMSetting containing the password, or NULL</doc>
             <type name="NM.Setting" c:type="NMSetting*"/>
           </parameter>
           <parameter name="password_flags_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="657">name of the secret flags (like psk-flags), or NULL</doc>
+                 line="636">name of the secret flags (like psk-flags), or NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="with_not_required" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="658">whether to include "Not required" menu item</doc>
+                 line="637">whether to include "Not required" menu item</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
           <parameter name="ask_mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="659">%TRUE if the entry is shown in ASK mode</doc>
+                 line="638">%TRUE if the entry is shown in ASK mode</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -808,9 +830,9 @@ on the key password entry, in case one is present.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="598">This method basically calls nma_utils_update_password_storage()
+             line="579">This method basically calls nma_utils_update_password_storage()
 on the certificate password entry, in case one is present.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="130"/>
+        <source-position filename="src/nma-cert-chooser.h" line="132"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -818,25 +840,25 @@ on the certificate password entry, in case one is present.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="600">certificate chooser button instance</doc>
+                 line="581">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="secret_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="601">secret flags to set</doc>
+                 line="582">secret flags to set</doc>
             <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
           </parameter>
           <parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="602">#NMSetting containing the password, or NULL</doc>
+                 line="583">#NMSetting containing the password, or NULL</doc>
             <type name="NM.Setting" c:type="NMSetting*"/>
           </parameter>
           <parameter name="password_flags_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="603">name of the secret flags (like psk-flags), or NULL</doc>
+                 line="584">name of the secret flags (like psk-flags), or NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -846,9 +868,9 @@ on the certificate password entry, in case one is present.</doc>
               version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="687">This method basically calls nma_utils_update_password_storage()
+             line="665">This method basically calls nma_utils_update_password_storage()
 on the key password entry, in case one is present.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="147"/>
+        <source-position filename="src/nma-cert-chooser.h" line="149"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -856,25 +878,25 @@ on the key password entry, in case one is present.</doc>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="689">certificate chooser button instance</doc>
+                 line="667">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
           <parameter name="secret_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="690">secret flags to set</doc>
+                 line="668">secret flags to set</doc>
             <type name="NM.SettingSecretFlags" c:type="NMSettingSecretFlags"/>
           </parameter>
           <parameter name="setting" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="691">#NMSetting containing the password, or NULL</doc>
+                 line="669">#NMSetting containing the password, or NULL</doc>
             <type name="NM.Setting" c:type="NMSetting*"/>
           </parameter>
           <parameter name="password_flags_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="692">name of the secret flags (like psk-flags), or NULL</doc>
+                 line="670">name of the secret flags (like psk-flags), or NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -885,21 +907,21 @@ on the key password entry, in case one is present.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="490">Validates whether the chosen values make sense. The users can do further
+             line="473">Validates whether the chosen values make sense. The users can do further
 validation by subscribing to the "*-changed" signals and returning an
 error themselves.</doc>
-        <source-position filename="src/nma-cert-chooser.h" line="118"/>
+        <source-position filename="src/nma-cert-chooser.h" line="120"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-cert-chooser.c"
-               line="499">%TRUE if validation passes, %FALSE otherwise</doc>
+               line="482">%TRUE if validation passes, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="cert_chooser" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-cert-chooser.c"
-                 line="492">certificate chooser button instance</doc>
+                 line="475">certificate chooser button instance</doc>
             <type name="CertChooser" c:type="NMACertChooser*"/>
           </instance-parameter>
         </parameters>
@@ -923,7 +945,7 @@ error themselves.</doc>
       <glib:signal name="cert-password-validate" when="last" version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1045">Emitted when the certificate password needs validation. The handlers
+             line="1007">Emitted when the certificate password needs validation. The handlers
 can indicate that the password is invalid by returning an error, which blocks further
 signal processing and causes a call to nma_cert_chooser_validate()
 to fail.</doc>
@@ -934,7 +956,7 @@ to fail.</doc>
       <glib:signal name="cert-validate" when="last" version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1028">Emitted when the certificate needs validation. The handlers can indicate that
+             line="990">Emitted when the certificate needs validation. The handlers can indicate that
 the certificate is invalid by returning an error, which blocks further
 signal processing and causes a call to nma_cert_chooser_validate()
 to fail.</doc>
@@ -945,7 +967,7 @@ to fail.</doc>
       <glib:signal name="changed" when="last" no-recurse="1" version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1096">Emitted when anything changes in the certificate chooser, be it a certificate,
+             line="1058">Emitted when anything changes in the certificate chooser, be it a certificate,
 a key or associated passwords.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -954,7 +976,7 @@ a key or associated passwords.</doc>
       <glib:signal name="key-password-validate" when="last" version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1079">Emitted when the key password needs validation. The handlers can indicate
+             line="1041">Emitted when the key password needs validation. The handlers can indicate
 that the password is invalid by returning an error, which blocks further
 signal processing and causes a call to nma_cert_chooser_validate()
 to fail.</doc>
@@ -965,7 +987,7 @@ to fail.</doc>
       <glib:signal name="key-validate" when="last" version="1.8.0">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.c"
-             line="1062">Emitted when the key needs validation. The handlers can indicate that
+             line="1024">Emitted when the key needs validation. The handlers can indicate that
 the key is invalid by returning an error, which blocks further
 signal processing and causes a call to nma_cert_chooser_validate()
 to fail.</doc>
@@ -979,45 +1001,45 @@ to fail.</doc>
             disguised="1"
             opaque="1"
             glib:is-gtype-struct-for="CertChooser">
-      <source-position filename="src/nma-cert-chooser.h" line="53"/>
+      <source-position filename="src/nma-cert-chooser.h" line="55"/>
     </record>
     <enumeration name="CertChooserFlags"
                  version="1.8.0"
                  c:type="NMACertChooserFlags">
       <doc xml:space="preserve"
            filename="src/nma-cert-chooser.h"
-           line="19">Flags that controls what is the certificate chooser button able to pick.
+           line="21">Flags that controls what is the certificate chooser button able to pick.
 Currently only local files are supported, but might be extended to use URIs,
 such as PKCS\#11 certificate URIs in future as well.</doc>
-      <source-position filename="src/nma-cert-chooser.h" line="40"/>
+      <source-position filename="src/nma-cert-chooser.h" line="42"/>
       <member name="none" value="0" c:identifier="NMA_CERT_CHOOSER_FLAG_NONE">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.h"
-             line="21">No flags</doc>
+             line="23">No flags</doc>
       </member>
       <member name="cert" value="1" c:identifier="NMA_CERT_CHOOSER_FLAG_CERT">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.h"
-             line="22">Only pick a certificate, not a key</doc>
+             line="24">Only pick a certificate, not a key</doc>
       </member>
       <member name="passwords"
               value="2"
               c:identifier="NMA_CERT_CHOOSER_FLAG_PASSWORDS">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.h"
-             line="23">Hide all controls but the secrets entries</doc>
+             line="25">Hide all controls but the secrets entries</doc>
       </member>
       <member name="pem" value="4" c:identifier="NMA_CERT_CHOOSER_FLAG_PEM">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.h"
-             line="24">Ensure the chooser only selects regular PEM files</doc>
+             line="26">Ensure the chooser only selects regular PEM files</doc>
       </member>
       <member name="no_passwords"
               value="8"
               c:identifier="NMA_CERT_CHOOSER_FLAG_NO_PASSWORDS">
         <doc xml:space="preserve"
              filename="src/nma-cert-chooser.h"
-             line="25">Do not show password entries (Since: 1.8.34)</doc>
+             line="27">Do not show password entries (Since: 1.8.34)</doc>
       </member>
     </enumeration>
     <record name="CountryInfo"
@@ -1159,7 +1181,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_BAR_CODE_WIDGET"
                     c:identifier="NMA_IS_BAR_CODE_WIDGET"
                     introspectable="0">
-      <source-position filename="src/nma-bar-code-widget.h" line="28"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1168,7 +1190,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_BAR_CODE_WIDGET_CLASS"
                     c:identifier="NMA_IS_BAR_CODE_WIDGET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-bar-code-widget.h" line="29"/>
+      <source-position filename="src/nma-bar-code-widget.h" line="32"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1177,7 +1199,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_CERT_CHOOSER"
                     c:identifier="NMA_IS_CERT_CHOOSER"
                     introspectable="0">
-      <source-position filename="src/nma-cert-chooser.h" line="45"/>
+      <source-position filename="src/nma-cert-chooser.h" line="47"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1186,7 +1208,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_CERT_CHOOSER_CLASS"
                     c:identifier="NMA_IS_CERT_CHOOSER_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-cert-chooser.h" line="46"/>
+      <source-position filename="src/nma-cert-chooser.h" line="48"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1213,7 +1235,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_MOBILE_WIZARD"
                     c:identifier="NMA_IS_MOBILE_WIZARD"
                     introspectable="0">
-      <source-position filename="src/nma-mobile-wizard.h" line="54"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="55"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1222,7 +1244,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_MOBILE_WIZARD_CLASS"
                     c:identifier="NMA_IS_MOBILE_WIZARD_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-mobile-wizard.h" line="55"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="56"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1231,7 +1253,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_OWE_CLASS"
                     c:identifier="NMA_IS_OWE_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="19"/>
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="23"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1256,7 +1278,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
       </parameters>
     </function-macro>
     <function-macro name="IS_WS" c:identifier="NMA_IS_WS" introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws.h" line="30"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1265,7 +1287,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_802_1X"
                     c:identifier="NMA_IS_WS_802_1X"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="28"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1274,7 +1296,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_802_1X_CLASS"
                     c:identifier="NMA_IS_WS_802_1X_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="29"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1283,7 +1305,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_DYNAMIC_WEP"
                     c:identifier="NMA_IS_WS_DYNAMIC_WEP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1292,7 +1314,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_DYNAMIC_WEP_CLASS"
                     c:identifier="NMA_IS_WS_DYNAMIC_WEP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="26"/>
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1301,7 +1323,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_LEAP"
                     c:identifier="NMA_IS_WS_LEAP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1310,7 +1332,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_LEAP_CLASS"
                     c:identifier="NMA_IS_WS_LEAP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="26"/>
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1319,7 +1341,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_OWE"
                     c:identifier="NMA_IS_WS_OWE"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="18"/>
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="22"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1328,7 +1350,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_SAE"
                     c:identifier="NMA_IS_WS_SAE"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="28"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1337,7 +1359,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_SAE_CLASS"
                     c:identifier="NMA_IS_WS_SAE_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="29"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1346,7 +1368,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WEP_KEY"
                     c:identifier="NMA_IS_WS_WEP_KEY"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1355,7 +1377,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WEP_KEY_CLASS"
                     c:identifier="NMA_IS_WS_WEP_KEY_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="26"/>
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1364,7 +1386,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WPA_EAP"
                     c:identifier="NMA_IS_WS_WPA_EAP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1373,7 +1395,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WPA_EAP_CLASS"
                     c:identifier="NMA_IS_WS_WPA_EAP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="26"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1382,7 +1404,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WPA_PSK"
                     c:identifier="NMA_IS_WS_WPA_PSK"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1391,7 +1413,7 @@ such as PKCS\#11 certificate URIs in future as well.</doc>
     <function-macro name="IS_WS_WPA_PSK_CLASS"
                     c:identifier="NMA_IS_WS_WPA_PSK_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="26"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="30"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1451,7 +1473,7 @@ is compiled against.</doc>
     <function-macro name="MOBILE_WIZARD"
                     c:identifier="NMA_MOBILE_WIZARD"
                     introspectable="0">
-      <source-position filename="src/nma-mobile-wizard.h" line="52"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="53"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1460,7 +1482,7 @@ is compiled against.</doc>
     <function-macro name="MOBILE_WIZARD_CLASS"
                     c:identifier="NMA_MOBILE_WIZARD_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-mobile-wizard.h" line="53"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="54"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -1469,7 +1491,7 @@ is compiled against.</doc>
     <function-macro name="MOBILE_WIZARD_GET_CLASS"
                     c:identifier="NMA_MOBILE_WIZARD_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-mobile-wizard.h" line="56"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="57"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -1832,7 +1854,9 @@ is compiled against.</doc>
           </parameter>
         </parameters>
       </constructor>
-      <function name="new" c:identifier="nma_mobile_providers_database_new">
+      <function name="new"
+                c:identifier="nma_mobile_providers_database_new"
+                glib:finish-func="new_finish">
         <source-position filename="src/nma-mobile-providers.h" line="119"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2043,15 +2067,15 @@ is compiled against.</doc>
            glib:type-name="NMAMobileWizard"
            glib:get-type="nma_mobile_wizard_get_type"
            glib:type-struct="MobileWizardClass">
-      <source-position filename="src/nma-mobile-wizard.h" line="20"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="21"/>
       <constructor name="new"
                    c:identifier="nma_mobile_wizard_new"
                    introspectable="0">
-        <source-position filename="src/nma-mobile-wizard.h" line="60"/>
+        <source-position filename="src/nma-mobile-wizard.h" line="61"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/nma-mobile-wizard.c"
-               line="1500">the newly created #NMAMobileWizard</doc>
+               line="1496">the newly created #NMAMobileWizard</doc>
           <type name="MobileWizard" c:type="NMAMobileWizard*"/>
         </return-value>
         <parameters>
@@ -2084,7 +2108,7 @@ is compiled against.</doc>
         </parameters>
       </constructor>
       <method name="destroy" c:identifier="nma_mobile_wizard_destroy">
-        <source-position filename="src/nma-mobile-wizard.h" line="69"/>
+        <source-position filename="src/nma-mobile-wizard.h" line="70"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2095,7 +2119,7 @@ is compiled against.</doc>
         </parameters>
       </method>
       <method name="present" c:identifier="nma_mobile_wizard_present">
-        <source-position filename="src/nma-mobile-wizard.h" line="67"/>
+        <source-position filename="src/nma-mobile-wizard.h" line="68"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2110,48 +2134,48 @@ is compiled against.</doc>
             c:type="NMAMobileWizardAccessMethod">
       <doc xml:space="preserve"
            filename="src/nma-mobile-wizard.h"
-           line="26">Network access method details.</doc>
-      <source-position filename="src/nma-mobile-wizard.h" line="44"/>
+           line="27">Network access method details.</doc>
+      <source-position filename="src/nma-mobile-wizard.h" line="45"/>
       <field name="provider_name" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="28">The mobile network provider name</doc>
+             line="29">The mobile network provider name</doc>
         <type name="utf8" c:type="char*"/>
       </field>
       <field name="plan_name" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="29">The provided network access billing plan</doc>
+             line="30">The provided network access billing plan</doc>
         <type name="utf8" c:type="char*"/>
       </field>
       <field name="devtype" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="30">Required NetworkManager device capabilities</doc>
+             line="31">Required NetworkManager device capabilities</doc>
         <type name="NM.DeviceModemCapabilities"
               c:type="NMDeviceModemCapabilities"/>
       </field>
       <field name="username" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="31">User login</doc>
+             line="32">User login</doc>
         <type name="utf8" c:type="char*"/>
       </field>
       <field name="password" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="32">User secret</doc>
+             line="33">User secret</doc>
         <type name="utf8" c:type="char*"/>
       </field>
       <field name="gsm_apn" writable="1">
         <doc xml:space="preserve"
              filename="src/nma-mobile-wizard.h"
-             line="33">The GSM Access Point Name</doc>
+             line="34">The GSM Access Point Name</doc>
         <type name="utf8" c:type="char*"/>
       </field>
     </record>
     <callback name="MobileWizardCallback" c:type="NMAMobileWizardCallback">
-      <source-position filename="src/nma-mobile-wizard.h" line="46"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="47"/>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
       </return-value>
@@ -2180,7 +2204,7 @@ is compiled against.</doc>
             disguised="1"
             opaque="1"
             glib:is-gtype-struct-for="MobileWizard">
-      <source-position filename="src/nma-mobile-wizard.h" line="20"/>
+      <source-position filename="src/nma-mobile-wizard.h" line="21"/>
     </record>
     <function-macro name="VPN_IS_PASSWORD_DIALOG"
                     c:identifier="NMA_VPN_IS_PASSWORD_DIALOG"
@@ -2504,7 +2528,7 @@ is compiled against.</doc>
       </parameters>
     </function-macro>
     <function-macro name="WS" c:identifier="NMA_WS" introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws.h" line="29"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2513,7 +2537,7 @@ is compiled against.</doc>
     <function-macro name="WS_802_1X"
                     c:identifier="NMA_WS_802_1X"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="21"/>
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="26"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2522,7 +2546,7 @@ is compiled against.</doc>
     <function-macro name="WS_802_1X_CLASS"
                     c:identifier="NMA_WS_802_1X_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="22"/>
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="27"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2531,7 +2555,7 @@ is compiled against.</doc>
     <function-macro name="WS_802_1X_GET_CLASS"
                     c:identifier="NMA_WS_802_1X_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="30"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2540,7 +2564,7 @@ is compiled against.</doc>
     <function-macro name="WS_DYNAMIC_WEP"
                     c:identifier="NMA_WS_DYNAMIC_WEP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="27"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2549,7 +2573,7 @@ is compiled against.</doc>
     <function-macro name="WS_DYNAMIC_WEP_CLASS"
                     c:identifier="NMA_WS_DYNAMIC_WEP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="28"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2558,7 +2582,7 @@ is compiled against.</doc>
     <function-macro name="WS_DYNAMIC_WEP_GET_CLASS"
                     c:identifier="NMA_WS_DYNAMIC_WEP_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="27"/>
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2567,7 +2591,7 @@ is compiled against.</doc>
     <function-macro name="WS_GET_INTERFACE"
                     c:identifier="NMA_WS_GET_INTERFACE"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2576,7 +2600,7 @@ is compiled against.</doc>
     <function-macro name="WS_LEAP"
                     c:identifier="NMA_WS_LEAP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="27"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2585,7 +2609,7 @@ is compiled against.</doc>
     <function-macro name="WS_LEAP_CLASS"
                     c:identifier="NMA_WS_LEAP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="28"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2594,14 +2618,14 @@ is compiled against.</doc>
     <function-macro name="WS_LEAP_GET_CLASS"
                     c:identifier="NMA_WS_LEAP_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="27"/>
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
       </parameters>
     </function-macro>
     <function-macro name="WS_OWE" c:identifier="NMA_WS_OWE" introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="16"/>
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="20"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2610,7 +2634,7 @@ is compiled against.</doc>
     <function-macro name="WS_OWE_CLASS"
                     c:identifier="NMA_WS_OWE_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="17"/>
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="21"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2619,14 +2643,14 @@ is compiled against.</doc>
     <function-macro name="WS_OWE_GET_CLASS"
                     c:identifier="NMA_WS_OWE_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="20"/>
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="24"/>
       <parameters>
         <parameter name="obj">
         </parameter>
       </parameters>
     </function-macro>
     <function-macro name="WS_SAE" c:identifier="NMA_WS_SAE" introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="21"/>
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="26"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2635,7 +2659,7 @@ is compiled against.</doc>
     <function-macro name="WS_SAE_CLASS"
                     c:identifier="NMA_WS_SAE_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="22"/>
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="27"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2644,7 +2668,7 @@ is compiled against.</doc>
     <function-macro name="WS_SAE_GET_CLASS"
                     c:identifier="NMA_WS_SAE_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="25"/>
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="30"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2653,7 +2677,7 @@ is compiled against.</doc>
     <function-macro name="WS_WEP_KEY"
                     c:identifier="NMA_WS_WEP_KEY"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="27"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2662,7 +2686,7 @@ is compiled against.</doc>
     <function-macro name="WS_WEP_KEY_CLASS"
                     c:identifier="NMA_WS_WEP_KEY_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="28"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2671,7 +2695,7 @@ is compiled against.</doc>
     <function-macro name="WS_WEP_KEY_GET_CLASS"
                     c:identifier="NMA_WS_WEP_KEY_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="27"/>
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2680,7 +2704,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_EAP"
                     c:identifier="NMA_WS_WPA_EAP"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="27"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2689,7 +2713,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_EAP_CLASS"
                     c:identifier="NMA_WS_WPA_EAP_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="28"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2698,7 +2722,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_EAP_GET_CLASS"
                     c:identifier="NMA_WS_WPA_EAP_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="27"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2707,7 +2731,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_PSK"
                     c:identifier="NMA_WS_WPA_PSK"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="23"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="27"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2716,7 +2740,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_PSK_CLASS"
                     c:identifier="NMA_WS_WPA_PSK_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="24"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="28"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -2725,7 +2749,7 @@ is compiled against.</doc>
     <function-macro name="WS_WPA_PSK_GET_CLASS"
                     c:identifier="NMA_WS_WPA_PSK_GET_CLASS"
                     introspectable="0">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="27"/>
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="31"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -2744,7 +2768,7 @@ is compiled against.</doc>
       <constructor name="new" c:identifier="nma_wifi_dialog_new">
         <doc xml:space="preserve"
              filename="src/nma-wifi-dialog.c"
-             line="1373">Creates a wifi connection dialog and populates it with settings from
+             line="1273">Creates a wifi connection dialog and populates it with settings from
 @connection if given.  If @device is not given a device selection combo box
 will be included.  If @connection is not given a connection selection combo
 box will be included.  If @secrets_only is %FALSE a complete connection
@@ -2755,38 +2779,38 @@ will be editable.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-wifi-dialog.c"
-               line="1389">the dialog widget or %NULL in case of error</doc>
+               line="1289">the dialog widget or %NULL in case of error</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <parameter name="client" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1375">client to retrieve list of devices or connections from</doc>
+                 line="1275">client to retrieve list of devices or connections from</doc>
             <type name="NM.Client" c:type="NMClient*"/>
           </parameter>
           <parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1376">connection to be shown/edited or %NULL</doc>
+                 line="1276">connection to be shown/edited or %NULL</doc>
             <type name="NM.Connection" c:type="NMConnection*"/>
           </parameter>
           <parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1377">device to check connection compatibility against</doc>
+                 line="1277">device to check connection compatibility against</doc>
             <type name="NM.Device" c:type="NMDevice*"/>
           </parameter>
           <parameter name="ap" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1378">AP to check connection compatibility against</doc>
+                 line="1278">AP to check connection compatibility against</doc>
             <type name="NM.AccessPoint" c:type="NMAccessPoint*"/>
           </parameter>
           <parameter name="secrets_only" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1379">whether to only ask for secrets for given connection</doc>
+                 line="1279">whether to only ask for secrets for given connection</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -2831,7 +2855,7 @@ will be editable.</doc>
                    c:identifier="nma_wifi_dialog_new_for_secrets">
         <doc xml:space="preserve"
              filename="src/nma-wifi-dialog.c"
-             line="1416">Creates a wifi secrets dialog and populates it with setting values from
+             line="1313">Creates a wifi secrets dialog and populates it with setting values from
 @connection.  If @secrets_setting_name and @secrets_hints are not given
 this function creates an identical dialog as nma_wifi_dialog_new() would
 create with the @secrets_only parameter %TRUE.  Otherwise
@@ -2845,33 +2869,33 @@ Note: only a subset of all settings and setting keys is supported as
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/nma-wifi-dialog.c"
-               line="1436">the dialog widget or %NULL in case of error</doc>
+               line="1333">the dialog widget or %NULL in case of error</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <parameter name="client" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1418">client to retrieve list of devices or connections from</doc>
+                 line="1315">client to retrieve list of devices or connections from</doc>
             <type name="NM.Client" c:type="NMClient*"/>
           </parameter>
           <parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1419">connection for which secrets are requested</doc>
+                 line="1316">connection for which secrets are requested</doc>
             <type name="NM.Connection" c:type="NMConnection*"/>
           </parameter>
           <parameter name="secrets_setting_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1420">setting name whose secrets are requested
+                 line="1317">setting name whose secrets are requested
   or %NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="secrets_hints" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1422">array of setting key names within the setting given in
+                 line="1319">array of setting key names within the setting given in
   @secrets_setting_name which are requested or %NULL</doc>
             <type name="utf8" c:type="const char* const*"/>
           </parameter>
@@ -2887,7 +2911,7 @@ Note: only a subset of all settings and setting keys is supported as
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/nma-wifi-dialog.c"
-                 line="1244">an #NMAWifiDialog</doc>
+                 line="1185">an #NMAWifiDialog</doc>
             <type name="WifiDialog" c:type="NMAWifiDialog*"/>
           </instance-parameter>
           <parameter name="device"
@@ -2942,6 +2966,67 @@ Note: only a subset of all settings and setting keys is supported as
           </parameter>
         </parameters>
       </method>
+      <property name="access-point"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <type name="NM.AccessPoint"/>
+      </property>
+      <property name="client"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <type name="NM.Client"/>
+      </property>
+      <property name="operation"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none"
+                default-value="0">
+        <type name="guint" c:type="guint"/>
+      </property>
+      <property name="secrets-hints"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <array>
+          <type name="utf8"/>
+        </array>
+      </property>
+      <property name="secrets-only"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none"
+                default-value="FALSE">
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <property name="secrets-setting-name"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none"
+                default-value="NULL">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="specific-connection"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <type name="NM.Connection"/>
+      </property>
+      <property name="specific-device"
+                readable="0"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <type name="NM.Device"/>
+      </property>
       <field name="parent">
         <type name="Gtk.Dialog" c:type="GtkDialog"/>
       </field>
@@ -2954,10 +3039,29 @@ Note: only a subset of all settings and setting keys is supported as
         <type name="Gtk.DialogClass" c:type="GtkDialogClass"/>
       </field>
     </record>
-    <record name="Ws" c:type="NMAWs" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws.h" line="15"/>
+    <interface name="Ws"
+               c:symbol-prefix="ws"
+               c:type="NMAWs"
+               glib:type-name="NMAWs"
+               glib:get-type="nma_ws_get_type"
+               glib:type-struct="WsInterface">
+      <source-position filename="src/nma-ws/nma-ws.h" line="22"/>
+      <method name="add_to_size_group" c:identifier="nma_ws_add_to_size_group">
+        <source-position filename="src/nma-ws/nma-ws.h" line="40"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Ws" c:type="NMAWs*"/>
+          </instance-parameter>
+          <parameter name="group" transfer-ownership="none">
+            <type name="Gtk.SizeGroup" c:type="GtkSizeGroup*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="adhoc_compatible" c:identifier="nma_ws_adhoc_compatible">
-        <source-position filename="src/nma-ws/nma-ws.h" line="46"/>
+        <source-position filename="src/nma-ws/nma-ws.h" line="52"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -2965,11 +3069,25 @@ Note: only a subset of all settings and setting keys is supported as
           <instance-parameter name="self" transfer-ownership="none">
             <type name="Ws" c:type="NMAWs*"/>
           </instance-parameter>
+        </parameters>
+      </method>
+      <method name="fill_connection" c:identifier="nma_ws_fill_connection">
+        <source-position filename="src/nma-ws/nma-ws.h" line="44"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Ws" c:type="NMAWs*"/>
+          </instance-parameter>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
         </parameters>
       </method>
       <method name="hotspot_compatible"
               c:identifier="nma_ws_hotspot_compatible">
-        <source-position filename="src/nma-ws/nma-ws.h" line="49"/>
+        <source-position filename="src/nma-ws/nma-ws.h" line="55"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -2977,10 +3095,24 @@ Note: only a subset of all settings and setting keys is supported as
           <instance-parameter name="self" transfer-ownership="none">
             <type name="Ws" c:type="NMAWs*"/>
           </instance-parameter>
+        </parameters>
+      </method>
+      <method name="update_secrets" c:identifier="nma_ws_update_secrets">
+        <source-position filename="src/nma-ws/nma-ws.h" line="48"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Ws" c:type="NMAWs*"/>
+          </instance-parameter>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
         </parameters>
       </method>
       <method name="validate" c:identifier="nma_ws_validate" throws="1">
-        <source-position filename="src/nma-ws/nma-ws.h" line="31"/>
+        <source-position filename="src/nma-ws/nma-ws.h" line="37"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -2990,81 +3122,347 @@ Note: only a subset of all settings and setting keys is supported as
           </instance-parameter>
         </parameters>
       </method>
-    </record>
-    <record name="Ws8021x" c:type="NMAWs8021x" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="13"/>
-    </record>
+      <property name="connection"
+                writable="1"
+                construct="1"
+                transfer-ownership="none">
+        <type name="NM.Connection"/>
+      </property>
+      <property name="secrets-only"
+                writable="1"
+                construct="1"
+                transfer-ownership="none"
+                default-value="FALSE">
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <glib:signal name="ws-changed" when="first">
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+      </glib:signal>
+    </interface>
+    <class name="Ws8021x"
+           c:symbol-prefix="ws_802_1x"
+           c:type="NMAWs8021x"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWs8021x"
+           glib:get-type="nma_ws_802_1x_get_type"
+           glib:type-struct="Ws8021xClass">
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="19"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_802_1x_new">
+        <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="36"/>
+        <return-value transfer-ownership="none">
+          <type name="Ws8021x" c:type="NMAWs8021x*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="is_editor" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <property name="is-editor"
+                writable="1"
+                construct="1"
+                transfer-ownership="none"
+                default-value="FALSE">
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <property name="secrets-hints"
+                writable="1"
+                construct="1"
+                transfer-ownership="none">
+        <array>
+          <type name="utf8"/>
+        </array>
+      </property>
+    </class>
     <record name="Ws8021xClass"
             c:type="NMAWs8021xClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="14"/>
+            opaque="1"
+            glib:is-gtype-struct-for="Ws8021x">
+      <source-position filename="src/nma-ws/nma-ws-802-1x.h" line="19"/>
     </record>
-    <record name="WsDynamicWep"
-            c:type="NMAWsDynamicWep"
-            disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="15"/>
-    </record>
+    <class name="WsDynamicWep"
+           c:symbol-prefix="ws_dynamic_wep"
+           c:type="NMAWsDynamicWep"
+           parent="Ws8021x"
+           glib:type-name="NMAWsDynamicWep"
+           glib:get-type="nma_ws_dynamic_wep_get_type"
+           glib:type-struct="WsDynamicWepClass">
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="20"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_dynamic_wep_new">
+        <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="WsDynamicWep" c:type="NMAWsDynamicWep*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="is_editor" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
     <record name="WsDynamicWepClass"
             c:type="NMAWsDynamicWepClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="WsDynamicWep">
+      <source-position filename="src/nma-ws/nma-ws-dynamic-wep.h" line="20"/>
     </record>
     <record name="WsInterface"
             c:type="NMAWsInterface"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="Ws">
+      <source-position filename="src/nma-ws/nma-ws.h" line="22"/>
     </record>
-    <record name="WsLeap" c:type="NMAWsLeap" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="15"/>
-    </record>
+    <class name="WsLeap"
+           c:symbol-prefix="ws_leap"
+           c:type="NMAWsLeap"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWsLeap"
+           glib:get-type="nma_ws_leap_get_type"
+           glib:type-struct="WsLeapClass">
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="20"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_leap_new">
+        <source-position filename="src/nma-ws/nma-ws-leap.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="WsLeap" c:type="NMAWsLeap*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
     <record name="WsLeapClass"
             c:type="NMAWsLeapClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-leap.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="WsLeap">
+      <source-position filename="src/nma-ws/nma-ws-leap.h" line="20"/>
     </record>
-    <record name="WsOwe" c:type="NMAWsOwe" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="8"/>
+    <class name="WsOwe"
+           c:symbol-prefix="ws_owe"
+           c:type="NMAWsOwe"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWsOwe"
+           glib:get-type="nma_ws_owe_get_type"
+           glib:type-struct="WsOweClass">
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="13"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_owe_new">
+        <source-position filename="src/nma-ws/nma-ws-owe.h" line="30"/>
+        <return-value transfer-ownership="none">
+          <type name="WsOwe" c:type="NMAWsOwe*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
+    <record name="WsOweClass"
+            c:type="NMAWsOweClass"
+            disguised="1"
+            opaque="1"
+            glib:is-gtype-struct-for="WsOwe">
+      <source-position filename="src/nma-ws/nma-ws-owe.h" line="13"/>
     </record>
-    <record name="WsOweClass" c:type="NMAWsOweClass" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-owe.h" line="9"/>
+    <class name="WsSae"
+           c:symbol-prefix="ws_sae"
+           c:type="NMAWsSae"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWsSae"
+           glib:get-type="nma_ws_sae_get_type"
+           glib:type-struct="WsSaeClass">
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="19"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_sae_new">
+        <source-position filename="src/nma-ws/nma-ws-sae.h" line="36"/>
+        <return-value transfer-ownership="none">
+          <type name="WsSae" c:type="NMAWsSae*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
+    <record name="WsSaeClass"
+            c:type="NMAWsSaeClass"
+            disguised="1"
+            opaque="1"
+            glib:is-gtype-struct-for="WsSae">
+      <source-position filename="src/nma-ws/nma-ws-sae.h" line="19"/>
     </record>
-    <record name="WsSae" c:type="NMAWsSae" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="13"/>
-    </record>
-    <record name="WsSaeClass" c:type="NMAWsSaeClass" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-sae.h" line="14"/>
-    </record>
-    <record name="WsWepKey" c:type="NMAWsWepKey" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="15"/>
-    </record>
+    <class name="WsWepKey"
+           c:symbol-prefix="ws_wep_key"
+           c:type="NMAWsWepKey"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWsWepKey"
+           glib:get-type="nma_ws_wep_key_get_type"
+           glib:type-struct="WsWepKeyClass">
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="20"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_wep_key_new">
+        <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="WsWepKey" c:type="NMAWsWepKey*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="type" transfer-ownership="none">
+            <type name="NM.WepKeyType" c:type="NMWepKeyType"/>
+          </parameter>
+          <parameter name="adhoc_create" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <property name="adhoc-create"
+                writable="1"
+                construct="1"
+                transfer-ownership="none"
+                default-value="FALSE">
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <property name="key-type"
+                writable="1"
+                construct="1"
+                transfer-ownership="none"
+                default-value="0">
+        <type name="guint" c:type="guint"/>
+      </property>
+    </class>
     <record name="WsWepKeyClass"
             c:type="NMAWsWepKeyClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="WsWepKey">
+      <source-position filename="src/nma-ws/nma-ws-wep-key.h" line="20"/>
     </record>
-    <record name="WsWpaEap" c:type="NMAWsWpaEap" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="15"/>
-    </record>
+    <class name="WsWpaEap"
+           c:symbol-prefix="ws_wpa_eap"
+           c:type="NMAWsWpaEap"
+           parent="Ws8021x"
+           glib:type-name="NMAWsWpaEap"
+           glib:get-type="nma_ws_wpa_eap_get_type"
+           glib:type-struct="WsWpaEapClass">
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="20"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_wpa_eap_new">
+        <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="WsWpaEap" c:type="NMAWsWpaEap*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="is_editor" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+          <parameter name="secrets_hints" transfer-ownership="none">
+            <type name="utf8" c:type="const char* const*"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
     <record name="WsWpaEapClass"
             c:type="NMAWsWpaEapClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="WsWpaEap">
+      <source-position filename="src/nma-ws/nma-ws-wpa-eap.h" line="20"/>
     </record>
-    <record name="WsWpaPsk" c:type="NMAWsWpaPsk" disguised="1" opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="15"/>
-    </record>
+    <class name="WsWpaPsk"
+           c:symbol-prefix="ws_wpa_psk"
+           c:type="NMAWsWpaPsk"
+           parent="Gtk.Grid"
+           glib:type-name="NMAWsWpaPsk"
+           glib:get-type="nma_ws_wpa_psk_get_type"
+           glib:type-struct="WsWpaPskClass">
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="20"/>
+      <implements name="Atk.ImplementorIface"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.Orientable"/>
+      <implements name="Ws"/>
+      <constructor name="new" c:identifier="nma_ws_wpa_psk_new">
+        <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="WsWpaPsk" c:type="NMAWsWpaPsk*"/>
+        </return-value>
+        <parameters>
+          <parameter name="connection" transfer-ownership="none">
+            <type name="NM.Connection" c:type="NMConnection*"/>
+          </parameter>
+          <parameter name="secrets_only" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </constructor>
+    </class>
     <record name="WsWpaPskClass"
             c:type="NMAWsWpaPskClass"
             disguised="1"
-            opaque="1">
-      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="16"/>
+            opaque="1"
+            glib:is-gtype-struct-for="WsWpaPsk">
+      <source-position filename="src/nma-ws/nma-ws-wpa-psk.h" line="20"/>
     </record>
     <function name="mobile_providers_split_3gpp_mcc_mnc"
               c:identifier="nma_mobile_providers_split_3gpp_mcc_mnc">

@@ -73,7 +73,7 @@ namespace GUsb {
 		[Version (since = "0.1.0")]
 		public async ssize_t bulk_transfer_async (uint8 endpoint, [CCode (array_length_cname = "length", array_length_pos = 2.5, array_length_type = "gsize")] uint8[] data, uint timeout, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "0.1.0")]
-		public bool claim_interface (int @interface, GUsb.DeviceClaimInterfaceFlags flags) throws GLib.Error;
+		public bool claim_interface (int iface, GUsb.DeviceClaimInterfaceFlags flags) throws GLib.Error;
 		[Version (since = "0.4.4")]
 		public void clear_events ();
 		[Version (since = "0.1.0")]
@@ -163,7 +163,7 @@ namespace GUsb {
 		[Version (since = "0.1.0")]
 		public bool open () throws GLib.Error;
 		[Version (since = "0.1.0")]
-		public bool release_interface (int @interface, GUsb.DeviceClaimInterfaceFlags flags) throws GLib.Error;
+		public bool release_interface (int iface, GUsb.DeviceClaimInterfaceFlags flags) throws GLib.Error;
 		[Version (since = "0.4.4")]
 		public void remove_tag (string tag);
 		[Version (since = "0.1.0")]
@@ -171,7 +171,7 @@ namespace GUsb {
 		[Version (since = "0.1.0")]
 		public bool set_configuration (int configuration) throws GLib.Error;
 		[Version (since = "0.2.8")]
-		public bool set_interface_alt (int @interface, uint8 alt) throws GLib.Error;
+		public bool set_interface_alt (int iface, uint8 alt) throws GLib.Error;
 		[NoAccessorMethod]
 		public GUsb.Context context { construct; }
 		[NoAccessorMethod]
@@ -329,7 +329,7 @@ namespace GUsb {
 		CANCELLED,
 		FAILED,
 		PERMISSION_DENIED,
-		LAST
+		BUSY
 	}
 	[CCode (cheader_filename = "gusb.h", cprefix = "G_USB_DEVICE_LANGID_", has_type_id = false)]
 	public enum DeviceLangid {

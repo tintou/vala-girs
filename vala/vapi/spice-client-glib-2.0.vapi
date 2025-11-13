@@ -92,14 +92,29 @@ namespace Spice {
 	public class DisplayChannel : Spice.Channel {
 		[CCode (has_construct_function = false)]
 		protected DisplayChannel ();
+		[CCode (cname = "spice_display_change_preferred_compression")]
+		[Version (deprecated = true, deprecated_since = "0.35", since = "0.31")]
+		public void display_change_preferred_compression (int compression);
+		[CCode (cname = "spice_display_change_preferred_video_codec_type")]
+		[Version (deprecated = true, deprecated_since = "0.35", since = "0.34")]
+		public void display_change_preferred_video_codec_type (int codec_type);
+		[CCode (cname = "spice_display_channel_change_preferred_compression")]
 		[Version (since = "0.35")]
-		public static void change_preferred_compression (Spice.Channel channel, int compression);
+		public void display_channel_change_preferred_compression (int compression);
+		[CCode (cname = "spice_display_channel_change_preferred_video_codec_type")]
+		[Version (deprecated = true, deprecated_since = "0.38", since = "0.35")]
+		public void display_channel_change_preferred_video_codec_type (int codec_type);
+		[CCode (cname = "spice_display_channel_change_preferred_video_codec_types")]
+		[Version (since = "0.38")]
+		public bool display_channel_change_preferred_video_codec_types ([CCode (array_length_cname = "ncodecs", array_length_pos = 1.1, array_length_type = "gsize")] int[] codecs) throws GLib.Error;
+		[CCode (cname = "spice_display_channel_get_primary")]
 		[Version (since = "0.35")]
-		public static void change_preferred_video_codec_type (Spice.Channel channel, int codec_type);
+		public bool display_channel_get_primary (uint32 surface_id, Spice.DisplayPrimary primary);
+		[CCode (cname = "spice_display_get_primary")]
+		[Version (deprecated = true, deprecated_since = "0.35")]
+		public bool display_get_primary (uint32 surface_id, Spice.DisplayPrimary primary);
 		[Version (since = "0.35")]
 		public unowned Spice.GlScanout get_gl_scanout ();
-		[Version (since = "0.35")]
-		public static bool get_primary (Spice.Channel channel, uint32 surface_id, Spice.DisplayPrimary primary);
 		[Version (since = "0.35")]
 		public void gl_draw_done ();
 		[Version (since = "0.31")]
@@ -108,7 +123,7 @@ namespace Spice {
 		public uint height { get; }
 		[NoAccessorMethod]
 		[Version (since = "0.13")]
-		public GLib.Array<void*> monitors { owned get; }
+		public GLib.Array<Spice.DisplayMonitorConfig?> monitors { owned get; }
 		[NoAccessorMethod]
 		[Version (since = "0.13")]
 		public uint monitors_max { get; }
@@ -126,7 +141,7 @@ namespace Spice {
 		public signal void* streaming_mode (bool streaming_mode);
 	}
 	[CCode (cheader_filename = "spice-client.h", type_id = "spice_file_transfer_task_get_type ()")]
-	public class FileTransferTask : GLib.Object {
+	public sealed class FileTransferTask : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected FileTransferTask ();
 		public void cancel ();
@@ -190,9 +205,9 @@ namespace Spice {
 		[Version (since = "0.35")]
 		public bool agent_test_capability (uint32 cap);
 		[Version (since = "0.35")]
-		public void clipboard_selection_grab (uint selection, uint32 types, int ntypes);
+		public void clipboard_selection_grab (uint selection, [CCode (array_length_cname = "ntypes", array_length_pos = 2.1)] uint32[] types);
 		[Version (since = "0.35")]
-		public void clipboard_selection_notify (uint selection, uint32 type, uint8 data, size_t size);
+		public void clipboard_selection_notify (uint selection, uint32 type, [CCode (array_length_cname = "size", array_length_pos = 3.1, array_length_type = "gsize")] uint8[] data);
 		[Version (since = "0.35")]
 		public void clipboard_selection_release (uint selection);
 		[Version (since = "0.35")]
@@ -207,6 +222,8 @@ namespace Spice {
 		public void update_display (int id, int x, int y, int width, int height, bool update);
 		[Version (since = "0.35")]
 		public void update_display_enabled (int id, bool enabled, bool update);
+		[Version (since = "0.39")]
+		public void update_display_mm (int id, int width_mm, int height_mm, bool update);
 		[NoAccessorMethod]
 		public int agent_caps_0 { get; }
 		[NoAccessorMethod]
@@ -232,17 +249,17 @@ namespace Spice {
 		public int mouse_mode { get; }
 		public signal void main_agent_update ();
 		[Version (deprecated = true, deprecated_since = "0.6")]
-		public signal void main_clipboard (uint type, void* data, uint size);
+		public signal void main_clipboard (uint type, [CCode (array_length_cname = "size", array_length_pos = 2.1, array_length_type = "guint")] uint8[] data);
 		[Version (deprecated = true, deprecated_since = "0.6")]
-		public signal bool main_clipboard_grab (void* types, uint ntypes);
+		public signal bool main_clipboard_grab ([CCode (array_length_cname = "ntypes", array_length_pos = 1.1, array_length_type = "guint")] uint32[] types);
 		[Version (deprecated = true, deprecated_since = "0.6")]
 		public signal void main_clipboard_release ();
 		[Version (deprecated = true, deprecated_since = "0.6")]
 		public signal bool main_clipboard_request (uint types);
 		[Version (since = "0.6")]
-		public signal void main_clipboard_selection (uint selection, uint type, void* data, uint size);
+		public signal void main_clipboard_selection (uint selection, uint type, [CCode (array_length_cname = "size", array_length_pos = 3.1, array_length_type = "guint")] uint8[] data);
 		[Version (since = "0.6")]
-		public signal bool main_clipboard_selection_grab (uint selection, void* types, uint ntypes);
+		public signal bool main_clipboard_selection_grab (uint selection, [CCode (array_length_cname = "ntypes", array_length_pos = 2.1, array_length_type = "guint")] uint32[] types);
 		[Version (since = "0.6")]
 		public signal void main_clipboard_selection_release (uint selection);
 		[Version (since = "0.6")]
@@ -297,7 +314,7 @@ namespace Spice {
 	}
 	[CCode (cheader_filename = "spice-client.h", type_id = "spice_qmp_port_get_type ()")]
 	[Version (since = "0.36")]
-	public class QmpPort : GLib.Object {
+	public sealed class QmpPort : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected QmpPort ();
 		public static unowned Spice.QmpPort @get (Spice.PortChannel channel);
@@ -476,7 +493,7 @@ namespace Spice {
 		public bool remove_card ();
 	}
 	[CCode (cheader_filename = "spice-client.h", type_id = "spice_uri_get_type ()")]
-	public class URI : GLib.Object {
+	public sealed class URI : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected URI ();
 		public unowned string get_hostname ();
@@ -507,8 +524,11 @@ namespace Spice {
 	public class UsbDeviceManager : GLib.Object, GLib.Initable {
 		[CCode (has_construct_function = false)]
 		protected UsbDeviceManager ();
+		[Version (since = "0.40")]
+		public Spice.UsbDevice? allocate_device_for_file_descriptor (int file_descriptor) throws GLib.Error;
 		public bool can_redirect_device (Spice.UsbDevice device) throws GLib.Error;
 		public async bool connect_device_async (Spice.UsbDevice device, GLib.Cancellable? cancellable) throws GLib.Error;
+		public bool create_shared_cd_device (string filename) throws GLib.Error;
 		public void disconnect_device (Spice.UsbDevice device);
 		[Version (since = "0.32")]
 		public async bool disconnect_device_async (Spice.UsbDevice device, GLib.Cancellable? cancellable) throws GLib.Error;
@@ -517,6 +537,7 @@ namespace Spice {
 		[Version (since = "0.20")]
 		public GLib.GenericArray<Spice.UsbDevice> get_devices_with_filter (string? filter);
 		public bool is_device_connected (Spice.UsbDevice device);
+		public bool is_device_shared_cd (Spice.UsbDevice device);
 		[Version (since = "0.32")]
 		public bool is_redirecting ();
 		[NoAccessorMethod]
@@ -540,7 +561,7 @@ namespace Spice {
 		[CCode (has_construct_function = false)]
 		protected UsbredirChannel ();
 	}
-	[CCode (cheader_filename = "spice-client.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", lower_case_csuffix = "smartcard_reader", type_id = "spice_smartcard_reader_get_type ()")]
+	[CCode (cheader_filename = "spice-client.h", cname = "VReader", copy_function = "g_boxed_copy", free_function = "g_boxed_free", lower_case_csuffix = "smartcard_reader", type_id = "spice_smartcard_reader_get_type ()")]
 	[Compact]
 	public class VReader {
 	}
@@ -611,7 +632,7 @@ namespace Spice {
 		HOSTNAME,
 		SUBJECT
 	}
-	[CCode (cheader_filename = "spice-client.h", cprefix = "SPICE_CLIENT_ERROR_")]
+	[CCode (cheader_filename = "spice-client.h", cprefix = "SPICE_CLIENT_ERROR_", has_type_id = false)]
 	public errordomain ClientError {
 		FAILED,
 		USB_DEVICE_REJECTED,
@@ -633,18 +654,11 @@ namespace Spice {
 	[CCode (cheader_filename = "spice-client.h", cname = "SPICE_GTK_MINOR_VERSION")]
 	[Version (since = "0.24")]
 	public const int GTK_MINOR_VERSION;
-	[CCode (cheader_filename = "spice-client.h")]
-	[Version (deprecated = true, deprecated_since = "0.35", since = "0.31")]
-	public static void display_change_preferred_compression (Spice.Channel channel, int compression);
-	[CCode (cheader_filename = "spice-client.h")]
-	[Version (deprecated = true, deprecated_since = "0.35", since = "0.34")]
-	public static void display_change_preferred_video_codec_type (Spice.Channel channel, int codec_type);
+	[CCode (cheader_filename = "spice-client.h", cname = "SPICE_WEBDAV_CLIPBOARD_FOLDER_PATH")]
+	public const string WEBDAV_CLIPBOARD_FOLDER_PATH;
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.35", since = "0.31")]
 	public static unowned Spice.GlScanout display_get_gl_scanout (Spice.DisplayChannel channel);
-	[CCode (cheader_filename = "spice-client.h")]
-	[Version (deprecated = true, deprecated_since = "0.35")]
-	public static bool display_get_primary (Spice.Channel channel, uint32 surface_id, Spice.DisplayPrimary primary);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.35", since = "0.31")]
 	public static void display_gl_draw_done (Spice.DisplayChannel channel);
@@ -679,10 +693,10 @@ namespace Spice {
 	public static bool main_agent_test_capability (Spice.MainChannel channel, uint32 cap);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.6")]
-	public static void main_clipboard_grab (Spice.MainChannel channel, uint32 types, int ntypes);
+	public static void main_clipboard_grab (Spice.MainChannel channel, [CCode (array_length_cname = "ntypes", array_length_pos = 2.1)] uint32[] types);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.6")]
-	public static void main_clipboard_notify (Spice.MainChannel channel, uint32 type, uint8 data, size_t size);
+	public static void main_clipboard_notify (Spice.MainChannel channel, uint32 type, [CCode (array_length_cname = "size", array_length_pos = 3.1, array_length_type = "gsize")] uint8[] data);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.6")]
 	public static void main_clipboard_release (Spice.MainChannel channel);
@@ -691,10 +705,10 @@ namespace Spice {
 	public static void main_clipboard_request (Spice.MainChannel channel, uint32 type);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.35", since = "0.6")]
-	public static void main_clipboard_selection_grab (Spice.MainChannel channel, uint selection, uint32 types, int ntypes);
+	public static void main_clipboard_selection_grab (Spice.MainChannel channel, uint selection, [CCode (array_length_cname = "ntypes", array_length_pos = 3.1)] uint32[] types);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.35", since = "0.6")]
-	public static void main_clipboard_selection_notify (Spice.MainChannel channel, uint selection, uint32 type, uint8 data, size_t size);
+	public static void main_clipboard_selection_notify (Spice.MainChannel channel, uint selection, uint32 type, [CCode (array_length_cname = "size", array_length_pos = 4.1, array_length_type = "gsize")] uint8[] data);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (deprecated = true, deprecated_since = "0.35", since = "0.6")]
 	public static void main_clipboard_selection_release (Spice.MainChannel channel, uint selection);
@@ -741,5 +755,5 @@ namespace Spice {
 	public static void util_set_debug (bool enabled);
 	[CCode (cheader_filename = "spice-client.h")]
 	[Version (since = "0.22")]
-	public static string uuid_to_string (uint8 uuid);
+	public static string uuid_to_string ([CCode (array_length = false)] uint8 uuid[16]);
 }

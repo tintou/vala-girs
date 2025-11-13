@@ -177,6 +177,15 @@ namespace GVirConfig {
 		public void set_bus (uint16 bus);
 		public void set_port (string port);
 	}
+	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", type_id = "gvir_config_domain_audio_get_type ()")]
+	public class DomainAudio : GVirConfig.DomainDevice {
+		[CCode (has_construct_function = false)]
+		public DomainAudio ();
+		[CCode (has_construct_function = false)]
+		public DomainAudio.from_xml (string xml) throws GLib.Error;
+		public void set_backend (GVirConfig.DomainAudioBackend backend);
+		public void set_server_name (string server_name);
+	}
 	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", type_id = "gvir_config_domain_capabilities_get_type ()")]
 	public class DomainCapabilities : GVirConfig.Object {
 		[CCode (has_construct_function = false)]
@@ -396,6 +405,16 @@ namespace GVirConfig {
 		[CCode (has_construct_function = false)]
 		protected DomainGraphics ();
 	}
+	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", type_id = "gvir_config_domain_graphics_dbus_get_type ()")]
+	public class DomainGraphicsDBus : GVirConfig.DomainGraphics {
+		[CCode (has_construct_function = false)]
+		public DomainGraphicsDBus ();
+		[CCode (has_construct_function = false)]
+		public DomainGraphicsDBus.from_xml (string xml) throws GLib.Error;
+		public unowned string get_address ();
+		public void set_address (string address);
+		public void set_gl (bool gl);
+	}
 	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", type_id = "gvir_config_domain_graphics_desktop_get_type ()")]
 	public class DomainGraphicsDesktop : GVirConfig.DomainGraphics {
 		[CCode (has_construct_function = false)]
@@ -570,6 +589,7 @@ namespace GVirConfig {
 		public DomainOs ();
 		public void bios_enable_serial (bool enable);
 		public void enable_boot_menu (bool enable);
+		public void enable_firmware_feature (string name, bool enable);
 		[CCode (has_construct_function = false)]
 		public DomainOs.from_xml (string xml) throws GLib.Error;
 		public unowned string get_arch ();
@@ -669,7 +689,7 @@ namespace GVirConfig {
 		public void add_disk (GVirConfig.DomainSnapshotDisk disk);
 		[CCode (has_construct_function = false)]
 		public DomainSnapshot.from_xml (string xml) throws GLib.Error;
-		public long get_creation_time ();
+		public time_t get_creation_time ();
 		public unowned string get_description ();
 		public GLib.List<GVirConfig.DomainSnapshotDisk> get_disks ();
 		public GVirConfig.Domain get_domain ();
@@ -903,6 +923,18 @@ namespace GVirConfig {
 		public void set_features (uint64 features);
 		public void set_format (string format);
 		public void set_permissions (GVirConfig.StoragePermissions? perms);
+	}
+	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", cprefix = "GVIR_CONFIG_DOMAIN_AUDIO_BACKEND_", type_id = "gvir_config_domain_audio_backend_get_type ()")]
+	public enum DomainAudioBackend {
+		NONE,
+		ALSA,
+		COREAUDIO,
+		JACK,
+		OSS,
+		PULSEAUDIO,
+		SDL,
+		SPICE,
+		FILE
 	}
 	[CCode (cheader_filename = "libvirt-gconfig/libvirt-gconfig.h", cprefix = "GVIR_CONFIG_DOMAIN_CHANNEL_TARGET_", type_id = "gvir_config_domain_channel_target_type_get_type ()")]
 	public enum DomainChannelTargetType {

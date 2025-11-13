@@ -28,7 +28,7 @@ namespace GWeather {
 		public string get_temp_max ();
 		public string get_temp_min ();
 		public string get_temp_summary ();
-		public bool get_upcoming_moonphases (long phases);
+		public bool get_upcoming_moonphases (time_t phases);
 		public string get_update ();
 		public bool get_value_apparent (GWeather.TemperatureUnit unit, out double value);
 		public bool get_value_conditions (out GWeather.ConditionPhenomenon phenomenon, out GWeather.ConditionQualifier qualifier);
@@ -41,7 +41,7 @@ namespace GWeather {
 		public bool get_value_temp (GWeather.TemperatureUnit unit, out double value);
 		public bool get_value_temp_max (GWeather.TemperatureUnit unit, out double value);
 		public bool get_value_temp_min (GWeather.TemperatureUnit unit, out double value);
-		public bool get_value_update (out long value);
+		public bool get_value_update (out time_t value);
 		public bool get_value_visibility (GWeather.DistanceUnit unit, out double value);
 		public bool get_value_wind (GWeather.SpeedUnit unit, out double speed, out GWeather.WindDirection direction);
 		public string get_visibility ();

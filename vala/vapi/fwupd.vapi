@@ -2,6 +2,62 @@
 
 [CCode (cprefix = "Fwupd", gir_namespace = "Fwupd", gir_version = "2.0", lower_case_cprefix = "fwupd_")]
 namespace Fwupd {
+	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_bios_setting_get_type ()")]
+	public class BiosSetting : GLib.Object, Fwupd.Codec {
+		[CCode (has_construct_function = false)]
+		[Version (since = "1.8.4")]
+		public BiosSetting (string? name, string? path);
+		[Version (since = "1.8.4")]
+		public void add_possible_value (string possible_value);
+		[Version (since = "1.8.4")]
+		public unowned string get_current_value ();
+		[Version (since = "1.8.4")]
+		public unowned string get_description ();
+		[Version (since = "1.8.4")]
+		public unowned string get_id ();
+		[Version (since = "1.8.4")]
+		public Fwupd.BiosSettingKind get_kind ();
+		[Version (since = "1.8.4")]
+		public uint64 get_lower_bound ();
+		[Version (since = "1.8.4")]
+		public unowned string get_name ();
+		[Version (since = "1.8.4")]
+		public unowned string? get_path ();
+		[Version (since = "1.8.4")]
+		public GLib.GenericArray<weak string> get_possible_values ();
+		[Version (since = "1.8.4")]
+		public bool get_read_only ();
+		[Version (since = "1.8.4")]
+		public uint64 get_scalar_increment ();
+		[Version (since = "1.8.4")]
+		public uint64 get_upper_bound ();
+		[Version (since = "1.8.4")]
+		public bool has_possible_value (string val);
+		[Version (since = "1.8.4")]
+		public unowned string map_possible_value (string key) throws GLib.Error;
+		[Version (since = "1.8.4")]
+		public void set_current_value (string? value);
+		[Version (since = "1.8.4")]
+		public void set_description (string? description);
+		[Version (since = "1.8.4")]
+		public void set_id (string id);
+		[Version (since = "1.8.4")]
+		public void set_kind (Fwupd.BiosSettingKind type);
+		[Version (since = "1.8.4")]
+		public void set_lower_bound (uint64 val);
+		[Version (since = "1.8.4")]
+		public void set_name (string? name);
+		[Version (since = "1.8.4")]
+		public void set_path (string? path);
+		[Version (since = "1.8.4")]
+		public void set_read_only (bool val);
+		[Version (since = "1.8.4")]
+		public void set_scalar_increment (uint64 val);
+		[Version (since = "1.8.4")]
+		public void set_upper_bound (uint64 val);
+		[Version (since = "1.9.4")]
+		public virtual bool write_value (string value) throws GLib.Error;
+	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_client_get_type ()")]
 	public class Client : GLib.Object {
 		[CCode (has_construct_function = false)]
@@ -11,12 +67,18 @@ namespace Fwupd {
 		public bool activate (GLib.Cancellable? cancellable, string device_id) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool activate_async (string device_id, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.7.1")]
+		public void add_hint (string key, string? value);
+		[Version (since = "1.9.20")]
+		public string build_report_devices (GLib.GenericArray<Fwupd.Device> devices, GLib.HashTable<string,string> metadata) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public string build_report_history (GLib.GenericArray<Fwupd.Device> devices, Fwupd.Remote? remote, GLib.HashTable<string,string> metadata) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public string build_report_security (GLib.GenericArray<Fwupd.SecurityAttr> attrs, GLib.HashTable<string,string> metadata) throws GLib.Error;
 		[Version (since = "0.7.0")]
 		public bool clear_results (string device_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool clear_results_async (string device_id, GLib.Cancellable? cancellable) throws GLib.Error;
-		[Version (since = "0.7.1")]
-		public bool connect (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool connect_async (GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.4.5")]
@@ -25,13 +87,35 @@ namespace Fwupd {
 		public async GLib.Bytes download_bytes_async (string url, Fwupd.ClientDownloadFlags flags, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.5.2")]
 		public bool download_file (string url, GLib.File file, Fwupd.ClientDownloadFlags flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.9.19")]
+		public void download_set_retries (uint retries);
+		[Version (since = "2.0.0")]
+		public bool emulation_load (string filename, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public async bool emulation_load_async (string filename, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public bool emulation_save (string filename, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public async bool emulation_save_async (string filename, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.4.5")]
 		public bool ensure_networking () throws GLib.Error;
+		[Version (since = "1.9.6")]
+		public bool fix_host_security_attr (string appstream_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.9.6")]
+		public async bool fix_host_security_attr_async (string appstream_id, GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (array_length = false, array_null_terminated = true)]
 		[Version (since = "1.2.6")]
 		public string[] get_approved_firmware (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async GLib.GenericArray<weak string> get_approved_firmware_async (GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.8.1")]
+		public uint32 get_battery_level ();
+		[Version (since = "1.8.1")]
+		public uint32 get_battery_threshold ();
+		[Version (since = "1.8.4")]
+		public GLib.GenericArray<weak Fwupd.BiosSetting> get_bios_settings (GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.8.4")]
+		public async GLib.GenericArray<weak Fwupd.BiosSetting> get_bios_settings_async (GLib.Cancellable? cancellable) throws GLib.Error;
 		[CCode (array_length = false, array_null_terminated = true)]
 		[Version (since = "1.4.6")]
 		public string[] get_blocked_firmware (GLib.Cancellable? cancellable = null) throws GLib.Error;
@@ -43,6 +127,8 @@ namespace Fwupd {
 		public unowned string get_daemon_version ();
 		[Version (since = "1.0.0")]
 		public GLib.GenericArray<weak Fwupd.Device> get_details (string filename, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.1")]
+		public async GLib.GenericArray<weak Fwupd.Device> get_details_async (string filename, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public GLib.GenericArray<weak Fwupd.Device> get_details_bytes (GLib.Bytes bytes, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -67,6 +153,8 @@ namespace Fwupd {
 		public GLib.GenericArray<weak Fwupd.Device> get_history (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async GLib.GenericArray<weak Fwupd.Device> get_history_async (GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.7.3")]
+		public unowned string get_host_bkc ();
 		[Version (since = "1.3.2")]
 		public unowned string get_host_machine_id ();
 		[Version (since = "1.3.1")]
@@ -75,10 +163,18 @@ namespace Fwupd {
 		public GLib.GenericArray<weak Fwupd.SecurityAttr> get_host_security_attrs (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async GLib.GenericArray<weak Fwupd.SecurityAttr> get_host_security_attrs_async (GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.7.1")]
+		public GLib.GenericArray<weak Fwupd.SecurityAttr> get_host_security_events (uint limit, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.7.1")]
+		public async GLib.GenericArray<weak Fwupd.SecurityAttr> get_host_security_events_async (uint limit, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public unowned string get_host_security_id ();
+		[Version (since = "1.8.2")]
+		public unowned string get_host_vendor ();
 		[Version (since = "1.5.3")]
 		public GLib.MainContext get_main_context ();
+		[Version (since = "1.8.0")]
+		public bool get_only_trusted ();
 		[Version (since = "0.7.3")]
 		public uint get_percentage ();
 		[Version (since = "1.5.0")]
@@ -115,6 +211,10 @@ namespace Fwupd {
 		public async GLib.GenericArray<weak Fwupd.Release> get_upgrades_async (string device_id, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.5.2")]
 		public unowned string get_user_agent ();
+		[Version (since = "1.8.11")]
+		public string inhibit (string reason, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.8.11")]
+		public async string inhibit_async (string reason, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "0.7.0")]
 		public bool install (string device_id, string filename, Fwupd.InstallFlags install_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -123,18 +223,18 @@ namespace Fwupd {
 		public bool install_bytes (string device_id, GLib.Bytes bytes, Fwupd.InstallFlags install_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool install_bytes_async (string device_id, GLib.Bytes bytes, Fwupd.InstallFlags install_flags, GLib.Cancellable? cancellable) throws GLib.Error;
-		[Version (deprecated = true, deprecated_since = "1.5.6", since = "1.4.5")]
-		public bool install_release (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[Version (since = "1.5.6")]
-		public bool install_release2 (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[Version (since = "1.5.6")]
-		public async void install_release2_async (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable);
-		[Version (deprecated = true, deprecated_since = "1.5.6", since = "1.5.0")]
-		public async bool install_release_async (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, GLib.Cancellable? cancellable) throws GLib.Error;
-		[Version (since = "1.2.8")]
-		public bool modify_config (string key, string value, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[Version (since = "1.5.0")]
-		public async bool modify_config_async (string key, string value, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public bool install_release (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public async bool install_release_async (Fwupd.Device device, Fwupd.Release release, Fwupd.InstallFlags install_flags, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.8.4")]
+		public bool modify_bios_setting (owned GLib.HashTable<void*,void*> settings, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.8.4")]
+		public async bool modify_bios_setting_async (owned GLib.HashTable<void*,void*> settings, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public bool modify_config (string section, string key, string value, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public async bool modify_config_async (string section, string key, string value, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.0.4")]
 		public bool modify_device (string device_id, string key, string value, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -143,10 +243,16 @@ namespace Fwupd {
 		public bool modify_remote (string remote_id, string key, string value, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool modify_remote_async (string remote_id, string key, string value, GLib.Cancellable? cancellable) throws GLib.Error;
-		[Version (since = "1.4.5")]
-		public bool refresh_remote (Fwupd.Remote remote, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		[Version (since = "1.5.0")]
-		public async bool refresh_remote_async (Fwupd.Remote remote, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.8.11")]
+		public async bool quit_async (GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public bool refresh_remote (Fwupd.Remote remote, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public async bool refresh_remote_async (Fwupd.Remote remote, Fwupd.ClientDownloadFlags download_flags, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.9.15")]
+		public bool reset_config (string section, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.9.15")]
+		public async bool reset_config_async (string section, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "1.2.6")]
 		public string self_sign (string value, Fwupd.SelfSignFlags flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -159,6 +265,8 @@ namespace Fwupd {
 		public bool set_blocked_firmware (string checksums, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool set_blocked_firmware_async (GLib.GenericArray<string> checksums, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.8.11")]
+		public void set_daemon_version (string daemon_version);
 		[Version (since = "1.4.5")]
 		public bool set_feature_flags (Fwupd.FeatureFlags feature_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -169,6 +277,14 @@ namespace Fwupd {
 		public void set_user_agent (string user_agent);
 		[Version (since = "1.4.5")]
 		public void set_user_agent_for_package (string package_name, string package_version);
+		[Version (since = "1.9.6")]
+		public bool undo_host_security_attr (string appstream_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.9.6")]
+		public async bool undo_host_security_attr_async (string appstream_id, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.8.11")]
+		public bool uninhibit (string inhibit_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.8.11")]
+		public async bool uninhibit_async (string inhibit_id, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "0.7.0")]
 		public bool @unlock (string device_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -183,6 +299,10 @@ namespace Fwupd {
 		public GLib.Bytes upload_bytes (string url, string payload, string? signature, Fwupd.ClientUploadFlags flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async GLib.Bytes upload_bytes_async (string url, string payload, string? signature, Fwupd.ClientUploadFlags flags, GLib.Cancellable? cancellable) throws GLib.Error;
+		[Version (since = "1.9.20")]
+		public string upload_report (string url, string payload, string? signature, Fwupd.ClientUploadFlags flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "1.9.20")]
+		public async string upload_report_async (string url, string payload, string? signature, Fwupd.ClientUploadFlags flags, GLib.Cancellable? cancellable) throws GLib.Error;
 		[Version (since = "0.7.0")]
 		public bool verify (string device_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
@@ -191,23 +311,37 @@ namespace Fwupd {
 		public bool verify_update (string device_id, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.5.0")]
 		public async bool verify_update_async (string device_id, GLib.Cancellable? cancellable) throws GLib.Error;
+		[NoAccessorMethod]
+		[Version (since = "1.8.1")]
+		public uint battery_level { get; set; }
+		[NoAccessorMethod]
+		[Version (since = "1.8.1")]
+		public uint battery_threshold { get; set; }
 		[Version (since = "0.9.6")]
 		public string daemon_version { get; }
+		[NoAccessorMethod]
+		[Version (since = "1.7.3")]
+		public string host_bkc { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "1.3.2")]
-		public string host_machine_id { get; }
+		public string host_machine_id { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "1.3.1")]
-		public string host_product { get; }
+		public string host_product { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "1.5.0")]
-		public string host_security_id { get; }
+		public string host_security_id { owned get; set; }
+		[NoAccessorMethod]
+		[Version (since = "1.8.2")]
+		public string host_vendor { owned get; set; }
 		[NoAccessorMethod]
 		[Version (since = "1.3.4")]
 		public bool interactive { get; }
+		[Version (since = "1.8.0")]
+		public bool only_trusted { get; }
 		[NoAccessorMethod]
 		[Version (since = "0.7.3")]
 		public uint percentage { get; set; }
-		[NoAccessorMethod]
-		[Version (since = "1.4.5")]
-		public GLib.Object soup_session { owned get; }
 		[NoAccessorMethod]
 		[Version (since = "0.7.0")]
 		public uint status { get; set; }
@@ -221,10 +355,12 @@ namespace Fwupd {
 		public virtual signal void device_changed (Fwupd.Device result);
 		[Version (since = "0.7.1")]
 		public virtual signal void device_removed (Fwupd.Device result);
+		[Version (since = "1.6.2")]
+		public virtual signal void device_request (Fwupd.Request request);
 		public virtual signal void status_changed (uint status);
 	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_device_get_type ()")]
-	public class Device : GLib.Object {
+	public class Device : GLib.Object, Fwupd.Codec {
 		[CCode (has_construct_function = false)]
 		[Version (since = "0.9.3")]
 		public Device ();
@@ -240,32 +376,42 @@ namespace Fwupd {
 		public void add_icon (string icon);
 		[Version (since = "1.2.5")]
 		public void add_instance_id (string instance_id);
+		[Version (since = "1.7.6")]
+		public void add_issue (string issue);
+		[Version (since = "1.8.1")]
+		public void add_problem (Fwupd.DeviceProblem problem);
+		[Version (since = "1.5.8")]
+		public void add_protocol (string protocol);
 		[Version (since = "0.9.8")]
 		public void add_release (Fwupd.Release release);
+		[Version (since = "1.9.10")]
+		public void add_request_flag (Fwupd.RequestFlags request_flag);
 		[Version (since = "1.5.5")]
 		public void add_vendor_id (string vendor_id);
 		[Version (since = "1.3.7")]
 		public static void array_ensure_parents (GLib.GenericArray<Fwupd.Device> devices);
-		[Version (since = "1.2.10")]
-		public static GLib.GenericArray<weak Fwupd.Device> array_from_variant (GLib.Variant value);
+		[Version (since = "1.9.3")]
+		public static GLib.GenericArray<weak Fwupd.Device> array_filter_flags (GLib.GenericArray<Fwupd.Device> devices, Fwupd.DeviceFlags include, Fwupd.DeviceFlags exclude) throws GLib.Error;
 		[Version (since = "1.1.1")]
-		public int compare (Fwupd.Device device2);
+		public int compare (Fwupd.Device self2);
 		[Version (since = "0.7.0")]
-		public static Fwupd.DeviceFlags flag_from_string (string device_flag);
+		public static Fwupd.DeviceFlags flag_from_string (string? device_flag);
 		[Version (since = "0.7.0")]
 		public static unowned string flag_to_string (Fwupd.DeviceFlags device_flag);
-		[Version (since = "1.0.0")]
-		public static Fwupd.Device from_variant (GLib.Variant value);
+		[Version (since = "1.8.1")]
+		public uint32 get_battery_level ();
+		[Version (since = "1.8.1")]
+		public uint32 get_battery_threshold ();
 		[Version (since = "1.5.0")]
 		public unowned string get_branch ();
 		[Version (since = "0.9.3")]
 		public unowned GLib.GenericArray<string> get_checksums ();
 		[Version (since = "1.3.7")]
 		public unowned GLib.GenericArray<Fwupd.Device> get_children ();
+		[Version (since = "1.6.0")]
+		public unowned string? get_composite_id ();
 		[Version (since = "0.9.3")]
 		public uint64 get_created ();
-		[Version (since = "0.9.3")]
-		public unowned string get_description ();
 		[Version (since = "0.9.3")]
 		public uint64 get_flags ();
 		[Version (since = "0.9.3")]
@@ -282,6 +428,8 @@ namespace Fwupd {
 		public uint32 get_install_duration ();
 		[Version (since = "1.2.5")]
 		public unowned GLib.GenericArray<string> get_instance_ids ();
+		[Version (since = "1.7.6")]
+		public unowned GLib.GenericArray<string> get_issues ();
 		[Version (since = "0.9.3")]
 		public uint64 get_modified ();
 		[Version (since = "0.9.3")]
@@ -290,14 +438,22 @@ namespace Fwupd {
 		public unowned Fwupd.Device get_parent ();
 		[Version (since = "1.0.8")]
 		public unowned string get_parent_id ();
+		[Version (since = "1.8.11")]
+		public uint get_percentage ();
 		[Version (since = "1.0.0")]
 		public unowned string get_plugin ();
-		[Version (since = "1.3.6")]
-		public unowned string get_protocol ();
+		[Version (since = "1.8.1")]
+		public uint64 get_problems ();
+		[Version (since = "1.5.8")]
+		public unowned GLib.GenericArray<string> get_protocols ();
 		[Version (since = "0.9.8")]
 		public unowned Fwupd.Release get_release_default ();
 		[Version (since = "0.9.8")]
 		public unowned GLib.GenericArray<Fwupd.Release> get_releases ();
+		[Version (since = "1.9.10")]
+		public uint64 get_request_flags ();
+		[Version (since = "1.7.4")]
+		public unowned Fwupd.Device get_root ();
 		[Version (since = "1.1.2")]
 		public unowned string get_serial ();
 		[Version (since = "1.4.0")]
@@ -306,16 +462,10 @@ namespace Fwupd {
 		public unowned string get_summary ();
 		[Version (since = "0.9.8")]
 		public unowned string get_update_error ();
-		[Version (since = "1.4.5")]
-		public unowned string get_update_image ();
-		[Version (since = "1.2.4")]
-		public unowned string get_update_message ();
 		[Version (since = "0.9.8")]
 		public Fwupd.UpdateState get_update_state ();
 		[Version (since = "0.9.3")]
 		public unowned string get_vendor ();
-		[Version (deprecated = true, deprecated_since = "1.5.5", since = "0.9.4")]
-		public unowned string get_vendor_id ();
 		[Version (since = "1.5.5")]
 		public unowned GLib.GenericArray<string> get_vendor_ids ();
 		[Version (since = "0.9.3")]
@@ -324,6 +474,8 @@ namespace Fwupd {
 		public unowned string get_version_bootloader ();
 		[Version (since = "1.4.0")]
 		public uint64 get_version_bootloader_raw ();
+		[Version (since = "1.6.2")]
+		public uint64 get_version_build_date ();
 		[Version (since = "1.2.9")]
 		public Fwupd.VersionFormat get_version_format ();
 		[Version (since = "0.9.3")]
@@ -332,106 +484,144 @@ namespace Fwupd {
 		public uint64 get_version_lowest_raw ();
 		[Version (since = "1.3.6")]
 		public uint64 get_version_raw ();
+		[Version (since = "1.8.7")]
+		public bool has_checksum (string checksum);
 		[Version (since = "0.9.3")]
 		public bool has_flag (Fwupd.DeviceFlags flag);
 		[Version (since = "0.9.3")]
 		public bool has_guid (string guid);
+		[Version (since = "1.6.2")]
+		public bool has_icon (string icon);
 		[Version (since = "1.2.5")]
 		public bool has_instance_id (string instance_id);
+		[Version (since = "1.8.1")]
+		public bool has_problem (Fwupd.DeviceProblem problem);
+		[Version (since = "1.5.8")]
+		public bool has_protocol (string protocol);
+		[Version (since = "1.9.10")]
+		public bool has_request_flag (Fwupd.RequestFlags request_flag);
 		[Version (since = "1.5.5")]
 		public bool has_vendor_id (string vendor_id);
 		[Version (since = "1.4.1")]
 		public static bool id_is_valid (string device_id);
 		[Version (since = "1.1.0")]
 		public void incorporate (Fwupd.Device donor);
+		[Version (since = "1.9.3")]
+		public bool match_flags (Fwupd.DeviceFlags include, Fwupd.DeviceFlags exclude);
+		[Version (since = "1.8.1")]
+		public static Fwupd.DeviceProblem problem_from_string (string? device_problem);
+		[Version (since = "1.8.1")]
+		public static unowned string problem_to_string (Fwupd.DeviceProblem device_problem);
+		[Version (since = "1.6.2")]
+		public void remove_child (Fwupd.Device child);
+		[Version (since = "2.0.0")]
+		public void remove_children ();
 		[Version (since = "0.9.3")]
 		public void remove_flag (Fwupd.DeviceFlags flag);
+		[Version (since = "1.8.1")]
+		public void remove_problem (Fwupd.DeviceProblem problem);
+		[Version (since = "1.9.10")]
+		public void remove_request_flag (Fwupd.RequestFlags request_flag);
+		[Version (since = "1.8.1")]
+		public void set_battery_level (uint32 battery_level);
+		[Version (since = "1.8.1")]
+		public void set_battery_threshold (uint32 battery_threshold);
 		[Version (since = "1.5.0")]
-		public void set_branch (string branch);
+		public void set_branch (string? branch);
+		[Version (since = "1.6.0")]
+		public void set_composite_id (string? composite_id);
 		[Version (since = "0.9.3")]
 		public void set_created (uint64 created);
-		[Version (since = "0.9.3")]
-		public void set_description (string description);
 		[Version (since = "0.9.3")]
 		public void set_flags (uint64 flags);
 		[Version (since = "0.9.3")]
 		public void set_flashes_left (uint32 flashes_left);
 		[Version (since = "0.9.3")]
-		public void set_id (string id);
+		public void set_id (string? id);
 		[Version (since = "1.1.3")]
 		public void set_install_duration (uint32 duration);
 		[Version (since = "0.9.3")]
 		public void set_modified (uint64 modified);
 		[Version (since = "0.9.3")]
-		public void set_name (string name);
+		public void set_name (string? name);
 		[Version (since = "1.0.8")]
-		public void set_parent (Fwupd.Device parent);
+		public void set_parent (Fwupd.Device? parent);
 		[Version (since = "1.0.8")]
-		public void set_parent_id (string parent_id);
+		public void set_parent_id (string? parent_id);
+		[Version (since = "1.8.11")]
+		public void set_percentage (uint percentage);
 		[Version (since = "1.0.0")]
-		public void set_plugin (string plugin);
-		[Version (since = "1.3.6")]
-		public void set_protocol (string protocol);
+		public void set_plugin (string? plugin);
+		[Version (since = "1.8.1")]
+		public void set_problems (uint64 problems);
+		[Version (since = "1.9.10")]
+		public void set_request_flags (uint64 request_flags);
 		[Version (since = "1.1.2")]
-		public void set_serial (string serial);
+		public void set_serial (string? serial);
 		[Version (since = "1.4.0")]
 		public void set_status (Fwupd.Status status);
 		[Version (since = "0.9.3")]
-		public void set_summary (string summary);
+		public void set_summary (string? summary);
 		[Version (since = "0.9.8")]
-		public void set_update_error (string update_error);
-		[Version (since = "1.4.5")]
-		public void set_update_image (string update_image);
-		[Version (since = "1.2.4")]
-		public void set_update_message (string update_message);
+		public void set_update_error (string? update_error);
 		[Version (since = "0.9.8")]
 		public void set_update_state (Fwupd.UpdateState update_state);
 		[Version (since = "0.9.3")]
-		public void set_vendor (string vendor);
-		[Version (deprecated = true, deprecated_since = "1.5.5", since = "0.9.4")]
-		public void set_vendor_id (string vendor_id);
+		public void set_vendor (string? vendor);
 		[Version (since = "0.9.3")]
-		public void set_version (string version);
+		public void set_version (string? version);
 		[Version (since = "0.9.3")]
-		public void set_version_bootloader (string version_bootloader);
+		public void set_version_bootloader (string? version_bootloader);
 		[Version (since = "1.4.0")]
 		public void set_version_bootloader_raw (uint64 version_bootloader_raw);
+		[Version (since = "1.6.2")]
+		public void set_version_build_date (uint64 version_build_date);
 		[Version (since = "1.2.9")]
 		public void set_version_format (Fwupd.VersionFormat version_format);
 		[Version (since = "0.9.3")]
-		public void set_version_lowest (string version_lowest);
+		public void set_version_lowest (string? version_lowest);
 		[Version (since = "1.4.0")]
 		public void set_version_lowest_raw (uint64 version_lowest_raw);
 		[Version (since = "1.3.6")]
 		public void set_version_raw (uint64 version_raw);
+		[Version (since = "1.5.8")]
+		public uint battery_level { get; set; }
+		[Version (since = "1.5.8")]
+		public uint battery_threshold { get; set; }
 		[Version (since = "0.9.3")]
-		public string to_string ();
-		[Version (since = "1.0.0")]
-		public GLib.Variant to_variant ();
-		[Version (since = "1.1.2")]
-		public GLib.Variant to_variant_full (Fwupd.DeviceFlags flags);
 		public uint64 flags { get; set; }
+		[Version (since = "2.0.0")]
+		public string id { get; set; }
+		[Version (since = "1.0.8")]
 		public Fwupd.Device parent { get; set construct; }
-		public string protocol { get; set; }
+		[Version (since = "1.8.11")]
+		public uint percentage { get; set; }
+		[Version (since = "1.8.1")]
+		public uint64 problems { get; set; }
+		[Version (since = "1.9.10")]
+		public uint64 request_flags { get; set; }
+		[Version (since = "1.4.0")]
 		public uint status { get; set; }
+		[Version (since = "0.9.8")]
+		public string update_error { get; set; }
+		[Version (since = "0.9.8")]
 		public uint update_state { get; set; }
+		[Version (since = "1.8.15")]
+		public string version { get; set; }
+		[Version (since = "1.2.9")]
 		public uint version_format { get; set; }
 	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_plugin_get_type ()")]
-	public class Plugin : GLib.Object {
+	public class Plugin : GLib.Object, Fwupd.Codec {
 		[CCode (has_construct_function = false)]
 		[Version (since = "1.5.0")]
 		public Plugin ();
 		[Version (since = "1.5.0")]
 		public void add_flag (Fwupd.PluginFlags flag);
 		[Version (since = "1.5.0")]
-		public static GLib.GenericArray<weak Fwupd.Plugin> array_from_variant (GLib.Variant value);
-		[Version (since = "1.5.0")]
-		public static Fwupd.PluginFlags flag_from_string (string plugin_flag);
+		public static Fwupd.PluginFlags flag_from_string (string? plugin_flag);
 		[Version (since = "1.5.0")]
 		public static unowned string flag_to_string (Fwupd.PluginFlags plugin_flag);
-		[Version (since = "1.5.0")]
-		public static Fwupd.Plugin from_variant (GLib.Variant value);
 		[Version (since = "1.5.0")]
 		public uint64 get_flags ();
 		[Version (since = "1.5.0")]
@@ -445,14 +635,12 @@ namespace Fwupd {
 		[Version (since = "1.5.0")]
 		public void set_name (string name);
 		[Version (since = "1.5.0")]
-		public string to_string ();
-		[Version (since = "1.5.0")]
-		public GLib.Variant to_variant ();
 		public uint64 flags { get; set; }
+		[Version (since = "1.5.0")]
 		public string name { get; set; }
 	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_release_get_type ()")]
-	public class Release : GLib.Object {
+	public class Release : GLib.Object, Fwupd.Codec {
 		[CCode (has_construct_function = false)]
 		[Version (since = "0.9.3")]
 		public Release ();
@@ -470,14 +658,16 @@ namespace Fwupd {
 		public void add_metadata (GLib.HashTable<void*,void*> hash);
 		[Version (since = "1.0.4")]
 		public void add_metadata_item (string key, string value);
-		[Version (since = "1.2.10")]
-		public static GLib.GenericArray<weak Fwupd.Release> array_from_variant (GLib.Variant value);
+		[Version (since = "1.8.8")]
+		public void add_report (Fwupd.Report report);
+		[Version (since = "1.7.3")]
+		public void add_tag (string tag);
+		[Version (since = "1.9.3")]
+		public static GLib.GenericArray<weak Fwupd.Release> array_filter_flags (GLib.GenericArray<Fwupd.Release> rels, Fwupd.ReleaseFlags include, Fwupd.ReleaseFlags exclude) throws GLib.Error;
 		[Version (since = "1.2.6")]
-		public static Fwupd.ReleaseFlags flag_from_string (string release_flag);
+		public static Fwupd.ReleaseFlags flag_from_string (string? release_flag);
 		[Version (since = "1.2.6")]
 		public static unowned string flag_to_string (Fwupd.ReleaseFlags release_flag);
-		[Version (since = "1.0.0")]
-		public static Fwupd.Release from_variant (GLib.Variant value);
 		[Version (since = "0.9.3")]
 		public unowned string get_appstream_id ();
 		[Version (since = "1.5.0")]
@@ -502,6 +692,8 @@ namespace Fwupd {
 		public Fwupd.ReleaseFlags get_flags ();
 		[Version (since = "0.9.3")]
 		public unowned string get_homepage ();
+		[Version (since = "1.7.2")]
+		public unowned string get_id ();
 		[Version (since = "1.2.1")]
 		public uint32 get_install_duration ();
 		[Version (since = "1.3.2")]
@@ -522,22 +714,24 @@ namespace Fwupd {
 		public unowned string get_protocol ();
 		[Version (since = "0.9.3")]
 		public unowned string get_remote_id ();
+		[Version (since = "1.8.8")]
+		public unowned GLib.GenericArray<Fwupd.Report> get_reports ();
+		[Version (since = "2.0.7")]
+		public unowned string get_sbom_url ();
 		[Version (since = "0.9.3")]
 		public uint64 get_size ();
 		[Version (since = "1.2.4")]
 		public unowned string get_source_url ();
 		[Version (since = "0.9.3")]
 		public unowned string get_summary ();
-		[Version (since = "0.9.8")]
-		public Fwupd.TrustFlags get_trust_flags ();
+		[Version (since = "1.7.3")]
+		public unowned GLib.GenericArray<string> get_tags ();
 		[Version (since = "1.4.5")]
 		public unowned string get_update_image ();
 		[Version (since = "1.2.4")]
 		public unowned string get_update_message ();
 		[Version (since = "1.4.0")]
 		public Fwupd.ReleaseUrgency get_urgency ();
-		[Version (deprecated = true, deprecated_since = "1.5.6", since = "0.9.3")]
-		public unowned string get_uri ();
 		[Version (since = "0.9.3")]
 		public unowned string get_vendor ();
 		[Version (since = "0.9.3")]
@@ -548,106 +742,110 @@ namespace Fwupd {
 		public bool has_checksum (string checksum);
 		[Version (since = "1.2.6")]
 		public bool has_flag (Fwupd.ReleaseFlags flag);
+		[Version (since = "1.7.3")]
+		public bool has_tag (string tag);
+		[Version (since = "1.9.3")]
+		public bool match_flags (Fwupd.ReleaseFlags include, Fwupd.ReleaseFlags exclude);
 		[Version (since = "1.2.6")]
 		public void remove_flag (Fwupd.ReleaseFlags flag);
 		[Version (since = "0.9.3")]
-		public void set_appstream_id (string appstream_id);
+		public void set_appstream_id (string? appstream_id);
 		[Version (since = "1.5.0")]
-		public void set_branch (string branch);
+		public void set_branch (string? branch);
 		[Version (since = "1.4.0")]
 		public void set_created (uint64 created);
 		[Version (since = "0.9.3")]
-		public void set_description (string description);
+		public void set_description (string? description);
 		[Version (since = "1.3.3")]
-		public void set_detach_caption (string detach_caption);
+		public void set_detach_caption (string? detach_caption);
 		[Version (since = "1.3.3")]
-		public void set_detach_image (string detach_image);
+		public void set_detach_image (string? detach_image);
 		[Version (since = "1.2.4")]
-		public void set_details_url (string details_url);
+		public void set_details_url (string? details_url);
 		[Version (since = "0.9.3")]
-		public void set_filename (string filename);
+		public void set_filename (string? filename);
 		[Version (since = "1.2.6")]
 		public void set_flags (Fwupd.ReleaseFlags flags);
 		[Version (since = "0.9.3")]
-		public void set_homepage (string homepage);
+		public void set_homepage (string? homepage);
+		[Version (since = "1.7.2")]
+		public void set_id (string? id);
 		[Version (since = "1.2.1")]
 		public void set_install_duration (uint32 duration);
 		[Version (since = "0.9.3")]
-		public void set_license (string license);
+		public void set_license (string? license);
 		[Version (since = "0.9.3")]
-		public void set_name (string name);
+		public void set_name (string? name);
 		[Version (since = "1.3.2")]
-		public void set_name_variant_suffix (string name_variant_suffix);
+		public void set_name_variant_suffix (string? name_variant_suffix);
 		[Version (since = "1.2.2")]
-		public void set_protocol (string protocol);
+		public void set_protocol (string? protocol);
 		[Version (since = "0.9.3")]
 		public void set_remote_id (string remote_id);
+		[Version (since = "2.0.7")]
+		public void set_sbom_url (string? sbom_url);
 		[Version (since = "0.9.3")]
 		public void set_size (uint64 size);
 		[Version (since = "1.2.4")]
-		public void set_source_url (string source_url);
+		public void set_source_url (string? source_url);
 		[Version (since = "0.9.3")]
-		public void set_summary (string summary);
-		[Version (since = "0.9.8")]
-		public void set_trust_flags (Fwupd.TrustFlags trust_flags);
+		public void set_summary (string? summary);
 		[Version (since = "1.4.5")]
-		public void set_update_image (string update_image);
+		public void set_update_image (string? update_image);
 		[Version (since = "1.2.4")]
-		public void set_update_message (string update_message);
+		public void set_update_message (string? update_message);
 		[Version (since = "1.4.0")]
 		public void set_urgency (Fwupd.ReleaseUrgency urgency);
-		[Version (deprecated = true, deprecated_since = "1.5.6", since = "0.9.3")]
-		public void set_uri (string uri);
 		[Version (since = "0.9.3")]
-		public void set_vendor (string vendor);
+		public void set_vendor (string? vendor);
 		[Version (since = "0.9.3")]
-		public void set_version (string version);
-		[Version (since = "0.9.3")]
-		public string to_string ();
-		[Version (since = "1.0.0")]
-		public GLib.Variant to_variant ();
+		public void set_version (string? version);
 		[Version (since = "1.4.0")]
-		public static Fwupd.ReleaseUrgency urgency_from_string (string release_urgency);
+		public static Fwupd.ReleaseUrgency urgency_from_string (string? release_urgency);
 		[Version (since = "1.4.0")]
 		public static unowned string urgency_to_string (Fwupd.ReleaseUrgency release_urgency);
+		[Version (since = "1.8.0")]
+		public string remote_id { get; set; }
 	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_remote_get_type ()")]
-	public class Remote : GLib.Object {
+	public class Remote : GLib.Object, Fwupd.Codec {
 		[CCode (has_construct_function = false)]
 		[Version (since = "0.9.3")]
 		public Remote ();
-		[Version (since = "1.2.10")]
-		public static GLib.GenericArray<weak Fwupd.Remote> array_from_variant (GLib.Variant value);
+		[Version (since = "1.9.4")]
+		public void add_flag (Fwupd.RemoteFlags flag);
 		[Version (since = "0.9.7")]
 		public string build_firmware_uri (string url) throws GLib.Error;
-		[Version (since = "1.0.0")]
-		public static Fwupd.Remote from_variant (GLib.Variant value);
+		[Version (since = "1.9.8")]
+		public string build_metadata_sig_uri () throws GLib.Error;
+		[Version (since = "1.9.8")]
+		public string build_metadata_uri () throws GLib.Error;
+		[Version (since = "1.9.1")]
+		public string build_report_uri () throws GLib.Error;
+		[Version (since = "1.9.4")]
+		public static Fwupd.RemoteFlags flag_from_string (string? flag);
+		[Version (since = "1.9.4")]
+		public static unowned string flag_to_string (Fwupd.RemoteFlags flag);
 		[Version (since = "0.9.5")]
 		public uint64 get_age ();
 		[Version (since = "1.0.7")]
 		public unowned string get_agreement ();
-		[Version (since = "1.2.6")]
-		public bool get_approval_required ();
-		[Version (since = "1.3.3")]
-		public bool get_automatic_reports ();
-		[Version (since = "1.5.0")]
-		public bool get_automatic_security_reports ();
 		[Version (since = "1.0.0")]
 		public unowned string get_checksum ();
-		[Version (since = "0.9.3")]
-		public bool get_enabled ();
+		[Version (since = "1.9.4")]
+		public unowned string get_checksum_metadata ();
 		[Version (since = "0.9.6")]
 		public unowned string get_filename_cache ();
 		[Version (since = "0.9.7")]
 		public unowned string get_filename_cache_sig ();
 		[Version (since = "0.9.8")]
 		public unowned string get_filename_source ();
-		[Version (since = "0.9.7")]
+		[Version (since = "2.0.2")]
 		public unowned string get_firmware_base_uri ();
+		[Version (since = "1.9.4")]
+		public Fwupd.RemoteFlags get_flags ();
 		[Version (since = "0.9.3")]
 		public unowned string get_id ();
-		[Version (since = "0.9.7")]
-		public Fwupd.KeyringKind get_keyring_kind ();
 		[Version (since = "0.9.6")]
 		public Fwupd.RemoteKind get_kind ();
 		[Version (since = "0.9.7")]
@@ -664,38 +862,74 @@ namespace Fwupd {
 		public unowned string get_password ();
 		[Version (since = "0.9.5")]
 		public int get_priority ();
+		[Version (since = "2.0.0")]
+		public unowned string get_privacy_uri ();
+		[Version (since = "1.9.4")]
+		public uint64 get_refresh_interval ();
 		[Version (since = "1.3.1")]
 		public unowned string get_remotes_dir ();
 		[Version (since = "1.0.4")]
 		public unowned string get_report_uri ();
-		[Version (since = "1.5.0")]
-		public unowned string get_security_report_uri ();
 		[Version (since = "0.9.8")]
 		public unowned string get_title ();
 		[Version (since = "0.9.5")]
 		public unowned string get_username ();
+		[Version (since = "1.9.4")]
+		public bool has_flag (Fwupd.RemoteFlags flag);
 		[Version (since = "0.9.6")]
-		public static Fwupd.RemoteKind kind_from_string (string kind);
+		public static Fwupd.RemoteKind kind_from_string (string? kind);
 		[Version (since = "0.9.6")]
 		public static unowned string kind_to_string (Fwupd.RemoteKind kind);
-		[Version (since = "0.9.3")]
-		public bool load_from_filename (string filename, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "1.4.0")]
 		public bool load_signature (string filename) throws GLib.Error;
 		[Version (since = "1.4.5")]
 		public bool load_signature_bytes (GLib.Bytes bytes) throws GLib.Error;
+		[Version (since = "1.9.4")]
+		public bool needs_refresh ();
+		[Version (since = "1.9.4")]
+		public void remove_flag (Fwupd.RemoteFlags flag);
 		[Version (since = "1.0.7")]
-		public void set_agreement (string agreement);
-		[Version (since = "1.5.3")]
-		public void set_keyring_kind (Fwupd.KeyringKind keyring_kind);
+		public void set_agreement (string? agreement);
+		[Version (since = "2.0.0")]
+		public void set_checksum_sig (string? checksum_sig);
+		[Version (since = "1.8.2")]
+		public void set_filename_cache (string? filename);
+		[Version (since = "1.6.1")]
+		public void set_filename_source (string? filename_source);
+		[Version (since = "2.0.2")]
+		public void set_firmware_base_uri (string? firmware_base_uri);
+		[Version (since = "1.9.4")]
+		public void set_flags (Fwupd.RemoteFlags flags);
+		[Version (since = "1.9.3")]
+		public void set_id (string? id);
+		[Version (since = "2.0.0")]
+		public void set_kind (Fwupd.RemoteKind kind);
+		[Version (since = "1.8.13")]
+		public void set_metadata_uri (string? metadata_uri);
 		[Version (since = "0.9.5")]
 		public void set_mtime (uint64 mtime);
+		[Version (since = "2.0.0")]
+		public void set_order_after (string? ids);
+		[Version (since = "2.0.0")]
+		public void set_order_before (string? ids);
+		[Version (since = "2.0.0")]
+		public void set_password (string? password);
 		[Version (since = "0.9.5")]
 		public void set_priority (int priority);
+		[Version (since = "2.0.0")]
+		public void set_privacy_uri (string? privacy_uri);
+		[Version (since = "2.0.0")]
+		public void set_refresh_interval (uint64 refresh_interval);
 		[Version (since = "1.3.1")]
-		public void set_remotes_dir (string directory);
-		[Version (since = "1.0.0")]
-		public GLib.Variant to_variant ();
+		public void set_remotes_dir (string? directory);
+		[Version (since = "2.0.0")]
+		public void set_report_uri (string? report_uri);
+		[Version (since = "1.8.13")]
+		public void set_title (string? title);
+		[Version (since = "2.0.0")]
+		public void set_username (string? username);
+		[Version (since = "1.6.1")]
+		public bool setup () throws GLib.Error;
 		[NoAccessorMethod]
 		[Version (since = "1.2.6")]
 		public bool approval_required { get; set; }
@@ -708,33 +942,184 @@ namespace Fwupd {
 		[NoAccessorMethod]
 		[Version (since = "0.9.3")]
 		public bool enabled { get; set; }
-		[NoAccessorMethod]
+		[Version (since = "1.9.4")]
+		public uint64 flags { get; set; }
 		[Version (since = "0.9.3")]
-		public string id { owned get; set; }
+		public string id { get; set; }
+	}
+	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_report_get_type ()")]
+	public class Report : GLib.Object, Fwupd.Codec {
+		[CCode (has_construct_function = false)]
+		[Version (since = "1.8.8")]
+		public Report ();
+		[Version (since = "1.9.1")]
+		public void add_flag (Fwupd.ReportFlags flag);
+		[Version (since = "1.8.8")]
+		public void add_metadata_item (string key, string value);
+		[Version (since = "1.9.1")]
+		public static Fwupd.ReportFlags flag_from_string (string? report_flag);
+		[Version (since = "1.9.1")]
+		public static unowned string flag_to_string (Fwupd.ReportFlags report_flag);
+		[Version (since = "1.8.8")]
+		public uint64 get_created ();
+		[Version (since = "1.8.8")]
+		public unowned string get_device_name ();
+		[Version (since = "1.8.8")]
+		public unowned string get_distro_id ();
+		[Version (since = "1.8.8")]
+		public unowned string get_distro_variant ();
+		[Version (since = "1.8.8")]
+		public unowned string get_distro_version ();
+		[Version (since = "1.9.1")]
+		public uint64 get_flags ();
+		[Version (since = "1.8.8")]
+		public unowned GLib.HashTable<void*,void*> get_metadata ();
+		[Version (since = "1.8.8")]
+		public unowned string get_metadata_item (string key);
+		[Version (since = "1.9.3")]
+		public unowned string get_remote_id ();
+		[Version (since = "1.8.8")]
+		public unowned string get_vendor ();
+		[Version (since = "1.8.8")]
+		public uint32 get_vendor_id ();
+		[Version (since = "1.8.8")]
+		public unowned string get_version_old ();
+		[Version (since = "1.9.1")]
+		public bool has_flag (Fwupd.ReportFlags flag);
+		[Version (since = "1.9.1")]
+		public void remove_flag (Fwupd.ReportFlags flag);
+		[Version (since = "1.8.8")]
+		public void set_created (uint64 created);
+		[Version (since = "1.8.8")]
+		public void set_device_name (string? device_name);
+		[Version (since = "1.8.8")]
+		public void set_distro_id (string? distro_id);
+		[Version (since = "1.8.8")]
+		public void set_distro_variant (string? distro_variant);
+		[Version (since = "1.8.8")]
+		public void set_distro_version (string? distro_version);
+		[Version (since = "1.9.1")]
+		public void set_flags (uint64 flags);
+		[Version (since = "1.9.3")]
+		public void set_remote_id (string? remote_id);
+		[Version (since = "1.8.8")]
+		public void set_vendor (string? vendor);
+		[Version (since = "1.8.8")]
+		public void set_vendor_id (uint32 vendor_id);
+		[Version (since = "1.8.8")]
+		public void set_version_old (string? version_old);
+		[Version (since = "1.9.1")]
+		public uint64 flags { get; set; }
+	}
+	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_request_get_type ()")]
+	public class Request : GLib.Object, Fwupd.Codec {
+		[CCode (has_construct_function = false)]
+		[Version (since = "1.6.2")]
+		public Request ();
+		[Version (since = "1.8.6")]
+		public void add_flag (Fwupd.RequestFlags flag);
+		[Version (since = "1.9.17")]
+		public void emit_invalidate ();
+		[Version (since = "1.8.6")]
+		public static Fwupd.RequestFlags flag_from_string (string? flag);
+		[Version (since = "1.8.6")]
+		public static unowned string flag_to_string (Fwupd.RequestFlags flag);
+		[Version (since = "1.6.2")]
+		public uint64 get_created ();
+		[Version (since = "1.6.2")]
+		public unowned string get_device_id ();
+		[Version (since = "1.8.6")]
+		public Fwupd.RequestFlags get_flags ();
+		[Version (since = "1.6.2")]
+		public unowned string get_id ();
+		[Version (since = "1.6.2")]
+		public unowned string get_image ();
+		[Version (since = "1.6.2")]
+		public Fwupd.RequestKind get_kind ();
+		[Version (since = "1.6.2")]
+		public unowned string get_message ();
+		[Version (since = "1.8.6")]
+		public bool has_flag (Fwupd.RequestFlags flag);
+		[Version (since = "1.6.2")]
+		public static Fwupd.RequestKind kind_from_string (string? kind);
+		[Version (since = "1.6.2")]
+		public static unowned string kind_to_string (Fwupd.RequestKind kind);
+		[Version (since = "1.8.6")]
+		public void remove_flag (Fwupd.RequestFlags flag);
+		[Version (since = "1.6.2")]
+		public void set_created (uint64 created);
+		[Version (since = "1.6.2")]
+		public void set_device_id (string? device_id);
+		[Version (since = "1.8.6")]
+		public void set_flags (Fwupd.RequestFlags flags);
+		[Version (since = "1.6.2")]
+		public void set_id (string? id);
+		[Version (since = "1.6.2")]
+		public void set_image (string? image);
+		[Version (since = "1.6.2")]
+		public void set_kind (Fwupd.RequestKind kind);
+		[Version (since = "1.6.2")]
+		public void set_message (string? message);
+		[Version (since = "1.8.2")]
+		public string device_id { get; set; }
+		[Version (since = "1.8.6")]
+		public uint64 flags { get; set; }
+		[Version (since = "1.6.2")]
+		public string id { get; set; }
+		[Version (since = "1.6.2")]
+		public string image { get; set; }
+		[Version (since = "1.6.2")]
+		public uint kind { get; set; }
+		[Version (since = "1.6.2")]
+		public string message { get; set; }
+		[Version (since = "1.9.17")]
+		public virtual signal void invalidate ();
 	}
 	[CCode (cheader_filename = "fwupd.h", type_id = "fwupd_security_attr_get_type ()")]
-	public class SecurityAttr : GLib.Object {
+	public class SecurityAttr : GLib.Object, Fwupd.Codec {
 		[CCode (has_construct_function = false)]
 		[Version (since = "1.5.0")]
 		public SecurityAttr (string? appstream_id);
 		[Version (since = "1.5.0")]
 		public void add_flag (Fwupd.SecurityAttrFlags flag);
+		[Version (since = "1.7.0")]
+		public void add_guid (string guid);
+		[Version (since = "1.7.0")]
+		public void add_guids (GLib.GenericArray<string> guids);
 		[Version (since = "1.5.0")]
 		public void add_metadata (string key, string? value);
 		[Version (since = "1.5.0")]
 		public void add_obsolete (string appstream_id);
-		[Version (since = "1.5.0")]
-		public static GLib.GenericArray<weak Fwupd.SecurityAttr> array_from_variant (GLib.Variant value);
+		[Version (since = "1.7.1")]
+		public Fwupd.SecurityAttr copy ();
+		[Version (since = "1.7.1")]
+		public static Fwupd.SecurityAttrFlags flag_from_string (string? flag);
 		[Version (since = "1.5.0")]
 		public static unowned string flag_to_string (Fwupd.SecurityAttrFlags flag);
 		[Version (since = "1.5.0")]
 		public static unowned string flag_to_suffix (Fwupd.SecurityAttrFlags flag);
 		[Version (since = "1.5.0")]
-		public static Fwupd.SecurityAttr from_variant (GLib.Variant value);
-		[Version (since = "1.5.0")]
 		public unowned string get_appstream_id ();
+		[Version (since = "1.8.4")]
+		public unowned string get_bios_setting_current_value ();
+		[Version (since = "1.8.4")]
+		public unowned string get_bios_setting_id ();
+		[Version (since = "1.8.4")]
+		public unowned string get_bios_setting_target_value ();
+		[Version (since = "1.7.1")]
+		public uint64 get_created ();
+		[Version (since = "1.8.2")]
+		public unowned string get_description ();
 		[Version (since = "1.5.0")]
 		public Fwupd.SecurityAttrFlags get_flags ();
+		[Version (since = "2.0.7")]
+		public unowned string get_fwupd_version ();
+		[Version (since = "1.7.0")]
+		public unowned GLib.GenericArray<string> get_guids ();
+		[Version (since = "1.9.6")]
+		public unowned string get_kernel_current_value ();
+		[Version (since = "1.9.6")]
+		public unowned string get_kernel_target_value ();
 		[Version (since = "1.5.0")]
 		public Fwupd.SecurityAttrLevel get_level ();
 		[Version (since = "1.5.0")]
@@ -747,99 +1132,410 @@ namespace Fwupd {
 		public unowned string get_plugin ();
 		[Version (since = "1.5.0")]
 		public Fwupd.SecurityAttrResult get_result ();
+		[Version (since = "1.7.1")]
+		public Fwupd.SecurityAttrResult get_result_fallback ();
+		[Version (since = "1.9.3")]
+		public Fwupd.SecurityAttrResult get_result_success ();
+		[Version (since = "1.8.2")]
+		public unowned string get_title ();
 		[Version (since = "1.5.0")]
 		public unowned string get_url ();
 		[Version (since = "1.5.0")]
 		public bool has_flag (Fwupd.SecurityAttrFlags flag);
+		[Version (since = "1.7.0")]
+		public bool has_guid (string guid);
 		[Version (since = "1.5.0")]
 		public bool has_obsolete (string appstream_id);
+		[Version (since = "1.8.3")]
+		public void remove_flag (Fwupd.SecurityAttrFlags flag);
+		[Version (since = "1.7.1")]
+		public static Fwupd.SecurityAttrResult result_from_string (string? result);
 		[Version (since = "1.5.0")]
 		public static unowned string result_to_string (Fwupd.SecurityAttrResult result);
 		[Version (since = "1.5.0")]
-		public void set_appstream_id (string appstream_id);
+		public void set_appstream_id (string? appstream_id);
+		[Version (since = "1.8.4")]
+		public void set_bios_setting_current_value (string? value);
+		[Version (since = "1.8.4")]
+		public void set_bios_setting_id (string? id);
+		[Version (since = "1.8.4")]
+		public void set_bios_setting_target_value (string? value);
+		[Version (since = "1.7.1")]
+		public void set_created (uint64 created);
+		[Version (since = "1.8.2")]
+		public void set_description (string? description);
 		[Version (since = "1.5.0")]
 		public void set_flags (Fwupd.SecurityAttrFlags flags);
+		[Version (since = "2.0.7")]
+		public void set_fwupd_version (string? fwupd_version);
+		[Version (since = "1.9.6")]
+		public void set_kernel_current_value (string? value);
+		[Version (since = "1.9.6")]
+		public void set_kernel_target_value (string? value);
 		[Version (since = "1.5.0")]
 		public void set_level (Fwupd.SecurityAttrLevel level);
 		[Version (since = "1.5.0")]
-		public void set_name (string name);
+		public void set_name (string? name);
 		[Version (since = "1.5.0")]
-		public void set_plugin (string plugin);
+		public void set_plugin (string? plugin);
 		[Version (since = "1.5.0")]
 		public void set_result (Fwupd.SecurityAttrResult result);
+		[Version (since = "1.7.1")]
+		public void set_result_fallback (Fwupd.SecurityAttrResult result);
+		[Version (since = "1.9.3")]
+		public void set_result_success (Fwupd.SecurityAttrResult result);
+		[Version (since = "1.8.2")]
+		public void set_title (string? title);
 		[Version (since = "1.5.0")]
-		public void set_url (string url);
-		[Version (since = "1.5.0")]
-		public string to_string ();
-		[Version (since = "1.5.0")]
-		public GLib.Variant to_variant ();
+		public void set_url (string? url);
 	}
-	[CCode (cheader_filename = "fwupd.h")]
-	[SimpleType]
-	public struct DeviceFlags : uint64 {
+	[CCode (cheader_filename = "fwupd.h", type_cname = "FwupdCodecInterface", type_id = "fwupd_codec_get_type ()")]
+	public interface Codec : GLib.Object {
+		[NoWrapper]
+		public abstract void add_json (Json.Builder builder, Fwupd.CodecFlags flags);
+		[Version (since = "2.0.0")]
+		public abstract void add_string (uint idt, GLib.StringBuilder str);
+		[NoWrapper]
+		public abstract void add_variant (GLib.VariantBuilder builder, Fwupd.CodecFlags flags);
+		[Version (since = "2.0.0")]
+		public static GLib.GenericArray<weak GLib.Object> array_from_variant (GLib.Variant value, GLib.Type gtype) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public static void array_to_json (GLib.GenericArray<GLib.Object> array, string member_name, Json.Builder builder, Fwupd.CodecFlags flags);
+		[Version (since = "2.0.0")]
+		public static GLib.Variant array_to_variant (GLib.GenericArray<GLib.Object> array, Fwupd.CodecFlags flags);
+		[Version (since = "2.0.0")]
+		public abstract bool from_json (Json.Node json_node) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public bool from_json_string (string json) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public abstract bool from_variant (GLib.Variant value) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public static void json_append (Json.Builder builder, string key, string value);
+		[Version (since = "2.0.0")]
+		public static void json_append_bool (Json.Builder builder, string key, bool value);
+		[Version (since = "2.0.0")]
+		public static void json_append_int (Json.Builder builder, string key, uint64 value);
+		[Version (since = "2.0.10")]
+		public static void json_append_map (Json.Builder builder, string key, GLib.HashTable<string,string> value);
+		[Version (since = "2.0.0")]
+		public static void json_append_strv (Json.Builder builder, string key, string value);
+		[Version (since = "2.0.0")]
+		public static void string_append (GLib.StringBuilder str, uint idt, string key, string value);
+		[Version (since = "2.0.0")]
+		public static void string_append_bool (GLib.StringBuilder str, uint idt, string key, bool value);
+		[Version (since = "2.0.0")]
+		public static void string_append_hex (GLib.StringBuilder str, uint idt, string key, uint64 value);
+		[Version (since = "2.0.0")]
+		public static void string_append_int (GLib.StringBuilder str, uint idt, string key, uint64 value);
+		[Version (since = "2.0.0")]
+		public static void string_append_size (GLib.StringBuilder str, uint idt, string key, uint64 value);
+		[Version (since = "2.0.0")]
+		public static void string_append_time (GLib.StringBuilder str, uint idt, string key, uint64 value);
+		[Version (since = "2.0.0")]
+		public void to_json (Json.Builder builder, Fwupd.CodecFlags flags);
+		[Version (since = "2.0.0")]
+		public string to_json_string (Fwupd.CodecFlags flags) throws GLib.Error;
+		[Version (since = "2.0.0")]
+		public abstract string to_string ();
+		[Version (since = "2.0.0")]
+		public abstract GLib.Variant to_variant (Fwupd.CodecFlags flags);
 	}
-	[CCode (cheader_filename = "fwupd.h")]
+	[CCode (cheader_filename = "fwupd.h", cname = "fwupd_guid_t")]
 	[SimpleType]
-	public struct PluginFlags : uint64 {
+	public struct _guid_t : uint8 {
 	}
-	[CCode (cheader_filename = "fwupd.h")]
-	[SimpleType]
-	public struct ReleaseFlags : uint64 {
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_BIOS_SETTING_KIND_", has_type_id = false)]
+	public enum BiosSettingKind {
+		[Version (since = "1.8.4")]
+		UNKNOWN,
+		[Version (since = "1.8.4")]
+		ENUMERATION,
+		[Version (since = "1.8.4")]
+		INTEGER,
+		[Version (since = "1.8.4")]
+		STRING
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_CLIENT_DOWNLOAD_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum ClientDownloadFlags {
+		[Version (since = "1.4.5")]
 		NONE,
-		ONLY_IPFS
+		[Version (since = "1.9.4")]
+		ONLY_P2P
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_CLIENT_UPLOAD_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum ClientUploadFlags {
+		[Version (since = "1.4.5")]
 		NONE,
+		[Version (since = "1.4.5")]
 		ALWAYS_MULTIPART
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_CODEC_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum CodecFlags {
+		[Version (since = "2.0.0")]
+		NONE,
+		[Version (since = "2.0.0")]
+		TRUSTED,
+		[Version (since = "2.0.8")]
+		COMPRESSED
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_DEVICE_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum DeviceFlags {
+		[Version (since = "0.1.3")]
+		NONE,
+		[Version (since = "0.1.3")]
+		INTERNAL,
+		[Version (since = "0.9.7")]
+		UPDATABLE,
+		[Version (since = "0.6.3")]
+		REQUIRE_AC,
+		[Version (since = "0.6.3")]
+		LOCKED,
+		[Version (since = "0.7.1")]
+		SUPPORTED,
+		[Version (since = "0.7.3")]
+		NEEDS_BOOTLOADER,
+		[Version (since = "0.9.7")]
+		NEEDS_REBOOT,
+		[Version (since = "1.0.4")]
+		REPORTED,
+		[Version (since = "1.0.5")]
+		NOTIFIED,
+		[Version (since = "1.0.8")]
+		IS_BOOTLOADER,
+		[Version (since = "1.1.2")]
+		WAIT_FOR_REPLUG,
+		[Version (since = "1.2.4")]
+		NEEDS_SHUTDOWN,
+		[Version (since = "1.2.5")]
+		ANOTHER_WRITE_REQUIRED,
+		[Version (since = "1.2.6")]
+		NEEDS_ACTIVATION,
+		[Version (since = "1.3.2")]
+		HISTORICAL,
+		[Version (since = "1.3.3")]
+		WILL_DISAPPEAR,
+		[Version (since = "1.3.3")]
+		CAN_VERIFY,
+		[Version (since = "1.3.3")]
+		CAN_VERIFY_IMAGE,
+		[Version (since = "1.3.3")]
+		DUAL_IMAGE,
+		[Version (since = "1.3.3")]
+		SELF_RECOVERY,
+		[Version (since = "1.3.3")]
+		USABLE_DURING_UPDATE,
+		[Version (since = "1.3.7")]
+		VERSION_CHECK_REQUIRED,
+		[Version (since = "1.3.7")]
+		INSTALL_ALL_RELEASES,
+		[Version (since = "1.4.1")]
+		UPDATABLE_HIDDEN,
+		[Version (since = "1.5.0")]
+		HAS_MULTIPLE_BRANCHES,
+		[Version (since = "1.5.0")]
+		BACKUP_BEFORE_INSTALL,
+		[Version (since = "1.6.2")]
+		WILDCARD_INSTALL,
+		[Version (since = "1.6.2")]
+		ONLY_VERSION_UPGRADE,
+		[Version (since = "1.7.0")]
+		UNREACHABLE,
+		[Version (since = "1.7.1")]
+		AFFECTS_FDE,
+		[Version (since = "1.7.5")]
+		END_OF_LIFE,
+		[Version (since = "1.7.6")]
+		SIGNED_PAYLOAD,
+		[Version (since = "1.7.6")]
+		UNSIGNED_PAYLOAD,
+		[Version (since = "1.8.11")]
+		EMULATED,
+		[Version (since = "1.8.11")]
+		EMULATION_TAG,
+		[Version (since = "1.9.3")]
+		ONLY_EXPLICIT_UPDATES,
+		[Version (since = "2.0.1")]
+		CAN_EMULATION_TAG,
+		[Version (since = "2.0.2")]
+		INSTALL_SKIP_VERSION_CHECK
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_DEVICE_PROBLEM_", has_type_id = false)]
+	[Flags]
+	public enum DeviceProblem {
+		[Version (since = "1.8.1")]
+		NONE,
+		[Version (since = "1.8.1")]
+		SYSTEM_POWER_TOO_LOW,
+		[Version (since = "1.8.1")]
+		UNREACHABLE,
+		[Version (since = "1.8.1")]
+		POWER_TOO_LOW,
+		[Version (since = "1.8.1")]
+		UPDATE_PENDING,
+		[Version (since = "1.8.1")]
+		REQUIRE_AC_POWER,
+		[Version (since = "1.8.1")]
+		LID_IS_CLOSED,
+		[Version (since = "1.8.3")]
+		IS_EMULATED,
+		[Version (since = "1.8.6")]
+		MISSING_LICENSE,
+		[Version (since = "1.8.10")]
+		SYSTEM_INHIBIT,
+		[Version (since = "1.8.11")]
+		UPDATE_IN_PROGRESS,
+		[Version (since = "1.9.1")]
+		IN_USE,
+		[Version (since = "1.9.6")]
+		DISPLAY_REQUIRED,
+		[Version (since = "2.0.0")]
+		LOWER_PRIORITY,
+		[Version (since = "1.8.1")]
+		UNKNOWN
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_FEATURE_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum FeatureFlags {
+		[Version (since = "1.4.5")]
 		NONE,
+		[Version (since = "1.4.5")]
 		CAN_REPORT,
+		[Version (since = "1.4.5")]
 		DETACH_ACTION,
+		[Version (since = "1.4.5")]
 		UPDATE_ACTION,
-		SWITCH_BRANCH
+		[Version (since = "1.5.0")]
+		SWITCH_BRANCH,
+		[Version (since = "1.6.2")]
+		REQUESTS,
+		[Version (since = "1.7.1")]
+		FDE_WARNING,
+		[Version (since = "1.7.5")]
+		COMMUNITY_TEXT,
+		[Version (since = "1.8.1")]
+		SHOW_PROBLEMS,
+		[Version (since = "1.8.4")]
+		ALLOW_AUTHENTICATION,
+		[Version (since = "1.9.8")]
+		REQUESTS_NON_GENERIC
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_GUID_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum GuidFlags {
+		[Version (since = "1.2.5")]
 		NONE,
+		[Version (since = "1.2.5")]
 		NAMESPACE_MICROSOFT,
+		[Version (since = "1.2.5")]
 		MIXED_ENDIAN
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_INSTALL_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum InstallFlags {
+		[Version (since = "0.7.0")]
 		NONE,
-		OFFLINE,
+		[Version (since = "0.7.0")]
 		ALLOW_REINSTALL,
+		[Version (since = "0.7.0")]
 		ALLOW_OLDER,
+		[Version (since = "0.7.1")]
 		FORCE,
+		[Version (since = "1.0.8")]
 		NO_HISTORY,
+		[Version (since = "1.5.0")]
 		ALLOW_BRANCH_SWITCH,
+		[Version (since = "1.5.0")]
 		IGNORE_CHECKSUM,
+		[Version (since = "1.5.0")]
 		IGNORE_VID_PID,
-		IGNORE_POWER,
-		NO_SEARCH
-	}
-	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_KEYRING_KIND_", has_type_id = false)]
-	public enum KeyringKind {
-		UNKNOWN,
-		NONE,
-		GPG,
-		PKCS7,
-		JCAT;
-		[Version (since = "0.9.7")]
-		public static Fwupd.KeyringKind from_string (string keyring_kind);
-		[Version (since = "0.9.7")]
+		[Version (since = "1.5.0")]
+		NO_SEARCH,
+		[Version (since = "1.9.21")]
+		IGNORE_REQUIREMENTS,
+		[Version (since = "2.0.10")]
+		ONLY_EMULATED;
+		[Version (since = "2.0.4")]
+		public static Fwupd.InstallFlags from_string (string? str);
+		[Version (since = "2.0.0")]
 		public unowned string to_string ();
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_PLUGIN_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum PluginFlags {
+		[Version (since = "1.5.0")]
+		NONE,
+		[Version (since = "1.5.0")]
+		DISABLED,
+		[Version (since = "1.5.0")]
+		USER_WARNING,
+		[Version (since = "1.5.0")]
+		CLEAR_UPDATABLE,
+		[Version (since = "1.5.0")]
+		NO_HARDWARE,
+		[Version (since = "1.5.0")]
+		CAPSULES_UNSUPPORTED,
+		[Version (since = "1.5.0")]
+		UNLOCK_REQUIRED,
+		[Version (since = "1.5.0")]
+		EFIVAR_NOT_MOUNTED,
+		[Version (since = "1.5.0")]
+		ESP_NOT_FOUND,
+		[Version (since = "1.5.0")]
+		LEGACY_BIOS,
+		[Version (since = "1.5.0")]
+		FAILED_OPEN,
+		[Version (since = "1.5.8")]
+		REQUIRE_HWID,
+		[Version (since = "1.6.2")]
+		KERNEL_TOO_OLD,
+		[Version (since = "1.6.2")]
+		AUTH_REQUIRED,
+		[Version (since = "1.8.5")]
+		SECURE_CONFIG,
+		[Version (since = "1.8.6")]
+		MODULAR,
+		[Version (since = "1.8.7")]
+		MEASURE_SYSTEM_INTEGRITY,
+		[Version (since = "1.9.3")]
+		ESP_NOT_VALID,
+		[Version (since = "1.9.6")]
+		READY,
+		[Version (since = "2.0.0")]
+		TEST_ONLY,
+		[Version (since = "2.0.12")]
+		MUTABLE_ENUMERATION,
+		[Version (since = "1.5.0")]
+		UNKNOWN
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_RELEASE_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum ReleaseFlags {
+		[Version (since = "1.2.6")]
+		NONE,
+		[Version (since = "1.2.6")]
+		TRUSTED_PAYLOAD,
+		[Version (since = "1.2.6")]
+		TRUSTED_METADATA,
+		[Version (since = "1.2.6")]
+		IS_UPGRADE,
+		[Version (since = "1.2.6")]
+		IS_DOWNGRADE,
+		[Version (since = "1.2.6")]
+		BLOCKED_VERSION,
+		[Version (since = "1.2.6")]
+		BLOCKED_APPROVAL,
+		[Version (since = "1.5.0")]
+		IS_ALTERNATE_BRANCH,
+		[Version (since = "1.7.5")]
+		IS_COMMUNITY,
+		[Version (since = "1.9.1")]
+		TRUSTED_REPORT,
+		[Version (since = "1.2.6")]
+		UNKNOWN
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_RELEASE_URGENCY_", has_type_id = false)]
 	public enum ReleaseUrgency {
@@ -849,12 +1545,68 @@ namespace Fwupd {
 		HIGH,
 		CRITICAL
 	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_REMOTE_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum RemoteFlags {
+		[Version (since = "1.9.4")]
+		NONE,
+		[Version (since = "1.9.4")]
+		ENABLED,
+		[Version (since = "1.9.4")]
+		APPROVAL_REQUIRED,
+		[Version (since = "1.9.4")]
+		AUTOMATIC_REPORTS,
+		[Version (since = "1.9.4")]
+		AUTOMATIC_SECURITY_REPORTS,
+		[Version (since = "1.9.5")]
+		ALLOW_P2P_METADATA,
+		[Version (since = "1.9.5")]
+		ALLOW_P2P_FIRMWARE
+	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_REMOTE_KIND_", has_type_id = false)]
 	public enum RemoteKind {
 		UNKNOWN,
 		DOWNLOAD,
 		LOCAL,
+		[Version (since = "1.2.4")]
 		DIRECTORY
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_REPORT_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum ReportFlags {
+		[Version (since = "1.9.1")]
+		NONE,
+		[Version (since = "1.9.1")]
+		FROM_OEM,
+		[Version (since = "1.9.14")]
+		IS_UPGRADE,
+		[Version (since = "1.9.1")]
+		UNKNOWN
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_REQUEST_FLAG_", has_type_id = false)]
+	[Flags]
+	public enum RequestFlags {
+		[Version (since = "1.8.6")]
+		NONE,
+		[Version (since = "1.8.6")]
+		ALLOW_GENERIC_MESSAGE,
+		[Version (since = "1.8.6")]
+		ALLOW_GENERIC_IMAGE,
+		[Version (since = "1.9.10")]
+		NON_GENERIC_MESSAGE,
+		[Version (since = "1.9.10")]
+		NON_GENERIC_IMAGE,
+		[Version (since = "1.8.6")]
+		UNKNOWN
+	}
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_REQUEST_KIND_", has_type_id = false)]
+	public enum RequestKind {
+		[Version (since = "1.6.2")]
+		UNKNOWN,
+		[Version (since = "1.6.2")]
+		POST,
+		[Version (since = "1.6.2")]
+		IMMEDIATE
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_SECURITY_ATTR_FLAG_", has_type_id = false)]
 	[Flags]
@@ -862,271 +1614,294 @@ namespace Fwupd {
 		NONE,
 		SUCCESS,
 		OBSOLETED,
+		MISSING_DATA,
 		RUNTIME_UPDATES,
 		RUNTIME_ATTESTATION,
-		RUNTIME_ISSUE
+		RUNTIME_ISSUE,
+		ACTION_CONTACT_OEM,
+		ACTION_CONFIG_FW,
+		ACTION_CONFIG_OS,
+		CAN_FIX,
+		CAN_UNDO
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_SECURITY_ATTR_LEVEL_", has_type_id = false)]
 	public enum SecurityAttrLevel {
+		[Version (since = "1.5.0")]
 		NONE,
+		[Version (since = "1.5.0")]
 		CRITICAL,
+		[Version (since = "1.5.0")]
 		IMPORTANT,
+		[Version (since = "1.5.0")]
 		THEORETICAL,
+		[Version (since = "1.5.0")]
 		SYSTEM_PROTECTION,
+		[Version (since = "1.5.0")]
 		SYSTEM_ATTESTATION
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_SECURITY_ATTR_RESULT_", has_type_id = false)]
 	public enum SecurityAttrResult {
+		[Version (since = "1.5.0")]
 		UNKNOWN,
+		[Version (since = "1.5.0")]
 		ENABLED,
+		[Version (since = "1.5.0")]
 		NOT_ENABLED,
+		[Version (since = "1.5.0")]
 		VALID,
+		[Version (since = "1.5.0")]
 		NOT_VALID,
+		[Version (since = "1.5.0")]
 		LOCKED,
+		[Version (since = "1.5.0")]
 		NOT_LOCKED,
+		[Version (since = "1.5.0")]
 		ENCRYPTED,
+		[Version (since = "1.5.0")]
 		NOT_ENCRYPTED,
+		[Version (since = "1.5.0")]
 		TAINTED,
+		[Version (since = "1.5.0")]
 		NOT_TAINTED,
+		[Version (since = "1.5.0")]
 		FOUND,
+		[Version (since = "1.5.0")]
 		NOT_FOUND,
+		[Version (since = "1.5.0")]
 		SUPPORTED,
+		[Version (since = "1.5.0")]
 		NOT_SUPPORTED
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_SELF_SIGN_FLAG_", has_type_id = false)]
 	[Flags]
 	public enum SelfSignFlags {
+		[Version (since = "1.2.6")]
 		NONE,
+		[Version (since = "1.2.6")]
 		ADD_TIMESTAMP,
+		[Version (since = "1.2.6")]
 		ADD_CERT
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_STATUS_", has_type_id = false)]
 	public enum Status {
-		UNKNOWN,
-		IDLE,
-		LOADING,
-		DECOMPRESSING,
-		DEVICE_RESTART,
-		DEVICE_WRITE,
-		DEVICE_VERIFY,
-		SCHEDULING,
-		DOWNLOADING,
-		DEVICE_READ,
-		DEVICE_ERASE,
-		WAITING_FOR_AUTH,
-		DEVICE_BUSY,
-		SHUTDOWN;
 		[Version (since = "0.1.1")]
-		public static Fwupd.Status from_string (string status);
+		UNKNOWN,
+		[Version (since = "0.1.1")]
+		IDLE,
+		[Version (since = "0.1.1")]
+		LOADING,
+		[Version (since = "0.1.1")]
+		DECOMPRESSING,
+		[Version (since = "0.1.1")]
+		DEVICE_RESTART,
+		[Version (since = "0.1.1")]
+		DEVICE_WRITE,
+		[Version (since = "0.1.1")]
+		DEVICE_VERIFY,
+		[Version (since = "0.1.1")]
+		SCHEDULING,
+		[Version (since = "0.9.4")]
+		DOWNLOADING,
+		[Version (since = "1.0.0")]
+		DEVICE_READ,
+		[Version (since = "1.0.0")]
+		DEVICE_ERASE,
+		[Version (since = "1.0.0")]
+		WAITING_FOR_AUTH,
+		[Version (since = "1.0.1")]
+		DEVICE_BUSY,
+		[Version (since = "1.2.1")]
+		SHUTDOWN,
+		[Version (since = "1.9.8")]
+		WAITING_FOR_USER;
+		[Version (since = "0.1.1")]
+		public static Fwupd.Status from_string (string? status);
 		[Version (since = "0.1.1")]
 		public unowned string to_string ();
 	}
-	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_TRUST_FLAG_", has_type_id = false)]
-	[Flags]
-	public enum TrustFlags {
-		NONE,
-		PAYLOAD,
-		METADATA
-	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_UPDATE_STATE_", has_type_id = false)]
 	public enum UpdateState {
+		[Version (since = "0.7.0")]
 		UNKNOWN,
+		[Version (since = "0.7.0")]
 		PENDING,
+		[Version (since = "0.7.0")]
 		SUCCESS,
+		[Version (since = "0.7.0")]
 		FAILED,
+		[Version (since = "1.0.4")]
 		NEEDS_REBOOT,
+		[Version (since = "1.2.7")]
 		FAILED_TRANSIENT;
 		[Version (since = "0.7.0")]
-		public static Fwupd.UpdateState from_string (string update_state);
+		public static Fwupd.UpdateState from_string (string? update_state);
 		[Version (since = "0.7.0")]
 		public unowned string to_string ();
 	}
 	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_VERSION_FORMAT_", has_type_id = false)]
 	public enum VersionFormat {
-		UNKNOWN,
-		PLAIN,
-		NUMBER,
-		PAIR,
-		TRIPLET,
-		QUAD,
-		BCD,
-		INTEL_ME,
-		INTEL_ME2,
-		SURFACE_LEGACY,
-		SURFACE,
-		DELL_BIOS,
-		HEX;
 		[Version (since = "1.2.9")]
-		public static Fwupd.VersionFormat from_string (string str);
+		UNKNOWN,
+		[Version (since = "1.2.9")]
+		PLAIN,
+		[Version (since = "1.2.9")]
+		NUMBER,
+		[Version (since = "1.2.9")]
+		PAIR,
+		[Version (since = "1.2.9")]
+		TRIPLET,
+		[Version (since = "1.2.9")]
+		QUAD,
+		[Version (since = "1.2.9")]
+		BCD,
+		[Version (since = "1.2.9")]
+		INTEL_ME,
+		[Version (since = "1.2.9")]
+		INTEL_ME2,
+		[Version (since = "1.3.4")]
+		SURFACE_LEGACY,
+		[Version (since = "1.3.4")]
+		SURFACE,
+		[Version (since = "1.3.6")]
+		DELL_BIOS,
+		[Version (since = "1.4.0")]
+		HEX,
+		[Version (since = "1.9.24")]
+		DELL_BIOS_MSB,
+		[Version (since = "2.0.4")]
+		INTEL_CSME19;
+		[Version (since = "1.2.9")]
+		public static Fwupd.VersionFormat from_string (string? str);
 		[Version (since = "1.2.9")]
 		public unowned string to_string ();
 	}
-	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_ERROR_")]
+	[CCode (cheader_filename = "fwupd.h", cprefix = "FWUPD_ERROR_", has_type_id = false)]
 	public errordomain Error {
+		[Version (since = "0.1.1")]
 		INTERNAL,
+		[Version (since = "0.1.1")]
 		VERSION_NEWER,
+		[Version (since = "0.1.1")]
 		VERSION_SAME,
+		[Version (since = "0.1.1")]
 		ALREADY_PENDING,
+		[Version (since = "0.1.1")]
 		AUTH_FAILED,
+		[Version (since = "0.1.1")]
 		READ,
+		[Version (since = "0.1.1")]
 		WRITE,
+		[Version (since = "0.1.1")]
 		INVALID_FILE,
+		[Version (since = "0.1.1")]
 		NOT_FOUND,
+		[Version (since = "0.1.1")]
 		NOTHING_TO_DO,
+		[Version (since = "0.1.1")]
 		NOT_SUPPORTED,
+		[Version (since = "0.1.2")]
 		SIGNATURE_INVALID,
+		[Version (since = "0.8.0")]
 		AC_POWER_REQUIRED,
+		[Version (since = "0.9.8")]
 		PERMISSION_DENIED,
+		[Version (since = "1.2.8")]
 		BROKEN_SYSTEM,
+		[Version (since = "1.2.10")]
 		BATTERY_LEVEL_TOO_LOW,
-		NEEDS_USER_ACTION;
+		[Version (since = "1.3.3")]
+		NEEDS_USER_ACTION,
+		[Version (since = "1.7.5")]
+		AUTH_EXPIRED,
+		[Version (since = "2.0.0")]
+		INVALID_DATA,
+		[Version (since = "2.0.0")]
+		TIMED_OUT,
+		[Version (since = "2.0.0")]
+		BUSY,
+		[Version (since = "2.0.4")]
+		NOT_REACHABLE;
+		[Version (since = "2.0.0")]
+		public static void convert () throws GLib.Error;
 		[Version (since = "0.7.0")]
-		public static unowned Fwupd.Error from_string (string error);
+		public static unowned Fwupd.Error from_string (string? error);
 		[Version (since = "0.1.1")]
 		public static GLib.Quark quark ();
 		[Version (since = "0.7.0")]
 		public unowned string to_string ();
 	}
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_BATTERY_LEVEL_INVALID")]
+	public const int BATTERY_LEVEL_INVALID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_BIOS_SETTING_DEBUG_CMD")]
+	public const string BIOS_SETTING_DEBUG_CMD;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_BIOS_SETTING_PENDING_REBOOT")]
+	public const string BIOS_SETTING_PENDING_REBOOT;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_BIOS_SETTING_RESET_BIOS")]
+	public const string BIOS_SETTING_RESET_BIOS;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_BIOS_SETTING_SELF_TEST")]
+	public const string BIOS_SETTING_SELF_TEST;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DBUS_INTERFACE")]
 	public const string DBUS_INTERFACE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DBUS_PATH")]
 	public const string DBUS_PATH;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DBUS_SERVICE")]
 	public const string DBUS_SERVICE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_ADD_COUNTERPART_GUIDS")]
-	public const int DEVICE_FLAG_ADD_COUNTERPART_GUIDS;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_ANOTHER_WRITE_REQUIRED")]
-	public const int DEVICE_FLAG_ANOTHER_WRITE_REQUIRED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_BACKUP_BEFORE_INSTALL")]
-	public const int DEVICE_FLAG_BACKUP_BEFORE_INSTALL;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_CAN_VERIFY")]
-	public const int DEVICE_FLAG_CAN_VERIFY;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_CAN_VERIFY_IMAGE")]
-	public const int DEVICE_FLAG_CAN_VERIFY_IMAGE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_DUAL_IMAGE")]
-	public const int DEVICE_FLAG_DUAL_IMAGE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_ENSURE_SEMVER")]
-	public const int DEVICE_FLAG_ENSURE_SEMVER;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_HAS_MULTIPLE_BRANCHES")]
-	public const int DEVICE_FLAG_HAS_MULTIPLE_BRANCHES;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_HISTORICAL")]
-	public const int DEVICE_FLAG_HISTORICAL;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_IGNORE_VALIDATION")]
-	public const int DEVICE_FLAG_IGNORE_VALIDATION;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_INSTALL_ALL_RELEASES")]
-	public const int DEVICE_FLAG_INSTALL_ALL_RELEASES;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_INSTALL_PARENT_FIRST")]
-	public const int DEVICE_FLAG_INSTALL_PARENT_FIRST;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_INTERNAL")]
-	public const int DEVICE_FLAG_INTERNAL;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_IS_BOOTLOADER")]
-	public const int DEVICE_FLAG_IS_BOOTLOADER;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_LOCKED")]
-	public const int DEVICE_FLAG_LOCKED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_MD_SET_ICON")]
-	public const int DEVICE_FLAG_MD_SET_ICON;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_MD_SET_NAME")]
-	public const int DEVICE_FLAG_MD_SET_NAME;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_MD_SET_NAME_CATEGORY")]
-	public const int DEVICE_FLAG_MD_SET_NAME_CATEGORY;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_MD_SET_VERFMT")]
-	public const int DEVICE_FLAG_MD_SET_VERFMT;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NEEDS_ACTIVATION")]
-	public const int DEVICE_FLAG_NEEDS_ACTIVATION;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NEEDS_BOOTLOADER")]
-	public const int DEVICE_FLAG_NEEDS_BOOTLOADER;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NEEDS_REBOOT")]
-	public const int DEVICE_FLAG_NEEDS_REBOOT;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NEEDS_SHUTDOWN")]
-	public const int DEVICE_FLAG_NEEDS_SHUTDOWN;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NONE")]
-	public const int DEVICE_FLAG_NONE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NOTIFIED")]
-	public const int DEVICE_FLAG_NOTIFIED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NO_AUTO_INSTANCE_IDS")]
-	public const int DEVICE_FLAG_NO_AUTO_INSTANCE_IDS;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_NO_GUID_MATCHING")]
-	public const int DEVICE_FLAG_NO_GUID_MATCHING;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_ONLY_OFFLINE")]
-	public const int DEVICE_FLAG_ONLY_OFFLINE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_ONLY_SUPPORTED")]
-	public const int DEVICE_FLAG_ONLY_SUPPORTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_REGISTERED")]
-	public const int DEVICE_FLAG_REGISTERED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_REPORTED")]
-	public const int DEVICE_FLAG_REPORTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_REQUIRE_AC")]
-	public const int DEVICE_FLAG_REQUIRE_AC;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_SELF_RECOVERY")]
-	public const int DEVICE_FLAG_SELF_RECOVERY;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_SKIPS_RESTART")]
-	public const int DEVICE_FLAG_SKIPS_RESTART;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_SUPPORTED")]
-	public const int DEVICE_FLAG_SUPPORTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_TRUSTED")]
-	public const int DEVICE_FLAG_TRUSTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_UPDATABLE")]
-	public const int DEVICE_FLAG_UPDATABLE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_UPDATABLE_HIDDEN")]
-	public const int DEVICE_FLAG_UPDATABLE_HIDDEN;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_USABLE_DURING_UPDATE")]
-	public const int DEVICE_FLAG_USABLE_DURING_UPDATE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_USE_RUNTIME_VERSION")]
-	public const int DEVICE_FLAG_USE_RUNTIME_VERSION;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_VERSION_CHECK_REQUIRED")]
-	public const int DEVICE_FLAG_VERSION_CHECK_REQUIRED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_WAIT_FOR_REPLUG")]
-	public const int DEVICE_FLAG_WAIT_FOR_REPLUG;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_FLAG_WILL_DISAPPEAR")]
-	public const int DEVICE_FLAG_WILL_DISAPPEAR;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_DEVICE_ID_ANY")]
 	public const string DEVICE_ID_ANY;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_CAPSULES_UNSUPPORTED")]
-	public const int PLUGIN_FLAG_CAPSULES_UNSUPPORTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_CLEAR_UPDATABLE")]
-	public const int PLUGIN_FLAG_CLEAR_UPDATABLE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_DISABLED")]
-	public const int PLUGIN_FLAG_DISABLED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_EFIVAR_NOT_MOUNTED")]
-	public const int PLUGIN_FLAG_EFIVAR_NOT_MOUNTED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_ESP_NOT_FOUND")]
-	public const int PLUGIN_FLAG_ESP_NOT_FOUND;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_FAILED_OPEN")]
-	public const int PLUGIN_FLAG_FAILED_OPEN;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_LEGACY_BIOS")]
-	public const int PLUGIN_FLAG_LEGACY_BIOS;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_NONE")]
-	public const int PLUGIN_FLAG_NONE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_NO_HARDWARE")]
-	public const int PLUGIN_FLAG_NO_HARDWARE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_UNLOCK_REQUIRED")]
-	public const int PLUGIN_FLAG_UNLOCK_REQUIRED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_PLUGIN_FLAG_USER_WARNING")]
-	public const int PLUGIN_FLAG_USER_WARNING;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_BLOCKED_APPROVAL")]
-	public const int RELEASE_FLAG_BLOCKED_APPROVAL;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_BLOCKED_VERSION")]
-	public const int RELEASE_FLAG_BLOCKED_VERSION;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_IS_ALTERNATE_BRANCH")]
-	public const int RELEASE_FLAG_IS_ALTERNATE_BRANCH;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_IS_DOWNGRADE")]
-	public const int RELEASE_FLAG_IS_DOWNGRADE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_IS_UPGRADE")]
-	public const int RELEASE_FLAG_IS_UPGRADE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_NONE")]
-	public const int RELEASE_FLAG_NONE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_TRUSTED_METADATA")]
-	public const int RELEASE_FLAG_TRUSTED_METADATA;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RELEASE_FLAG_TRUSTED_PAYLOAD")]
-	public const int RELEASE_FLAG_TRUSTED_PAYLOAD;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_MAJOR_VERSION")]
+	public const int MAJOR_VERSION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_MICRO_VERSION")]
+	public const int MICRO_VERSION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_MINOR_VERSION")]
+	public const int MINOR_VERSION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_DO_NOT_POWER_OFF")]
+	public const string REQUEST_ID_DO_NOT_POWER_OFF;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_INSERT_USB_CABLE")]
+	public const string REQUEST_ID_INSERT_USB_CABLE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_PRESS_UNLOCK")]
+	public const string REQUEST_ID_PRESS_UNLOCK;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_REMOVE_REPLUG")]
+	public const string REQUEST_ID_REMOVE_REPLUG;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_REMOVE_USB_CABLE")]
+	public const string REQUEST_ID_REMOVE_USB_CABLE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_REPLUG_INSTALL")]
+	public const string REQUEST_ID_REPLUG_INSTALL;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_REPLUG_POWER")]
+	public const string REQUEST_ID_REPLUG_POWER;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_REQUEST_ID_RESTART_DAEMON")]
+	public const string REQUEST_ID_RESTART_DAEMON;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_APPSTREAM_ID")]
 	public const string RESULT_KEY_APPSTREAM_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BATTERY_LEVEL")]
+	public const string RESULT_KEY_BATTERY_LEVEL;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BATTERY_THRESHOLD")]
+	public const string RESULT_KEY_BATTERY_THRESHOLD;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_CURRENT_VALUE")]
+	public const string RESULT_KEY_BIOS_SETTING_CURRENT_VALUE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_ID")]
+	public const string RESULT_KEY_BIOS_SETTING_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_LOWER_BOUND")]
+	public const string RESULT_KEY_BIOS_SETTING_LOWER_BOUND;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_POSSIBLE_VALUES")]
+	public const string RESULT_KEY_BIOS_SETTING_POSSIBLE_VALUES;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_READ_ONLY")]
+	public const string RESULT_KEY_BIOS_SETTING_READ_ONLY;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_SCALAR_INCREMENT")]
+	public const string RESULT_KEY_BIOS_SETTING_SCALAR_INCREMENT;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_TARGET_VALUE")]
+	public const string RESULT_KEY_BIOS_SETTING_TARGET_VALUE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_TYPE")]
+	public const string RESULT_KEY_BIOS_SETTING_TYPE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BIOS_SETTING_UPPER_BOUND")]
+	public const string RESULT_KEY_BIOS_SETTING_UPPER_BOUND;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_BRANCH")]
 	public const string RESULT_KEY_BRANCH;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_CATEGORIES")]
 	public const string RESULT_KEY_CATEGORIES;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_CHECKSUM")]
 	public const string RESULT_KEY_CHECKSUM;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_COMPOSITE_ID")]
+	public const string RESULT_KEY_COMPOSITE_ID;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_CREATED")]
 	public const string RESULT_KEY_CREATED;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DESCRIPTION")]
@@ -1139,6 +1914,14 @@ namespace Fwupd {
 	public const string RESULT_KEY_DETAILS_URL;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DEVICE_ID")]
 	public const string RESULT_KEY_DEVICE_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DEVICE_NAME")]
+	public const string RESULT_KEY_DEVICE_NAME;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DISTRO_ID")]
+	public const string RESULT_KEY_DISTRO_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DISTRO_VARIANT")]
+	public const string RESULT_KEY_DISTRO_VARIANT;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_DISTRO_VERSION")]
+	public const string RESULT_KEY_DISTRO_VERSION;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_FILENAME")]
 	public const string RESULT_KEY_FILENAME;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_FLAGS")]
@@ -1153,6 +1936,10 @@ namespace Fwupd {
 	public const string RESULT_KEY_HSI_LEVEL;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_HSI_RESULT")]
 	public const string RESULT_KEY_HSI_RESULT;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_HSI_RESULT_FALLBACK")]
+	public const string RESULT_KEY_HSI_RESULT_FALLBACK;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_HSI_RESULT_SUCCESS")]
+	public const string RESULT_KEY_HSI_RESULT_SUCCESS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_ICON")]
 	public const string RESULT_KEY_ICON;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_INSTALL_DURATION")]
@@ -1161,6 +1948,10 @@ namespace Fwupd {
 	public const string RESULT_KEY_INSTANCE_IDS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_ISSUES")]
 	public const string RESULT_KEY_ISSUES;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_KERNEL_CURRENT_VALUE")]
+	public const string RESULT_KEY_KERNEL_CURRENT_VALUE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_KERNEL_TARGET_VALUE")]
+	public const string RESULT_KEY_KERNEL_TARGET_VALUE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_LICENSE")]
 	public const string RESULT_KEY_LICENSE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_LOCATIONS")]
@@ -1175,14 +1966,28 @@ namespace Fwupd {
 	public const string RESULT_KEY_NAME_VARIANT_SUFFIX;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_PARENT_DEVICE_ID")]
 	public const string RESULT_KEY_PARENT_DEVICE_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_PERCENTAGE")]
+	public const string RESULT_KEY_PERCENTAGE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_PLUGIN")]
 	public const string RESULT_KEY_PLUGIN;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_PROBLEMS")]
+	public const string RESULT_KEY_PROBLEMS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_PROTOCOL")]
 	public const string RESULT_KEY_PROTOCOL;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_RELEASE")]
 	public const string RESULT_KEY_RELEASE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_RELEASE_ID")]
+	public const string RESULT_KEY_RELEASE_ID;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_REMOTE_ID")]
 	public const string RESULT_KEY_REMOTE_ID;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_REPORTS")]
+	public const string RESULT_KEY_REPORTS;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_REQUEST_FLAGS")]
+	public const string RESULT_KEY_REQUEST_FLAGS;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_REQUEST_KIND")]
+	public const string RESULT_KEY_REQUEST_KIND;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_SBOM_URL")]
+	public const string RESULT_KEY_SBOM_URL;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_SERIAL")]
 	public const string RESULT_KEY_SERIAL;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_SIZE")]
@@ -1193,6 +1998,8 @@ namespace Fwupd {
 	public const string RESULT_KEY_STATUS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_SUMMARY")]
 	public const string RESULT_KEY_SUMMARY;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_TAGS")]
+	public const string RESULT_KEY_TAGS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_TRUST_FLAGS")]
 	public const string RESULT_KEY_TRUST_FLAGS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_UPDATE_ERROR")]
@@ -1217,88 +2024,162 @@ namespace Fwupd {
 	public const string RESULT_KEY_VERSION_BOOTLOADER;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_BOOTLOADER_RAW")]
 	public const string RESULT_KEY_VERSION_BOOTLOADER_RAW;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_BUILD_DATE")]
+	public const string RESULT_KEY_VERSION_BUILD_DATE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_FORMAT")]
 	public const string RESULT_KEY_VERSION_FORMAT;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_LOWEST")]
 	public const string RESULT_KEY_VERSION_LOWEST;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_LOWEST_RAW")]
 	public const string RESULT_KEY_VERSION_LOWEST_RAW;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_OLD")]
+	public const string RESULT_KEY_VERSION_OLD;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_RESULT_KEY_VERSION_RAW")]
 	public const string RESULT_KEY_VERSION_RAW;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_ACPI_DMAR")]
-	public const string SECURITY_ATTR_ID_ACPI_DMAR;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_AMD_ROLLBACK_PROTECTION")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_AMD_ROLLBACK_PROTECTION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_AMD_SMM_LOCKED")]
+	[Version (since = "2.0.2")]
+	public const string SECURITY_ATTR_ID_AMD_SMM_LOCKED;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_AMD_SPI_REPLAY_PROTECTION")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_AMD_SPI_REPLAY_PROTECTION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_AMD_SPI_WRITE_PROTECTION")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_AMD_SPI_WRITE_PROTECTION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_BIOS_CAPSULE_UPDATES")]
+	[Version (since = "1.9.6")]
+	public const string SECURITY_ATTR_ID_BIOS_CAPSULE_UPDATES;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_BIOS_ROLLBACK_PROTECTION")]
+	[Version (since = "1.8.8")]
+	public const string SECURITY_ATTR_ID_BIOS_ROLLBACK_PROTECTION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_CET_ACTIVE")]
+	[Version (since = "2.0.0")]
+	public const string SECURITY_ATTR_ID_CET_ACTIVE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_CET_ENABLED")]
+	[Version (since = "2.0.0")]
+	public const string SECURITY_ATTR_ID_CET_ENABLED;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_ENCRYPTED_RAM")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_ENCRYPTED_RAM;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_FWUPD_ATTESTATION")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_FWUPD_ATTESTATION;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_FWUPD_PLUGINS")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_FWUPD_PLUGINS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_FWUPD_UPDATES")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_FWUPD_UPDATES;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_HOST_EMULATION")]
+	[Version (since = "1.8.3")]
+	public const string SECURITY_ATTR_ID_HOST_EMULATION;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_BOOTGUARD_ACM")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_INTEL_BOOTGUARD_ACM;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_BOOTGUARD_ENABLED")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_INTEL_BOOTGUARD_ENABLED;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_BOOTGUARD_OTP")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_INTEL_BOOTGUARD_OTP;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_BOOTGUARD_POLICY")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_INTEL_BOOTGUARD_POLICY;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_BOOTGUARD_VERIFIED")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_INTEL_BOOTGUARD_VERIFIED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_CET_ACTIVE")]
-	public const string SECURITY_ATTR_ID_INTEL_CET_ACTIVE;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_CET_ENABLED")]
-	public const string SECURITY_ATTR_ID_INTEL_CET_ENABLED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_DCI_ENABLED")]
-	public const string SECURITY_ATTR_ID_INTEL_DCI_ENABLED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_DCI_LOCKED")]
-	public const string SECURITY_ATTR_ID_INTEL_DCI_LOCKED;
-	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_SMAP")]
-	public const string SECURITY_ATTR_ID_INTEL_SMAP;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_INTEL_GDS")]
+	[Version (since = "1.9.4")]
+	public const string SECURITY_ATTR_ID_INTEL_GDS;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_IOMMU")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_IOMMU;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_KERNEL_LOCKDOWN")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_KERNEL_LOCKDOWN;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_KERNEL_SWAP")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_KERNEL_SWAP;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_KERNEL_TAINTED")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_KERNEL_TAINTED;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_MEI_KEY_MANIFEST")]
+	[Version (since = "1.8.7")]
+	public const string SECURITY_ATTR_ID_MEI_KEY_MANIFEST;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_MEI_MANUFACTURING_MODE")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_MEI_MANUFACTURING_MODE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_MEI_OVERRIDE_STRAP")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_MEI_OVERRIDE_STRAP;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_MEI_VERSION")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_MEI_VERSION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_PLATFORM_DEBUG_ENABLED")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_PLATFORM_DEBUG_ENABLED;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_PLATFORM_DEBUG_LOCKED")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_PLATFORM_DEBUG_LOCKED;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_PLATFORM_FUSED")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_PLATFORM_FUSED;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_PREBOOT_DMA_PROTECTION")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_PREBOOT_DMA_PROTECTION;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SMAP")]
+	[Version (since = "2.0.0")]
+	public const string SECURITY_ATTR_ID_SMAP;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SPI_BIOSWE")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_SPI_BIOSWE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SPI_BLE")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_SPI_BLE;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SPI_DESCRIPTOR")]
+	[Version (since = "1.6.0")]
+	public const string SECURITY_ATTR_ID_SPI_DESCRIPTOR;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SPI_SMM_BWP")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_SPI_SMM_BWP;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SUPPORTED_CPU")]
+	[Version (since = "1.8.0")]
+	public const string SECURITY_ATTR_ID_SUPPORTED_CPU;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SUSPEND_TO_IDLE")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_SUSPEND_TO_IDLE;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_SUSPEND_TO_RAM")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_SUSPEND_TO_RAM;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_TPM_EMPTY_PCR")]
+	[Version (since = "1.7.2")]
+	public const string SECURITY_ATTR_ID_TPM_EMPTY_PCR;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_TPM_RECONSTRUCTION_PCR0")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_TPM_RECONSTRUCTION_PCR0;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_TPM_VERSION_20")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_TPM_VERSION_20;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_UEFI_BOOTSERVICE_VARS")]
+	[Version (since = "1.9.3")]
+	public const string SECURITY_ATTR_ID_UEFI_BOOTSERVICE_VARS;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_UEFI_DB")]
+	[Version (since = "2.0.8")]
+	public const string SECURITY_ATTR_ID_UEFI_DB;
+	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_UEFI_MEMORY_PROTECTION")]
+	[Version (since = "2.0.7")]
+	public const string SECURITY_ATTR_ID_UEFI_MEMORY_PROTECTION;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_UEFI_PK")]
+	[Version (since = "1.5.5")]
 	public const string SECURITY_ATTR_ID_UEFI_PK;
 	[CCode (cheader_filename = "fwupd.h", cname = "FWUPD_SECURITY_ATTR_ID_UEFI_SECUREBOOT")]
+	[Version (since = "1.5.0")]
 	public const string SECURITY_ATTR_ID_UEFI_SECUREBOOT;
 	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "1.0.4")]
-	public static string build_history_report_json (GLib.GenericArray<Fwupd.Device> devices) throws GLib.Error;
-	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "1.0.4")]
-	public static string build_machine_id (string salt) throws GLib.Error;
-	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "1.0.3")]
-	public static string build_user_agent (string package_name, string package_version);
-	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "0.9.3")]
-	public static string checksum_format_for_display (string checksum);
+	public static string checksum_format_for_display (string? checksum);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "0.9.4")]
 	public static unowned string checksum_get_best (GLib.GenericArray<string> checksums);
@@ -1307,25 +2188,67 @@ namespace Fwupd {
 	public static unowned string checksum_get_by_kind (GLib.GenericArray<string> checksums, GLib.ChecksumType kind);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "0.9.3")]
-	public static GLib.ChecksumType checksum_guess_kind (string checksum);
+	public static GLib.ChecksumType checksum_guess_kind (string? checksum);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (since = "1.9.6")]
+	public static unowned string checksum_type_to_string_display (GLib.ChecksumType checksum_type);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.array_from_variant", since = "2.0.0")]
+	public static GLib.GenericArray<weak GLib.Object> codec_array_from_variant (GLib.Variant value, GLib.Type gtype) throws GLib.Error;
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.array_to_json", since = "2.0.0")]
+	public static void codec_array_to_json (GLib.GenericArray<GLib.Object> array, string member_name, Json.Builder builder, Fwupd.CodecFlags flags);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.array_to_variant", since = "2.0.0")]
+	public static GLib.Variant codec_array_to_variant (GLib.GenericArray<GLib.Object> array, Fwupd.CodecFlags flags);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.json_append", since = "2.0.0")]
+	public static void codec_json_append (Json.Builder builder, string key, string value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.json_append_bool", since = "2.0.0")]
+	public static void codec_json_append_bool (Json.Builder builder, string key, bool value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.json_append_int", since = "2.0.0")]
+	public static void codec_json_append_int (Json.Builder builder, string key, uint64 value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.json_append_map", since = "2.0.10")]
+	public static void codec_json_append_map (Json.Builder builder, string key, GLib.HashTable<string,string> value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.json_append_strv", since = "2.0.0")]
+	public static void codec_json_append_strv (Json.Builder builder, string key, string value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append", since = "2.0.0")]
+	public static void codec_string_append (GLib.StringBuilder str, uint idt, string key, string value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append_bool", since = "2.0.0")]
+	public static void codec_string_append_bool (GLib.StringBuilder str, uint idt, string key, bool value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append_hex", since = "2.0.0")]
+	public static void codec_string_append_hex (GLib.StringBuilder str, uint idt, string key, uint64 value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append_int", since = "2.0.0")]
+	public static void codec_string_append_int (GLib.StringBuilder str, uint idt, string key, uint64 value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append_size", since = "2.0.0")]
+	public static void codec_string_append_size (GLib.StringBuilder str, uint idt, string key, uint64 value);
+	[CCode (cheader_filename = "fwupd.h")]
+	[Version (replacement = "Codec.string_append_time", since = "2.0.0")]
+	public static void codec_string_append_time (GLib.StringBuilder str, uint idt, string key, uint64 value);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.4.5")]
-	public static Fwupd.FeatureFlags feature_flag_from_string (string feature_flag);
+	public static Fwupd.FeatureFlags feature_flag_from_string (string? feature_flag);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.4.5")]
 	public static unowned string feature_flag_to_string (Fwupd.FeatureFlags feature_flag);
 	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "1.0.7")]
-	public static GLib.HashTable<weak string,weak string> get_os_release () throws GLib.Error;
-	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.2.5")]
-	public static bool guid_from_string (string? guidstr, uint8 guid, Fwupd.GuidFlags flags) throws GLib.Error;
+	public static bool guid_from_string (string guidstr, uint8? guid, Fwupd.GuidFlags flags) throws GLib.Error;
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.2.5")]
 	public static string guid_hash_data (uint8 data, size_t datasz, Fwupd.GuidFlags flags);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.2.5")]
-	public static string guid_hash_string (string str);
+	public static string guid_hash_string (string? str);
 	[CCode (cheader_filename = "fwupd.h")]
 	[Version (since = "1.2.5")]
 	public static bool guid_is_valid (string guid);
@@ -1333,9 +2256,9 @@ namespace Fwupd {
 	[Version (since = "1.2.5")]
 	public static string guid_to_string (uint8 guid, Fwupd.GuidFlags flags);
 	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "0.7.0")]
-	public static Fwupd.TrustFlags trust_flag_from_string (string trust_flag);
+	[Version (since = "2.0.11")]
+	public static unowned string strerror (int errnum);
 	[CCode (cheader_filename = "fwupd.h")]
-	[Version (since = "0.7.0")]
-	public static unowned string trust_flag_to_string (Fwupd.TrustFlags trust_flag);
+	[Version (since = "1.6.1")]
+	public static unowned string version_string ();
 }

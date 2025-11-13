@@ -101,7 +101,7 @@ namespace GUdev {
 	}
 	[CCode (cheader_filename = "gudev/gudev.h")]
 	[SimpleType]
-	public struct DeviceNumber : uint64 {
+	public struct DeviceNumber : Posix.dev_t {
 	}
 	[CCode (cheader_filename = "gudev/gudev.h", cprefix = "G_UDEV_DEVICE_TYPE_", type_id = "g_udev_device_type_get_type ()")]
 	public enum DeviceType {

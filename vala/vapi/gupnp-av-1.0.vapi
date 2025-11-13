@@ -376,7 +376,7 @@ namespace GUPnP {
 		public void set_dlna_profile (string profile);
 		public void set_mime_type (string mime_type);
 		public void set_network (string network);
-		public void set_play_speeds (string speeds);
+		public void set_play_speeds ([CCode (array_length = false, array_null_terminated = true)] string[] speeds);
 		public void set_protocol (string protocol);
 		public string? to_string ();
 		public GUPnP.DLNAConversion dlna_conversion { get; set construct; }
@@ -491,5 +491,6 @@ namespace GUPnP {
 		FAILED
 	}
 	[CCode (cheader_filename = "libgupnp-av/gupnp-av.h")]
+	[Version (since = "0.14.1")]
 	public static string format_date_time_for_didl_lite (GLib.DateTime date_time, bool date_only = false);
 }

@@ -32,7 +32,7 @@ namespace E {
 		[Version (since = "3.50")]
 		public E.BookClientViewSortFields dup_view_sort_fields (size_t view_id);
 		[Version (since = "3.34")]
-		public bool foreach_view (E.BookBackendForeachViewFunc? func);
+		public bool foreach_view (E.BookBackendForeachViewFunc func);
 		[Version (since = "3.34")]
 		public void foreach_view_notify_progress (bool only_completed_views, int percent, string? message);
 		[Version (since = "3.10")]
@@ -121,7 +121,7 @@ namespace E {
 		[Version (since = "3.10")]
 		public bool open_sync (GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.10")]
-		public GLib.SimpleAsyncResult prepare_for_completion (uint32 opid, GLib.Queue result_queue);
+		public GLib.Task prepare_for_completion (uint32 opid);
 		[Version (since = "3.10")]
 		public E.DataBook? ref_data_book ();
 		[Version (since = "3.12")]
@@ -259,7 +259,7 @@ namespace E {
 		public bool remove_contacts (GLib.SList<string> uids, GLib.SList<uint32>? custom_flags, E.CacheOfflineFlag offline_flag, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool search (string? sexp, bool meta_contacts, out GLib.SList<E.BookCacheSearchData> out_list, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool search_uids (string? sexp, out GLib.SList<string> out_list, GLib.Cancellable? cancellable = null) throws GLib.Error;
-		public bool search_with_callback (string? sexp, [CCode (delegate_target_pos = 2.5)] E.BookCacheSearchFunc? func, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		public bool search_with_callback (string? sexp, [CCode (delegate_target_pos = 2.5)] E.BookCacheSearchFunc func, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.34")]
 		public bool set_contact_custom_flags (string uid, uint32 custom_flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		public bool set_contact_extra (string uid, string? extra, GLib.Cancellable? cancellable = null) throws GLib.Error;

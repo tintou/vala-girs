@@ -2,6 +2,64 @@
 
 [CCode (cprefix = "Vte", gir_namespace = "Vte", gir_version = "3.91", lower_case_cprefix = "vte_")]
 namespace Vte {
+	[CCode (cheader_filename = "vte/vte.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "vte_event_context_get_type ()")]
+	[Compact]
+	[Version (since = "0.76")]
+	public class EventContext {
+		public bool get_coordinates (double? x, double? y);
+	}
+	[CCode (cheader_filename = "vte/vte.h", has_type_id = false)]
+	[Compact]
+	[Version (since = "0.84")]
+	public class Properties {
+		public string? dup_property_string (string prop, out size_t size);
+		public string? dup_property_string_by_id (int prop, out size_t size);
+		public Vte.Uuid? dup_property_uuid (string prop);
+		public Vte.Uuid? dup_property_uuid_by_id (int prop);
+		public bool get_property_bool (string prop, out bool valuep);
+		public bool get_property_bool_by_id (int prop, out bool valuep);
+		[CCode (array_length_pos = 1.1, array_length_type = "gsize")]
+		public unowned uint8[]? get_property_data (string prop);
+		[CCode (array_length_pos = 1.1, array_length_type = "gsize")]
+		public unowned uint8[]? get_property_data_by_id (int prop);
+		public bool get_property_double (string prop, out double valuep);
+		public bool get_property_double_by_id (int prop, out double valuep);
+		public bool get_property_enum (string prop, GLib.Type gtype, out int64 valuep);
+		public bool get_property_enum_by_id (int prop, GLib.Type gtype, out int64 valuep);
+		public bool get_property_flags (string prop, GLib.Type gtype, bool ignore_unknown_flags, out uint64 valuep);
+		public bool get_property_flags_by_id (int prop, GLib.Type gtype, bool ignore_unknown_flags, out uint64 valuep);
+		public bool get_property_int (string prop, out int64 valuep);
+		public bool get_property_int_by_id (int prop, out int64 valuep);
+		public bool get_property_rgba (string prop, out Gdk.RGBA color);
+		public bool get_property_rgba_by_id (int prop, out Gdk.RGBA color);
+		public unowned string? get_property_string (string prop, out size_t size);
+		public unowned string? get_property_string_by_id (int prop, out size_t size);
+		public bool get_property_uint (string prop, out uint64 valuep);
+		public bool get_property_uint_by_id (int prop, out uint64 valuep);
+		public bool get_property_value (string prop, out GLib.Value gvalue);
+		public bool get_property_value_by_id (int prop, out GLib.Value gvalue);
+		public unowned Vte.PropertiesRegistry get_registry ();
+		public static GLib.Type get_type ();
+		public GLib.Bytes? ref_property_data_bytes (string prop);
+		public GLib.Bytes? ref_property_data_bytes_by_id (int prop);
+		public Cairo.Surface? ref_property_image_surface (string prop);
+		public Cairo.Surface? ref_property_image_surface_by_id (int prop);
+		public Gdk.Texture? ref_property_image_texture (string prop);
+		public Gdk.Texture? ref_property_image_texture_by_id (int prop);
+		public GLib.Uri? ref_property_uri (string prop);
+		public GLib.Uri? ref_property_uri_by_id (int prop);
+		public GLib.Variant? ref_property_variant (string prop);
+		public GLib.Variant? ref_property_variant_by_id (int prop);
+	}
+	[CCode (cheader_filename = "vte/vte.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "vte_properties_registry_get_type ()")]
+	[Compact]
+	[Version (since = "0.84")]
+	public class PropertiesRegistry {
+		[CCode (array_length_pos = 0.1, array_length_type = "gsize")]
+		public (unowned string)[]? get_properties ();
+		public bool query (string name, out unowned string resolved_name, out int prop, out Vte.PropertyType type, out Vte.PropertyFlags flags);
+		public bool query_by_id (int prop, out unowned string name, out Vte.PropertyType type, out Vte.PropertyFlags flags);
+	}
 	[CCode (cheader_filename = "vte/vte.h", type_id = "vte_pty_get_type ()")]
 	public sealed class Pty : GLib.Object, GLib.Initable {
 		[CCode (has_construct_function = false)]
@@ -31,7 +89,13 @@ namespace Vte {
 		[CCode (has_construct_function = false)]
 		public Regex.for_match (string pattern, ssize_t pattern_length, uint32 flags) throws GLib.Error;
 		[CCode (has_construct_function = false)]
+		[Version (since = "0.76")]
+		public Regex.for_match_full (string pattern, ssize_t pattern_length, uint32 flags, uint32 extra_flags, out size_t error_offset) throws GLib.Error;
+		[CCode (has_construct_function = false)]
 		public Regex.for_search (string pattern, ssize_t pattern_length, uint32 flags) throws GLib.Error;
+		[CCode (has_construct_function = false)]
+		[Version (since = "0.76")]
+		public Regex.for_search_full (string pattern, ssize_t pattern_length, uint32 flags, uint32 extra_flags, out size_t error_offset) throws GLib.Error;
 		public bool jit (uint32 flags) throws GLib.Error;
 		public Vte.Regex @ref ();
 		[Version (since = "0.56")]
@@ -40,7 +104,7 @@ namespace Vte {
 		public Vte.Regex unref ();
 	}
 	[CCode (cheader_filename = "vte/vte.h", type_id = "vte_terminal_get_type ()")]
-	public class Terminal : Gtk.Widget, Gtk.Accessible, Gtk.Buildable, Gtk.ConstraintTarget, Gtk.Scrollable {
+	public class Terminal : Gtk.Widget, Gtk.Accessible, Gtk.AccessibleText, Gtk.Buildable, Gtk.ConstraintTarget, Gtk.Scrollable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public Terminal ();
 		[Version (since = "0.70")]
@@ -53,6 +117,14 @@ namespace Vte {
 		[Version (since = "0.50")]
 		public void copy_clipboard_format (Vte.Format format);
 		public void copy_primary ();
+		[Version (since = "0.78")]
+		public string? dup_termprop_string (string prop, out size_t size);
+		[Version (since = "0.78")]
+		public string? dup_termprop_string_by_id (int prop, out size_t size);
+		[Version (since = "0.78")]
+		public Vte.Uuid? dup_termprop_uuid (string prop);
+		[Version (since = "0.78")]
+		public Vte.Uuid? dup_termprop_uuid_by_id (int prop);
 		public void feed ([CCode (array_length_cname = "length", array_length_pos = 1.1, array_length_type = "gssize")] uint8[]? data);
 		public void feed_child ([CCode (array_length_cname = "length", array_length_pos = 1.1, array_length_type = "gssize")] uint8[]? text);
 		[Version (deprecated = true, deprecated_since = "0.60")]
@@ -74,15 +146,25 @@ namespace Vte {
 		[Version (since = "0.54")]
 		public Gdk.RGBA get_color_background_for_draw ();
 		public long get_column_count ();
+		[Version (since = "0.76")]
+		public unowned Gtk.Widget? get_context_menu ();
+		[Version (since = "0.76")]
+		public unowned GLib.MenuModel? get_context_menu_model ();
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public unowned string? get_current_directory_uri ();
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public unowned string? get_current_file_uri ();
 		public Vte.CursorBlinkMode get_cursor_blink_mode ();
 		public void get_cursor_position (out long column, out long row);
 		public Vte.CursorShape get_cursor_shape ();
+		[Version (since = "0.78")]
+		public bool get_enable_a11y ();
 		[Version (since = "0.58")]
 		public bool get_enable_bidi ();
 		[Version (since = "0.64")]
 		public bool get_enable_fallback_scrolling ();
+		[Version (since = "0.78")]
+		public bool get_enable_legacy_osc777 ();
 		[Version (since = "0.58")]
 		public bool get_enable_shaping ();
 		[Version (since = "0.62")]
@@ -98,10 +180,12 @@ namespace Vte {
 		public unowned string? get_icon_title ();
 		public bool get_input_enabled ();
 		public bool get_mouse_autohide ();
-		public unowned Vte.Pty get_pty ();
+		public unowned Vte.Pty? get_pty ();
 		[Version (deprecated = true, deprecated_since = "0.58")]
 		public bool get_rewrap_on_resize ();
 		public long get_row_count ();
+		[Version (since = "0.76")]
+		public bool get_scroll_on_insert ();
 		[Version (since = "0.52")]
 		public bool get_scroll_on_keystroke ();
 		[Version (since = "0.52")]
@@ -110,11 +194,59 @@ namespace Vte {
 		public bool get_scroll_unit_is_pixels ();
 		[Version (since = "0.52")]
 		public long get_scrollback_lines ();
+		[Version (since = "0.78")]
+		public bool get_termprop_bool (string prop, out bool valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_bool_by_id (int prop, out bool valuep);
+		[CCode (array_length_pos = 1.1, array_length_type = "gsize")]
+		[Version (since = "0.78")]
+		public unowned uint8[]? get_termprop_data (string prop);
+		[CCode (array_length_pos = 1.1, array_length_type = "gsize")]
+		[Version (since = "0.78")]
+		public unowned uint8[]? get_termprop_data_by_id (int prop);
+		[Version (since = "0.78")]
+		public bool get_termprop_double (string prop, out double valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_double_by_id (int prop, out double valuep);
+		[Version (since = "0.82")]
+		public bool get_termprop_enum (string prop, GLib.Type gtype, out int64 valuep);
+		[Version (since = "0.82")]
+		public bool get_termprop_enum_by_id (int prop, GLib.Type gtype, out int64 valuep);
+		[Version (since = "0.82")]
+		public bool get_termprop_flags (string prop, GLib.Type gtype, bool ignore_unknown_flags, out uint64 valuep);
+		[Version (since = "0.82")]
+		public bool get_termprop_flags_by_id (int prop, GLib.Type gtype, bool ignore_unknown_flags, out uint64 valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_int (string prop, out int64 valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_int_by_id (int prop, out int64 valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_rgba (string prop, out Gdk.RGBA color);
+		[Version (since = "0.78")]
+		public bool get_termprop_rgba_by_id (int prop, out Gdk.RGBA color);
+		[Version (since = "0.78")]
+		public unowned string? get_termprop_string (string prop, out size_t size);
+		[Version (since = "0.78")]
+		public unowned string? get_termprop_string_by_id (int prop, out size_t size);
+		[Version (since = "0.78")]
+		public bool get_termprop_uint (string prop, out uint64 valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_uint_by_id (int prop, out uint64 valuep);
+		[Version (since = "0.78")]
+		public bool get_termprop_value (string prop, out GLib.Value gvalue);
+		[Version (since = "0.78")]
+		public bool get_termprop_value_by_id (int prop, out GLib.Value gvalue);
+		[Version (since = "0.84")]
+		public unowned Vte.Properties get_termprops ();
+		[Version (deprecated = true, deprecated_since = "0.76")]
 		public string? get_text ([CCode (delegate_target_pos = 1.5)] Vte.SelectionFunc? is_selected, out GLib.Array<Vte.CharAttributes?>? attributes);
 		[Version (since = "0.52")]
 		public Vte.TextBlinkMode get_text_blink_mode ();
+		[Version (since = "0.76")]
+		public string? get_text_format (Vte.Format format);
 		[Version (deprecated = true, deprecated_since = "0.56")]
 		public string get_text_include_trailing_spaces ([CCode (delegate_target_pos = 1.5)] Vte.SelectionFunc? is_selected, out GLib.Array<Vte.CharAttributes?>? attributes);
+		[Version (deprecated = true, deprecated_since = "0.76")]
 		public string? get_text_range (long start_row, long start_col, long end_row, long end_col, [CCode (delegate_target_pos = 5.5)] Vte.SelectionFunc? is_selected, out GLib.Array<Vte.CharAttributes?>? attributes);
 		[Version (since = "0.72")]
 		public string? get_text_range_format (Vte.Format format, long start_row, long start_col, long end_row, long end_col, out size_t length);
@@ -122,6 +254,7 @@ namespace Vte {
 		public string? get_text_selected (Vte.Format format);
 		[Version (since = "0.72")]
 		public string? get_text_selected_full (Vte.Format format, out size_t length);
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public unowned string? get_window_title ();
 		[Version (since = "0.40")]
 		public unowned string? get_word_char_exceptions ();
@@ -146,6 +279,26 @@ namespace Vte {
 		[Version (since = "0.68")]
 		public void paste_text (string text);
 		public Vte.Pty pty_new_sync (Vte.PtyFlags flags, GLib.Cancellable? cancellable = null) throws GLib.Error;
+		[Version (since = "0.78")]
+		public GLib.Bytes? ref_termprop_data_bytes (string prop);
+		[Version (since = "0.78")]
+		public GLib.Bytes? ref_termprop_data_bytes_by_id (int prop);
+		[Version (since = "0.80")]
+		public Cairo.Surface? ref_termprop_image_surface (string prop);
+		[Version (since = "0.80")]
+		public Cairo.Surface? ref_termprop_image_surface_by_id (int prop);
+		[Version (since = "0.80")]
+		public Gdk.Texture? ref_termprop_image_texture (string prop);
+		[Version (since = "0.80")]
+		public Gdk.Texture? ref_termprop_image_texture_by_id (int prop);
+		[Version (since = "0.78")]
+		public GLib.Uri? ref_termprop_uri (string prop);
+		[Version (since = "0.78")]
+		public GLib.Uri? ref_termprop_uri_by_id (int prop);
+		[Version (since = "0.78")]
+		public GLib.Variant? ref_termprop_variant (string prop);
+		[Version (since = "0.78")]
+		public GLib.Variant? ref_termprop_variant_by_id (int prop);
 		public void reset (bool clear_tabstops, bool clear_history);
 		public bool search_find_next ();
 		public bool search_find_previous ();
@@ -180,14 +333,22 @@ namespace Vte {
 		public void set_color_highlight (Gdk.RGBA? highlight_background);
 		public void set_color_highlight_foreground (Gdk.RGBA? highlight_foreground);
 		public void set_colors (Gdk.RGBA? foreground, Gdk.RGBA? background, [CCode (array_length_cname = "palette_size", array_length_pos = 3.1, array_length_type = "gsize")] Gdk.RGBA[]? palette);
+		[Version (since = "0.76")]
+		public void set_context_menu (Gtk.Widget? menu);
+		[Version (since = "0.76")]
+		public void set_context_menu_model (GLib.MenuModel? model);
 		public void set_cursor_blink_mode (Vte.CursorBlinkMode mode);
 		public void set_cursor_shape (Vte.CursorShape shape);
 		public void set_default_colors ();
 		public void set_delete_binding (Vte.EraseBinding binding);
+		[Version (since = "0.78")]
+		public void set_enable_a11y (bool enable_a11y);
 		[Version (since = "0.58")]
 		public void set_enable_bidi (bool enable_bidi);
 		[Version (since = "0.64")]
 		public void set_enable_fallback_scrolling (bool enable);
+		[Version (since = "0.78")]
+		public void set_enable_legacy_osc777 (bool enable);
 		[Version (since = "0.58")]
 		public void set_enable_shaping (bool enable_shaping);
 		[Version (since = "0.62")]
@@ -203,12 +364,18 @@ namespace Vte {
 		public void set_pty (Vte.Pty? pty);
 		[Version (deprecated = true, deprecated_since = "0.58")]
 		public void set_rewrap_on_resize (bool rewrap);
+		[Version (since = "0.76")]
+		public void set_scroll_on_insert (bool scroll);
+		[Version (since = "0.52")]
 		public void set_scroll_on_keystroke (bool scroll);
+		[Version (since = "0.52")]
 		public void set_scroll_on_output (bool scroll);
 		[Version (since = "0.66")]
 		public void set_scroll_unit_is_pixels (bool enable);
 		public void set_scrollback_lines (long lines);
 		public void set_size (long columns, long rows);
+		[Version (since = "0.78")]
+		public void set_suppress_legacy_signals ();
 		[Version (since = "0.52")]
 		public void set_text_blink_mode (Vte.TextBlinkMode text_blink_mode);
 		[Version (since = "0.40")]
@@ -244,15 +411,25 @@ namespace Vte {
 		[Version (since = "0.52")]
 		public double cell_width_scale { get; set; }
 		public int cjk_ambiguous_width { get; set; }
+		[Version (since = "0.76")]
+		public Gtk.Popover context_menu { get; set; }
+		[Version (since = "0.76")]
+		public GLib.MenuModel context_menu_model { get; set; }
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public string current_directory_uri { get; }
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public string current_file_uri { get; }
 		public Vte.CursorBlinkMode cursor_blink_mode { get; set; }
 		public Vte.CursorShape cursor_shape { get; set; }
 		[NoAccessorMethod]
 		public Vte.EraseBinding delete_binding { get; set; }
+		[Version (since = "0.78")]
+		public bool enable_a11y { get; set; }
 		[Version (since = "0.58")]
 		public bool enable_bidi { get; set; }
 		public bool enable_fallback_scrolling { get; set; }
+		[Version (since = "0.78")]
+		public bool enable_legacy_osc777 { get; set; }
 		[Version (since = "0.58")]
 		public bool enable_shaping { get; set; }
 		[Version (since = "0.62")]
@@ -276,6 +453,8 @@ namespace Vte {
 		public Vte.Pty pty { get; set; }
 		[Version (deprecated = true, deprecated_since = "0.58")]
 		public bool rewrap_on_resize { get; set; }
+		[Version (since = "0.76")]
+		public bool scroll_on_insert { get; set; }
 		public bool scroll_on_keystroke { get; set; }
 		public bool scroll_on_output { get; set; }
 		[Version (since = "0.66")]
@@ -283,6 +462,7 @@ namespace Vte {
 		public uint scrollback_lines { get; set; }
 		[Version (since = "0.52")]
 		public Vte.TextBlinkMode text_blink_mode { get; set; }
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public string window_title { get; }
 		[Version (since = "0.40")]
 		public string word_char_exceptions { get; }
@@ -301,7 +481,9 @@ namespace Vte {
 		public virtual signal void contents_changed ();
 		[HasEmitter]
 		public virtual signal void copy_clipboard ();
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public signal void current_directory_uri_changed ();
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public signal void current_file_uri_changed ();
 		public virtual signal void cursor_moved ();
 		public virtual signal void decrease_font_size ();
@@ -310,7 +492,7 @@ namespace Vte {
 		public virtual signal void encoding_changed ();
 		public virtual signal void eof ();
 		[Version (since = "0.50")]
-		public signal void hyperlink_hover_uri_changed (string uri, Gdk.Rectangle bbox);
+		public signal void hyperlink_hover_uri_changed (string object, Gdk.Rectangle p0);
 		[Version (deprecated = true, deprecated_since = "0.54")]
 		public virtual signal void icon_title_changed ();
 		[Version (deprecated = true, deprecated_since = "0.60")]
@@ -332,7 +514,31 @@ namespace Vte {
 		[Version (deprecated = true, deprecated_since = "0.60")]
 		public virtual signal void restore_window ();
 		public virtual signal void selection_changed ();
+		public virtual signal void setup_context_menu (Vte.EventContext? context);
+		[Version (since = "0.78")]
+		public virtual signal void termprop_changed (string prop);
+		[Version (since = "0.78")]
+		public virtual signal bool termprops_changed ([CCode (array_length_cname = "n_props", array_length_pos = 1.1)] int[] props);
+		[Version (deprecated = true, deprecated_since = "0.78")]
 		public virtual signal void window_title_changed ();
+	}
+	[CCode (cheader_filename = "vte/vte.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "vte_uuid_get_type ()")]
+	[Compact]
+	[Version (since = "0.78")]
+	public class Uuid {
+		public Vte.Uuid dup ();
+		public bool equal (Vte.Uuid other);
+		[DestroysInstance]
+		public void free ();
+		[DestroysInstance]
+		public string free_to_string (Vte.UuidFormat fmt, size_t len);
+		[CCode (has_construct_function = false)]
+		public Uuid.from_string (string str, ssize_t len, Vte.UuidFormat fmt);
+		public Vte.Uuid new_v5 (string data, ssize_t len);
+		public string to_string (Vte.UuidFormat fmt, out size_t len);
+		[CCode (has_construct_function = false)]
+		public Uuid.v4 ();
+		public static bool validate_string (string str, ssize_t len, Vte.UuidFormat fmt);
 	}
 	[CCode (cheader_filename = "vte/vte.h", has_type_id = false)]
 	[Version (deprecated = true, deprecated_since = "0.68")]
@@ -381,6 +587,55 @@ namespace Vte {
 		TEXT,
 		HTML
 	}
+	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_PROGRESS_HINT_", type_id = "vte_progress_hint_get_type ()")]
+	[Version (since = "0.80")]
+	public enum ProgressHint {
+		INACTIVE,
+		ACTIVE,
+		ERROR,
+		INDETERMINATE,
+		PAUSED
+	}
+	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_PROPERTY_FLAG_", type_id = "vte_property_flags_get_type ()")]
+	[Flags]
+	[Version (since = "0.78")]
+	public enum PropertyFlags {
+		NONE,
+		EPHEMERAL
+	}
+	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_PROPERTY_ID_", type_id = "vte_property_id_get_type ()")]
+	[Version (since = "0.78")]
+	public enum PropertyId {
+		CURRENT_DIRECTORY_URI,
+		CURRENT_FILE_URI,
+		XTERM_TITLE,
+		CONTAINER_NAME,
+		CONTAINER_RUNTIME,
+		CONTAINER_UID,
+		SHELL_PRECMD,
+		SHELL_PREEXEC,
+		SHELL_POSTEXEC,
+		PROGRESS_HINT,
+		PROGRESS_VALUE,
+		ICON_COLOR,
+		ICON_IMAGE
+	}
+	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_PROPERTY_", type_id = "vte_property_type_get_type ()")]
+	[Version (since = "0.78")]
+	public enum PropertyType {
+		VALUELESS,
+		BOOL,
+		INT,
+		UINT,
+		DOUBLE,
+		RGB,
+		RGBA,
+		STRING,
+		DATA,
+		UUID,
+		URI,
+		IMAGE
+	}
 	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_PTY_", type_id = "vte_pty_flags_get_type ()")]
 	[Flags]
 	public enum PtyFlags {
@@ -401,6 +656,14 @@ namespace Vte {
 		UNFOCUSED,
 		ALWAYS
 	}
+	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_UUID_FORMAT_", type_id = "vte_uuid_format_get_type ()")]
+	[Flags]
+	public enum UuidFormat {
+		SIMPLE,
+		BRACED,
+		URN,
+		ANY
+	}
 	[CCode (cheader_filename = "vte/vte.h", cprefix = "VTE_WRITE_", type_id = "vte_write_flags_get_type ()")]
 	public enum WriteFlags {
 		DEFAULT
@@ -419,10 +682,11 @@ namespace Vte {
 		public static GLib.Quark quark ();
 	}
 	[CCode (cheader_filename = "vte/vte.h", instance_pos = 3.9)]
+	[Version (deprecated = true, deprecated_since = "0.76")]
 	public delegate bool SelectionFunc (Vte.Terminal terminal, long column, long row);
 	[CCode (cheader_filename = "vte/vte.h", instance_pos = 3.9)]
 	[Version (since = "0.48")]
-	public delegate void TerminalSpawnAsyncCallback (Vte.Terminal terminal, GLib.Pid pid, GLib.Error error);
+	public delegate void TerminalSpawnAsyncCallback (Vte.Terminal terminal, GLib.Pid pid, GLib.Error? error);
 	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
 	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_MICRO_VERSION")]
@@ -439,6 +703,47 @@ namespace Vte {
 	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_SPAWN_REQUIRE_SYSTEMD_SCOPE")]
 	[Version (since = "0.60")]
 	public const int SPAWN_REQUIRE_SYSTEMD_SCOPE;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_CONTAINER_NAME")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_CONTAINER_NAME;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_CONTAINER_RUNTIME")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_CONTAINER_RUNTIME;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_CONTAINER_UID")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_CONTAINER_UID;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_CURRENT_DIRECTORY_URI")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_CURRENT_DIRECTORY_URI;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_CURRENT_FILE_URI")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_CURRENT_FILE_URI;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_ICON_COLOR")]
+	public const string TERMPROP_ICON_COLOR;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_ICON_IMAGE")]
+	[Version (since = "0.80")]
+	public const string TERMPROP_ICON_IMAGE;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_NAME_PREFIX")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_NAME_PREFIX;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_PROGRESS_HINT")]
+	[Version (since = "0.80")]
+	public const string TERMPROP_PROGRESS_HINT;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_PROGRESS_VALUE")]
+	[Version (since = "0.80")]
+	public const string TERMPROP_PROGRESS_VALUE;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_SHELL_POSTEXEC")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_SHELL_POSTEXEC;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_SHELL_PRECMD")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_SHELL_PRECMD;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_SHELL_PREEXEC")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_SHELL_PREEXEC;
+	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TERMPROP_XTERM_TITLE")]
+	[Version (since = "0.78")]
+	public const string TERMPROP_XTERM_TITLE;
 	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TEST_FLAGS_ALL")]
 	public const uint64 TEST_FLAGS_ALL;
 	[CCode (cheader_filename = "vte/vte.h", cname = "VTE_TEST_FLAGS_NONE")]
@@ -464,12 +769,33 @@ namespace Vte {
 	[CCode (cheader_filename = "vte/vte.h")]
 	[Version (since = "0.40")]
 	public static uint get_minor_version ();
+	[CCode (array_length_pos = 0.1, array_length_type = "gsize", cheader_filename = "vte/vte.h")]
+	[Version (since = "0.78")]
+	public static (unowned string)[]? get_termprops ();
+	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (since = "0.84")]
+	public static unowned Vte.PropertiesRegistry get_termprops_registry ();
 	[CCode (cheader_filename = "vte/vte.h")]
 	public static string get_user_shell ();
+	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (since = "0.78")]
+	public static int install_termprop (string name, Vte.PropertyType type, Vte.PropertyFlags flags);
+	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (since = "0.78")]
+	public static int install_termprop_alias (string name, string target_name);
 	[CCode (cheader_filename = "vte/vte.h")]
 	[Version (replacement = "PtyError.quark")]
 	public static GLib.Quark pty_error_quark ();
 	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (since = "0.78")]
+	public static bool query_termprop (string name, out unowned string resolved_name, out int prop, out Vte.PropertyType type, out Vte.PropertyFlags flags);
+	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (since = "0.78")]
+	public static bool query_termprop_by_id (int prop, out unowned string name, out Vte.PropertyType type, out Vte.PropertyFlags flags);
+	[CCode (cheader_filename = "vte/vte.h")]
 	[Version (replacement = "RegexError.quark")]
 	public static GLib.Quark regex_error_quark ();
+	[CCode (cheader_filename = "vte/vte.h")]
+	[Version (replacement = "Uuid.validate_string", since = "0.78")]
+	public static bool uuid_validate_string (string str, ssize_t len, Vte.UuidFormat fmt);
 }

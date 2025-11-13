@@ -10,71 +10,107 @@ namespace Gtk {
 		[Version (since = "3.10")]
 		public static string unescape_search_text (string text);
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_buffer_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_buffer_", type_id = "gtk_source_buffer_get_type ()")]
 	[GIR (name = "Buffer")]
 	public class SourceBuffer : Gtk.TextBuffer {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_buffer_new", has_construct_function = false)]
 		public SourceBuffer (Gtk.TextTagTable? table);
+		[CCode (cname = "gtk_source_buffer_backward_iter_to_source_mark")]
 		[Version (since = "2.2")]
 		public bool backward_iter_to_source_mark (ref Gtk.TextIter iter, string? category);
+		[CCode (cname = "gtk_source_buffer_begin_not_undoable_action")]
 		public void begin_not_undoable_action ();
+		[CCode (cname = "gtk_source_buffer_change_case")]
 		[Version (since = "3.12")]
 		public void change_case (Gtk.SourceChangeCaseType case_type, Gtk.TextIter start, Gtk.TextIter end);
+		[CCode (cname = "gtk_source_buffer_create_source_mark")]
 		[Version (since = "2.2")]
 		public unowned Gtk.SourceMark create_source_mark (string? name, string category, Gtk.TextIter where);
+		[CCode (cname = "gtk_source_buffer_end_not_undoable_action")]
 		public void end_not_undoable_action ();
+		[CCode (cname = "gtk_source_buffer_ensure_highlight")]
 		public void ensure_highlight (Gtk.TextIter start, Gtk.TextIter end);
+		[CCode (cname = "gtk_source_buffer_forward_iter_to_source_mark")]
 		[Version (since = "2.2")]
 		public bool forward_iter_to_source_mark (ref Gtk.TextIter iter, string? category);
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_buffer_get_context_classes_at_iter")]
 		[Version (since = "2.10")]
 		public string[] get_context_classes_at_iter (Gtk.TextIter iter);
+		[CCode (cname = "gtk_source_buffer_get_highlight_matching_brackets")]
 		public bool get_highlight_matching_brackets ();
+		[CCode (cname = "gtk_source_buffer_get_highlight_syntax")]
 		public bool get_highlight_syntax ();
+		[CCode (cname = "gtk_source_buffer_get_implicit_trailing_newline")]
 		[Version (since = "3.14")]
 		public bool get_implicit_trailing_newline ();
+		[CCode (cname = "gtk_source_buffer_get_language")]
 		public unowned Gtk.SourceLanguage? get_language ();
+		[CCode (cname = "gtk_source_buffer_get_max_undo_levels")]
 		public int get_max_undo_levels ();
+		[CCode (cname = "gtk_source_buffer_get_source_marks_at_iter")]
 		[Version (since = "2.2")]
 		public GLib.SList<weak Gtk.SourceMark> get_source_marks_at_iter (Gtk.TextIter iter, string? category);
+		[CCode (cname = "gtk_source_buffer_get_source_marks_at_line")]
 		[Version (since = "2.2")]
 		public GLib.SList<weak Gtk.SourceMark> get_source_marks_at_line (int line, string? category);
+		[CCode (cname = "gtk_source_buffer_get_style_scheme")]
 		public unowned Gtk.SourceStyleScheme? get_style_scheme ();
+		[CCode (cname = "gtk_source_buffer_get_undo_manager")]
 		public unowned Gtk.SourceUndoManager? get_undo_manager ();
+		[CCode (cname = "gtk_source_buffer_iter_backward_to_context_class_toggle")]
 		[Version (since = "2.10")]
 		public bool iter_backward_to_context_class_toggle (ref Gtk.TextIter iter, string context_class);
+		[CCode (cname = "gtk_source_buffer_iter_forward_to_context_class_toggle")]
 		[Version (since = "2.10")]
 		public bool iter_forward_to_context_class_toggle (ref Gtk.TextIter iter, string context_class);
+		[CCode (cname = "gtk_source_buffer_iter_has_context_class")]
 		[Version (since = "2.10")]
 		public bool iter_has_context_class (Gtk.TextIter iter, string context_class);
+		[CCode (cname = "gtk_source_buffer_join_lines")]
 		[Version (since = "3.16")]
 		public void join_lines (Gtk.TextIter start, Gtk.TextIter end);
+		[CCode (cname = "gtk_source_buffer_remove_source_marks")]
 		[Version (since = "2.2")]
 		public void remove_source_marks (Gtk.TextIter start, Gtk.TextIter end, string? category);
+		[CCode (cname = "gtk_source_buffer_set_highlight_matching_brackets")]
 		public void set_highlight_matching_brackets (bool highlight);
+		[CCode (cname = "gtk_source_buffer_set_highlight_syntax")]
 		public void set_highlight_syntax (bool highlight);
+		[CCode (cname = "gtk_source_buffer_set_implicit_trailing_newline")]
 		[Version (since = "3.14")]
 		public void set_implicit_trailing_newline (bool implicit_trailing_newline);
+		[CCode (cname = "gtk_source_buffer_set_language")]
 		public void set_language (Gtk.SourceLanguage? language);
+		[CCode (cname = "gtk_source_buffer_set_max_undo_levels")]
 		public void set_max_undo_levels (int max_undo_levels);
+		[CCode (cname = "gtk_source_buffer_set_style_scheme")]
 		public void set_style_scheme (Gtk.SourceStyleScheme? scheme);
+		[CCode (cname = "gtk_source_buffer_set_undo_manager")]
 		public void set_undo_manager (Gtk.SourceUndoManager? manager);
+		[CCode (cname = "gtk_source_buffer_sort_lines")]
 		[Version (since = "3.18")]
 		public void sort_lines (Gtk.TextIter start, Gtk.TextIter end, Gtk.SourceSortFlags flags, int column);
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_buffer_new_with_language", has_construct_function = false)]
 		public SourceBuffer.with_language (Gtk.SourceLanguage language);
 		[NoAccessorMethod]
 		public bool can_redo { get; }
 		[NoAccessorMethod]
 		public bool can_undo { get; }
+		[NoAccessorMethod]
 		public bool highlight_matching_brackets { get; set; }
+		[NoAccessorMethod]
 		public bool highlight_syntax { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public bool implicit_trailing_newline { get; set construct; }
-		public Gtk.SourceLanguage language { get; set; }
+		[NoAccessorMethod]
+		public Gtk.SourceLanguage language { owned get; set; }
+		[NoAccessorMethod]
 		public int max_undo_levels { get; set; }
-		public Gtk.SourceStyleScheme style_scheme { get; set; }
-		public Gtk.SourceUndoManager undo_manager { get; set construct; }
+		[NoAccessorMethod]
+		public Gtk.SourceStyleScheme style_scheme { owned get; set; }
+		[NoAccessorMethod]
+		public Gtk.SourceUndoManager undo_manager { owned get; set construct; }
 		[Version (since = "2.12")]
 		public virtual signal void bracket_matched (Gtk.TextIter? iter, Gtk.SourceBracketMatchType state);
 		public signal void highlight_updated (Gtk.TextIter start, Gtk.TextIter end);
@@ -84,21 +120,30 @@ namespace Gtk {
 		[HasEmitter]
 		public virtual signal void undo ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_", type_id = "gtk_source_completion_get_type ()")]
 	[GIR (name = "Completion")]
 	public class SourceCompletion : GLib.Object, Gtk.Buildable {
 		[CCode (has_construct_function = false)]
 		protected SourceCompletion ();
+		[CCode (cname = "gtk_source_completion_add_provider")]
 		public bool add_provider (Gtk.SourceCompletionProvider provider) throws GLib.Error;
+		[CCode (cname = "gtk_source_completion_block_interactive")]
 		public void block_interactive ();
+		[CCode (cname = "gtk_source_completion_create_context")]
 		public unowned Gtk.SourceCompletionContext create_context (Gtk.TextIter? position);
+		[CCode (cname = "gtk_source_completion_get_info_window")]
 		public unowned Gtk.SourceCompletionInfo get_info_window ();
+		[CCode (cname = "gtk_source_completion_get_providers")]
 		public unowned GLib.List<Gtk.SourceCompletionProvider> get_providers ();
+		[CCode (cname = "gtk_source_completion_get_view")]
 		public unowned Gtk.SourceView? get_view ();
 		[NoWrapper]
 		public virtual bool proposal_activated (Gtk.SourceCompletionProvider provider, Gtk.SourceCompletionProposal proposal);
+		[CCode (cname = "gtk_source_completion_remove_provider")]
 		public bool remove_provider (Gtk.SourceCompletionProvider provider) throws GLib.Error;
+		[CCode (cname = "gtk_source_completion_start")]
 		public bool start (GLib.List<Gtk.SourceCompletionProvider>? providers, Gtk.SourceCompletionContext context);
+		[CCode (cname = "gtk_source_completion_unblock_interactive")]
 		public void unblock_interactive ();
 		[NoAccessorMethod]
 		public uint accelerators { get; set construct; }
@@ -116,7 +161,8 @@ namespace Gtk {
 		public bool show_headers { get; set construct; }
 		[NoAccessorMethod]
 		public bool show_icons { get; set construct; }
-		public Gtk.SourceView view { get; construct; }
+		[NoAccessorMethod]
+		public Gtk.SourceView view { owned get; construct; }
 		public virtual signal void activate_proposal ();
 		[HasEmitter]
 		public virtual signal void hide ();
@@ -125,13 +171,16 @@ namespace Gtk {
 		public virtual signal void populate_context (Gtk.SourceCompletionContext context);
 		public virtual signal void show ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_context_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_context_", type_id = "gtk_source_completion_context_get_type ()")]
 	[GIR (name = "CompletionContext")]
 	public class SourceCompletionContext : GLib.InitiallyUnowned {
 		[CCode (has_construct_function = false)]
 		protected SourceCompletionContext ();
+		[CCode (cname = "gtk_source_completion_context_add_proposals")]
 		public void add_proposals (Gtk.SourceCompletionProvider provider, GLib.List<Gtk.SourceCompletionProposal>? proposals, bool finished);
+		[CCode (cname = "gtk_source_completion_context_get_activation")]
 		public Gtk.SourceCompletionActivation get_activation ();
+		[CCode (cname = "gtk_source_completion_context_get_iter")]
 		public bool get_iter (out Gtk.TextIter iter);
 		[NoAccessorMethod]
 		public Gtk.SourceCompletionActivation activation { get; set construct; }
@@ -141,31 +190,39 @@ namespace Gtk {
 		public Gtk.TextIter iter { owned get; set; }
 		public virtual signal void cancelled ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_info_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_info_", type_id = "gtk_source_completion_info_get_type ()")]
 	[GIR (name = "CompletionInfo")]
 	public class SourceCompletionInfo : Gtk.Window, Atk.Implementor, Gtk.Buildable {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_completion_info_new", has_construct_function = false)]
 		public SourceCompletionInfo ();
+		[CCode (cname = "gtk_source_completion_info_move_to_iter")]
 		public void move_to_iter (Gtk.TextView view, Gtk.TextIter? iter);
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_item_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_item_", type_id = "gtk_source_completion_item_get_type ()")]
 	[GIR (name = "CompletionItem")]
 	public class SourceCompletionItem : GLib.Object, Gtk.SourceCompletionProposal {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_completion_item_new", has_construct_function = false)]
 		[Version (since = "4.0")]
 		public SourceCompletionItem ();
+		[CCode (cname = "gtk_source_completion_item_set_gicon")]
 		[Version (since = "3.24")]
 		public void set_gicon (GLib.Icon? gicon);
+		[CCode (cname = "gtk_source_completion_item_set_icon")]
 		[Version (since = "3.24")]
 		public void set_icon (Gdk.Pixbuf? icon);
+		[CCode (cname = "gtk_source_completion_item_set_icon_name")]
 		[Version (since = "3.24")]
 		public void set_icon_name (string? icon_name);
+		[CCode (cname = "gtk_source_completion_item_set_info")]
 		[Version (since = "3.24")]
 		public void set_info (string? info);
+		[CCode (cname = "gtk_source_completion_item_set_label")]
 		[Version (since = "3.24")]
 		public void set_label (string? label);
+		[CCode (cname = "gtk_source_completion_item_set_markup")]
 		[Version (since = "3.24")]
 		public void set_markup (string? markup);
+		[CCode (cname = "gtk_source_completion_item_set_text")]
 		[Version (since = "3.24")]
 		public void set_text (string? text);
 		[NoAccessorMethod]
@@ -185,12 +242,14 @@ namespace Gtk {
 		[NoAccessorMethod]
 		public string text { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_words_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_words_", type_id = "gtk_source_completion_words_get_type ()")]
 	[GIR (name = "CompletionWords")]
 	public class SourceCompletionWords : GLib.Object, Gtk.SourceCompletionProvider {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_completion_words_new", has_construct_function = false)]
 		public SourceCompletionWords (string? name, Gdk.Pixbuf? icon);
+		[CCode (cname = "gtk_source_completion_words_register")]
 		public void register (Gtk.TextBuffer buffer);
+		[CCode (cname = "gtk_source_completion_words_unregister")]
 		public void unregister (Gtk.TextBuffer buffer);
 		[NoAccessorMethod]
 		[Version (since = "3.10")]
@@ -210,190 +269,240 @@ namespace Gtk {
 		[NoAccessorMethod]
 		public uint scan_batch_size { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "gtk_source_encoding_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", lower_case_cprefix = "gtk_encoding_", type_id = "gtk_source_encoding_get_type ()")]
 	[Compact]
 	[GIR (name = "Encoding")]
 	public class SourceEncoding {
+		[CCode (cname = "gtk_source_encoding_copy")]
 		[Version (since = "3.14")]
 		public Gtk.SourceEncoding copy ();
-		[CCode (cname = "gtk_source_encoding_get_all")]
-		[Version (replacement = "Encoding.get_all", since = "3.14")]
-		public static GLib.SList<weak Gtk.SourceEncoding> et_all ();
-		[CCode (cname = "gtk_source_encoding_get_current")]
-		[Version (replacement = "Encoding.get_current", since = "3.14")]
-		public static unowned Gtk.SourceEncoding et_current ();
-		[CCode (cname = "gtk_source_encoding_get_default_candidates")]
-		[Version (replacement = "Encoding.get_default_candidates", since = "3.18")]
-		public static GLib.SList<weak Gtk.SourceEncoding> et_default_candidates ();
-		[CCode (cname = "gtk_source_encoding_get_from_charset")]
-		[Version (replacement = "Encoding.get_from_charset", since = "3.14")]
-		public static unowned Gtk.SourceEncoding? et_from_charset (string charset);
-		[CCode (cname = "gtk_source_encoding_get_utf8")]
-		[Version (replacement = "Encoding.get_utf8", since = "3.14")]
-		public static unowned Gtk.SourceEncoding et_utf8 ();
+		[CCode (cname = "gtk_source_encoding_free")]
 		[Version (since = "3.14")]
 		public void free ();
+		[CCode (cname = "gtk_source_encoding_get_all")]
 		[Version (since = "3.14")]
 		public static GLib.SList<weak Gtk.SourceEncoding> get_all ();
+		[CCode (cname = "gtk_source_encoding_get_charset")]
 		[Version (since = "3.14")]
 		public unowned string get_charset ();
+		[CCode (cname = "gtk_source_encoding_get_current")]
 		[Version (since = "3.14")]
 		public static unowned Gtk.SourceEncoding get_current ();
+		[CCode (cname = "gtk_source_encoding_get_default_candidates")]
 		[Version (since = "3.18")]
 		public static GLib.SList<weak Gtk.SourceEncoding> get_default_candidates ();
+		[CCode (cname = "gtk_source_encoding_get_from_charset")]
 		[Version (since = "3.14")]
 		public static unowned Gtk.SourceEncoding? get_from_charset (string charset);
+		[CCode (cname = "gtk_source_encoding_get_name")]
 		[Version (since = "3.14")]
 		public unowned string get_name ();
+		[CCode (cname = "gtk_source_encoding_get_utf8")]
 		[Version (since = "3.14")]
 		public static unowned Gtk.SourceEncoding get_utf8 ();
+		[CCode (cname = "gtk_source_encoding_to_string")]
 		[Version (since = "3.14")]
 		public string to_string ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_file_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_file_", type_id = "gtk_source_file_get_type ()")]
 	[GIR (name = "File")]
 	public class SourceFile : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_file_new", has_construct_function = false)]
 		[Version (since = "3.14")]
 		public SourceFile ();
+		[CCode (cname = "gtk_source_file_check_file_on_disk")]
 		[Version (since = "3.18")]
 		public void check_file_on_disk ();
+		[CCode (cname = "gtk_source_file_get_compression_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceCompressionType get_compression_type ();
+		[CCode (cname = "gtk_source_file_get_encoding")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceEncoding get_encoding ();
+		[CCode (cname = "gtk_source_file_get_location")]
 		[Version (since = "3.14")]
 		public unowned GLib.File get_location ();
+		[CCode (cname = "gtk_source_file_get_newline_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceNewlineType get_newline_type ();
+		[CCode (cname = "gtk_source_file_is_deleted")]
 		[Version (since = "3.18")]
 		public bool is_deleted ();
+		[CCode (cname = "gtk_source_file_is_externally_modified")]
 		[Version (since = "3.18")]
 		public bool is_externally_modified ();
+		[CCode (cname = "gtk_source_file_is_local")]
 		[Version (since = "3.18")]
 		public bool is_local ();
+		[CCode (cname = "gtk_source_file_is_readonly")]
 		[Version (since = "3.18")]
 		public bool is_readonly ();
+		[CCode (cname = "gtk_source_file_set_location")]
 		[Version (since = "3.14")]
 		public void set_location (GLib.File? location);
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public Gtk.SourceCompressionType compression_type { get; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceEncoding encoding { get; }
+		public Gtk.SourceEncoding encoding { owned get; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public GLib.File location { get; set construct; }
+		public GLib.File location { owned get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public Gtk.SourceNewlineType newline_type { get; }
 		[NoAccessorMethod]
 		[Version (since = "3.18")]
 		public bool read_only { get; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_file_loader_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_file_loader_", type_id = "gtk_source_file_loader_get_type ()")]
 	[GIR (name = "FileLoader")]
 	public class SourceFileLoader : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_file_loader_new", has_construct_function = false)]
 		[Version (since = "3.14")]
 		public SourceFileLoader (Gtk.SourceBuffer buffer, Gtk.SourceFile file);
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_file_loader_new_from_stream", has_construct_function = false)]
 		[Version (since = "3.14")]
 		public SourceFileLoader.from_stream (Gtk.SourceBuffer buffer, Gtk.SourceFile file, GLib.InputStream stream);
+		[CCode (cname = "gtk_source_file_loader_get_buffer")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceBuffer get_buffer ();
+		[CCode (cname = "gtk_source_file_loader_get_compression_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceCompressionType get_compression_type ();
+		[CCode (cname = "gtk_source_file_loader_get_encoding")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceEncoding get_encoding ();
+		[CCode (cname = "gtk_source_file_loader_get_file")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceFile get_file ();
+		[CCode (cname = "gtk_source_file_loader_get_input_stream")]
 		[Version (since = "3.14")]
 		public unowned GLib.InputStream? get_input_stream ();
+		[CCode (cname = "gtk_source_file_loader_get_location")]
 		[Version (since = "3.14")]
 		public unowned GLib.File? get_location ();
+		[CCode (cname = "gtk_source_file_loader_get_newline_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceNewlineType get_newline_type ();
+		[CCode (cname = "gtk_source_file_loader_load_async")]
 		[Version (since = "3.14")]
 		public async bool load_async (int io_priority, GLib.Cancellable? cancellable, owned GLib.FileProgressCallback? progress_callback) throws GLib.Error;
+		[CCode (cname = "gtk_source_file_loader_set_candidate_encodings")]
 		[Version (since = "3.14")]
 		public void set_candidate_encodings (GLib.SList<Gtk.SourceEncoding> candidate_encodings);
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceBuffer buffer { get; construct; }
+		public Gtk.SourceBuffer buffer { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceFile file { get; construct; }
+		public Gtk.SourceFile file { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public GLib.InputStream input_stream { get; construct; }
+		public GLib.InputStream input_stream { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public GLib.File location { get; construct; }
+		public GLib.File location { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_file_saver_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_file_saver_", type_id = "gtk_source_file_saver_get_type ()")]
 	[GIR (name = "FileSaver")]
 	public class SourceFileSaver : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_file_saver_new", has_construct_function = false)]
 		[Version (since = "3.14")]
 		public SourceFileSaver (Gtk.SourceBuffer buffer, Gtk.SourceFile file);
+		[CCode (cname = "gtk_source_file_saver_get_buffer")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceBuffer get_buffer ();
+		[CCode (cname = "gtk_source_file_saver_get_compression_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceCompressionType get_compression_type ();
+		[CCode (cname = "gtk_source_file_saver_get_encoding")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceEncoding get_encoding ();
+		[CCode (cname = "gtk_source_file_saver_get_file")]
 		[Version (since = "3.14")]
 		public unowned Gtk.SourceFile get_file ();
+		[CCode (cname = "gtk_source_file_saver_get_flags")]
 		[Version (since = "3.14")]
 		public Gtk.SourceFileSaverFlags get_flags ();
+		[CCode (cname = "gtk_source_file_saver_get_location")]
 		[Version (since = "3.14")]
 		public unowned GLib.File get_location ();
+		[CCode (cname = "gtk_source_file_saver_get_newline_type")]
 		[Version (since = "3.14")]
 		public Gtk.SourceNewlineType get_newline_type ();
+		[CCode (cname = "gtk_source_file_saver_save_async")]
 		[Version (since = "3.14")]
 		public async bool save_async (int io_priority, GLib.Cancellable? cancellable, owned GLib.FileProgressCallback? progress_callback) throws GLib.Error;
+		[CCode (cname = "gtk_source_file_saver_set_compression_type")]
 		[Version (since = "3.14")]
 		public void set_compression_type (Gtk.SourceCompressionType compression_type);
+		[CCode (cname = "gtk_source_file_saver_set_encoding")]
 		[Version (since = "3.14")]
 		public void set_encoding (Gtk.SourceEncoding? encoding);
+		[CCode (cname = "gtk_source_file_saver_set_flags")]
 		[Version (since = "3.14")]
 		public void set_flags (Gtk.SourceFileSaverFlags flags);
+		[CCode (cname = "gtk_source_file_saver_set_newline_type")]
 		[Version (since = "3.14")]
 		public void set_newline_type (Gtk.SourceNewlineType newline_type);
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_file_saver_new_with_target", has_construct_function = false)]
 		[Version (since = "3.14")]
 		public SourceFileSaver.with_target (Gtk.SourceBuffer buffer, Gtk.SourceFile file, GLib.File target_location);
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceBuffer buffer { get; construct; }
+		public Gtk.SourceBuffer buffer { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public Gtk.SourceCompressionType compression_type { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceEncoding encoding { get; set construct; }
+		public Gtk.SourceEncoding encoding { owned get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public Gtk.SourceFile file { get; construct; }
+		public Gtk.SourceFile file { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public Gtk.SourceFileSaverFlags flags { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
-		public GLib.File location { get; construct; }
+		public GLib.File location { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.14")]
 		public Gtk.SourceNewlineType newline_type { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_gutter_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_gutter_", type_id = "gtk_source_gutter_get_type ()")]
 	[GIR (name = "Gutter")]
 	public class SourceGutter : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected SourceGutter ();
+		[CCode (cname = "gtk_source_gutter_get_renderer_at_pos")]
 		public unowned Gtk.SourceGutterRenderer? get_renderer_at_pos (int x, int y);
+		[CCode (cname = "gtk_source_gutter_get_view")]
 		[Version (since = "3.24")]
 		public unowned Gtk.SourceView get_view ();
+		[CCode (cname = "gtk_source_gutter_get_window_type")]
 		[Version (since = "3.24")]
 		public Gtk.TextWindowType get_window_type ();
+		[CCode (cname = "gtk_source_gutter_insert")]
 		[Version (since = "3.0")]
 		public bool insert (Gtk.SourceGutterRenderer renderer, int position);
+		[CCode (cname = "gtk_source_gutter_queue_draw")]
 		[Version (since = "2.8")]
 		public void queue_draw ();
+		[CCode (cname = "gtk_source_gutter_remove")]
 		[Version (since = "2.8")]
 		public void remove (Gtk.SourceGutterRenderer renderer);
+		[CCode (cname = "gtk_source_gutter_reorder")]
 		[Version (since = "2.8")]
 		public void reorder (Gtk.SourceGutterRenderer renderer, int position);
-		public Gtk.SourceView view { get; construct; }
+		[NoAccessorMethod]
+		public Gtk.SourceView view { owned get; construct; }
+		[NoAccessorMethod]
 		public Gtk.TextWindowType window_type { get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_gutter_renderer_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_gutter_renderer_", type_id = "gtk_source_gutter_renderer_get_type ()")]
 	[GIR (name = "GutterRenderer")]
 	public abstract class SourceGutterRenderer : GLib.InitiallyUnowned {
 		[CCode (has_construct_function = false)]
@@ -405,28 +514,47 @@ namespace Gtk {
 		public virtual void change_view (Gtk.TextView? old_view);
 		public virtual void draw (Cairo.Context cr, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, Gtk.TextIter start, Gtk.TextIter end, Gtk.SourceGutterRendererState state);
 		public virtual void end ();
+		[CCode (cname = "gtk_source_gutter_renderer_get_alignment")]
 		public void get_alignment (out float xalign, out float yalign);
+		[CCode (cname = "gtk_source_gutter_renderer_get_alignment_mode")]
 		public Gtk.SourceGutterRendererAlignmentMode get_alignment_mode ();
+		[CCode (cname = "gtk_source_gutter_renderer_get_background")]
 		public bool get_background (out Gdk.RGBA color);
+		[CCode (cname = "gtk_source_gutter_renderer_get_padding")]
 		public void get_padding (out int xpad, out int ypad);
+		[CCode (cname = "gtk_source_gutter_renderer_get_size")]
 		public int get_size ();
+		[CCode (cname = "gtk_source_gutter_renderer_get_view")]
 		public unowned Gtk.TextView get_view ();
+		[CCode (cname = "gtk_source_gutter_renderer_get_visible")]
 		public bool get_visible ();
+		[CCode (cname = "gtk_source_gutter_renderer_get_window_type")]
 		public Gtk.TextWindowType get_window_type ();
+		[CCode (cname = "gtk_source_gutter_renderer_set_alignment")]
 		public void set_alignment (float xalign, float yalign);
+		[CCode (cname = "gtk_source_gutter_renderer_set_alignment_mode")]
 		public void set_alignment_mode (Gtk.SourceGutterRendererAlignmentMode mode);
+		[CCode (cname = "gtk_source_gutter_renderer_set_background")]
 		public void set_background (Gdk.RGBA? color);
+		[CCode (cname = "gtk_source_gutter_renderer_set_padding")]
 		public void set_padding (int xpad, int ypad);
+		[CCode (cname = "gtk_source_gutter_renderer_set_size")]
 		public void set_size (int size);
+		[CCode (cname = "gtk_source_gutter_renderer_set_visible")]
 		public void set_visible (bool visible);
+		[NoAccessorMethod]
 		public Gtk.SourceGutterRendererAlignmentMode alignment_mode { get; set construct; }
 		[NoAccessorMethod]
 		public Gdk.RGBA background_rgba { owned get; set; }
 		[NoAccessorMethod]
 		public bool background_set { get; set construct; }
+		[NoAccessorMethod]
 		public int size { get; set construct; }
-		public Gtk.TextView view { get; }
+		[NoAccessorMethod]
+		public Gtk.TextView view { owned get; }
+		[NoAccessorMethod]
 		public bool visible { get; set construct; }
+		[NoAccessorMethod]
 		public Gtk.TextWindowType window_type { get; }
 		[NoAccessorMethod]
 		public float xalign { get; set construct; }
@@ -447,382 +575,539 @@ namespace Gtk {
 		[HasEmitter]
 		public virtual signal void queue_draw ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_gutter_renderer_pixbuf_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_gutter_renderer_pixbuf_", type_id = "gtk_source_gutter_renderer_pixbuf_get_type ()")]
 	[GIR (name = "GutterRendererPixbuf")]
 	public class SourceGutterRendererPixbuf : Gtk.SourceGutterRenderer {
-		[CCode (has_construct_function = false, type = "GtkSourceGutterRenderer*")]
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_new", has_construct_function = false, type = "GtkSourceGutterRenderer*")]
 		public SourceGutterRendererPixbuf ();
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_get_gicon")]
 		public unowned GLib.Icon get_gicon ();
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_get_icon_name")]
 		public unowned string get_icon_name ();
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_get_pixbuf")]
 		public unowned Gdk.Pixbuf get_pixbuf ();
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_set_gicon")]
 		public void set_gicon (GLib.Icon? icon);
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_set_icon_name")]
 		public void set_icon_name (string? icon_name);
+		[CCode (cname = "gtk_source_gutter_renderer_pixbuf_set_pixbuf")]
 		public void set_pixbuf (Gdk.Pixbuf? pixbuf);
-		public GLib.Icon gicon { get; set; }
-		public string icon_name { get; set; }
-		public Gdk.Pixbuf pixbuf { get; set; }
+		[NoAccessorMethod]
+		public GLib.Icon gicon { owned get; set; }
+		[NoAccessorMethod]
+		public string icon_name { owned get; set; }
+		[NoAccessorMethod]
+		public Gdk.Pixbuf pixbuf { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_gutter_renderer_text_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_gutter_renderer_text_", type_id = "gtk_source_gutter_renderer_text_get_type ()")]
 	[GIR (name = "GutterRendererText")]
 	public class SourceGutterRendererText : Gtk.SourceGutterRenderer {
-		[CCode (has_construct_function = false, type = "GtkSourceGutterRenderer*")]
+		[CCode (cname = "gtk_source_gutter_renderer_text_new", has_construct_function = false, type = "GtkSourceGutterRenderer*")]
 		public SourceGutterRendererText ();
+		[CCode (cname = "gtk_source_gutter_renderer_text_measure")]
 		public void measure (string text, out int width, out int height);
+		[CCode (cname = "gtk_source_gutter_renderer_text_measure_markup")]
 		public void measure_markup (string markup, out int width, out int height);
+		[CCode (cname = "gtk_source_gutter_renderer_text_set_markup")]
 		public void set_markup (string markup, int length);
+		[CCode (cname = "gtk_source_gutter_renderer_text_set_text")]
 		public void set_text (string text, int length);
 		[NoAccessorMethod]
 		public string markup { owned get; set construct; }
 		[NoAccessorMethod]
 		public string text { owned get; set construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_language_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_language_", type_id = "gtk_source_language_get_type ()")]
 	[GIR (name = "Language")]
 	public class SourceLanguage : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected SourceLanguage ();
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_language_get_globs")]
 		public string[]? get_globs ();
+		[CCode (cname = "gtk_source_language_get_hidden")]
 		public bool get_hidden ();
+		[CCode (cname = "gtk_source_language_get_id")]
 		public unowned string get_id ();
+		[CCode (cname = "gtk_source_language_get_metadata")]
 		public unowned string? get_metadata (string name);
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_language_get_mime_types")]
 		public string[]? get_mime_types ();
+		[CCode (cname = "gtk_source_language_get_name")]
 		public unowned string get_name ();
+		[CCode (cname = "gtk_source_language_get_section")]
 		public unowned string get_section ();
+		[CCode (cname = "gtk_source_language_get_style_fallback")]
 		[Version (since = "3.4")]
 		public unowned string? get_style_fallback (string style_id);
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_language_get_style_ids")]
 		public string[]? get_style_ids ();
+		[CCode (cname = "gtk_source_language_get_style_name")]
 		public unowned string? get_style_name (string style_id);
+		[NoAccessorMethod]
 		public bool hidden { get; }
-		public string id { get; }
-		public string name { get; }
-		public string section { get; }
+		[NoAccessorMethod]
+		public string id { owned get; }
+		[NoAccessorMethod]
+		public string name { owned get; }
+		[NoAccessorMethod]
+		public string section { owned get; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_language_manager_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_language_manager_", type_id = "gtk_source_language_manager_get_type ()")]
 	[GIR (name = "LanguageManager")]
 	public class SourceLanguageManager : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_language_manager_new", has_construct_function = false)]
 		public SourceLanguageManager ();
+		[CCode (cname = "gtk_source_language_manager_get_default")]
 		public static unowned Gtk.SourceLanguageManager get_default ();
+		[CCode (cname = "gtk_source_language_manager_get_language")]
 		public unowned Gtk.SourceLanguage? get_language (string id);
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_language_manager_get_language_ids")]
 		public unowned string[]? get_language_ids ();
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_language_manager_get_search_path")]
 		public unowned string[] get_search_path ();
+		[CCode (cname = "gtk_source_language_manager_guess_language")]
 		[Version (since = "2.4")]
 		public unowned Gtk.SourceLanguage? guess_language (string? filename, string? content_type);
+		[CCode (cname = "gtk_source_language_manager_set_search_path")]
 		public void set_search_path ([CCode (array_length = false, array_null_terminated = true)] string[]? dirs);
 		[CCode (array_length = false, array_null_terminated = true)]
-		public string[] language_ids { get; }
+		[NoAccessorMethod]
+		public string[] language_ids { owned get; }
 		[CCode (array_length = false, array_null_terminated = true)]
-		public string[] search_path { get; set; }
+		[NoAccessorMethod]
+		public string[] search_path { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_map_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_map_", type_id = "gtk_source_map_get_type ()")]
 	[GIR (name = "Map")]
 	public class SourceMap : Gtk.SourceView, Atk.Implementor, Gtk.Buildable, Gtk.Scrollable {
-		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[CCode (cname = "gtk_source_map_new", has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.18")]
 		public SourceMap ();
+		[CCode (cname = "gtk_source_map_get_view")]
 		[Version (since = "3.18")]
 		public unowned Gtk.SourceView? get_view ();
+		[CCode (cname = "gtk_source_map_set_view")]
 		[Version (since = "3.18")]
 		public void set_view (Gtk.SourceView view);
 		[NoAccessorMethod]
 		public Pango.FontDescription font_desc { owned get; set; }
-		public Gtk.SourceView view { get; set; }
+		[NoAccessorMethod]
+		public Gtk.SourceView view { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_mark_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_mark_", type_id = "gtk_source_mark_get_type ()")]
 	[GIR (name = "Mark")]
 	public class SourceMark : Gtk.TextMark {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_mark_new", has_construct_function = false)]
 		[Version (since = "2.2")]
 		public SourceMark (string? name, string category);
+		[CCode (cname = "gtk_source_mark_get_category")]
 		[Version (since = "2.2")]
 		public unowned string get_category ();
+		[CCode (cname = "gtk_source_mark_next")]
 		[Version (since = "2.2")]
 		public unowned Gtk.SourceMark? next (string? category);
+		[CCode (cname = "gtk_source_mark_prev")]
 		[Version (since = "2.2")]
 		public unowned Gtk.SourceMark? prev (string? category);
-		public string category { get; construct; }
+		[NoAccessorMethod]
+		public string category { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_mark_attributes_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_mark_attributes_", type_id = "gtk_source_mark_attributes_get_type ()")]
 	[GIR (name = "MarkAttributes")]
 	public class SourceMarkAttributes : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_mark_attributes_new", has_construct_function = false)]
 		public SourceMarkAttributes ();
+		[CCode (cname = "gtk_source_mark_attributes_get_background")]
 		public bool get_background (out Gdk.RGBA background);
+		[CCode (cname = "gtk_source_mark_attributes_get_gicon")]
 		public unowned GLib.Icon get_gicon ();
+		[CCode (cname = "gtk_source_mark_attributes_get_icon_name")]
 		public unowned string get_icon_name ();
+		[CCode (cname = "gtk_source_mark_attributes_get_pixbuf")]
 		public unowned Gdk.Pixbuf get_pixbuf ();
+		[CCode (cname = "gtk_source_mark_attributes_get_tooltip_markup")]
 		public string get_tooltip_markup (Gtk.SourceMark mark);
+		[CCode (cname = "gtk_source_mark_attributes_get_tooltip_text")]
 		public string get_tooltip_text (Gtk.SourceMark mark);
+		[CCode (cname = "gtk_source_mark_attributes_render_icon")]
 		public unowned Gdk.Pixbuf render_icon (Gtk.Widget widget, int size);
+		[CCode (cname = "gtk_source_mark_attributes_set_background")]
 		public void set_background (Gdk.RGBA background);
+		[CCode (cname = "gtk_source_mark_attributes_set_gicon")]
 		public void set_gicon (GLib.Icon gicon);
+		[CCode (cname = "gtk_source_mark_attributes_set_icon_name")]
 		public void set_icon_name (string icon_name);
+		[CCode (cname = "gtk_source_mark_attributes_set_pixbuf")]
 		public void set_pixbuf (Gdk.Pixbuf pixbuf);
 		[NoAccessorMethod]
 		public Gdk.RGBA background { owned get; set; }
-		public GLib.Icon gicon { get; set; }
-		public string icon_name { get; set; }
-		public Gdk.Pixbuf pixbuf { get; set; }
+		[NoAccessorMethod]
+		public GLib.Icon gicon { owned get; set; }
+		[NoAccessorMethod]
+		public string icon_name { owned get; set; }
+		[NoAccessorMethod]
+		public Gdk.Pixbuf pixbuf { owned get; set; }
 		public signal string query_tooltip_markup (Gtk.SourceMark mark);
 		public signal string query_tooltip_text (Gtk.SourceMark mark);
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_print_compositor_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_print_compositor_", type_id = "gtk_source_print_compositor_get_type ()")]
 	[GIR (name = "PrintCompositor")]
 	public class SourcePrintCompositor : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_print_compositor_new", has_construct_function = false)]
 		[Version (since = "2.2")]
 		public SourcePrintCompositor (Gtk.SourceBuffer buffer);
+		[CCode (cname = "gtk_source_print_compositor_draw_page")]
 		public void draw_page (Gtk.PrintContext context, int page_nr);
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_print_compositor_new_from_view", has_construct_function = false)]
 		[Version (since = "2.2")]
 		public SourcePrintCompositor.from_view (Gtk.SourceView view);
+		[CCode (cname = "gtk_source_print_compositor_get_body_font_name")]
 		[Version (since = "2.2")]
 		public string get_body_font_name ();
+		[CCode (cname = "gtk_source_print_compositor_get_bottom_margin")]
 		[Version (since = "2.2")]
 		public double get_bottom_margin (Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_get_buffer")]
 		[Version (since = "2.2")]
 		public unowned Gtk.SourceBuffer get_buffer ();
+		[CCode (cname = "gtk_source_print_compositor_get_footer_font_name")]
 		[Version (since = "2.2")]
 		public string get_footer_font_name ();
+		[CCode (cname = "gtk_source_print_compositor_get_header_font_name")]
 		[Version (since = "2.2")]
 		public string get_header_font_name ();
+		[CCode (cname = "gtk_source_print_compositor_get_highlight_syntax")]
 		[Version (since = "2.2")]
 		public bool get_highlight_syntax ();
+		[CCode (cname = "gtk_source_print_compositor_get_left_margin")]
 		[Version (since = "2.2")]
 		public double get_left_margin (Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_get_line_numbers_font_name")]
 		[Version (since = "2.2")]
 		public string get_line_numbers_font_name ();
+		[CCode (cname = "gtk_source_print_compositor_get_n_pages")]
 		[Version (since = "2.2")]
 		public int get_n_pages ();
+		[CCode (cname = "gtk_source_print_compositor_get_pagination_progress")]
 		[Version (since = "2.2")]
 		public double get_pagination_progress ();
+		[CCode (cname = "gtk_source_print_compositor_get_print_footer")]
 		[Version (since = "2.2")]
 		public bool get_print_footer ();
+		[CCode (cname = "gtk_source_print_compositor_get_print_header")]
 		[Version (since = "2.2")]
 		public bool get_print_header ();
+		[CCode (cname = "gtk_source_print_compositor_get_print_line_numbers")]
 		[Version (since = "2.2")]
 		public uint get_print_line_numbers ();
+		[CCode (cname = "gtk_source_print_compositor_get_right_margin")]
 		[Version (since = "2.2")]
 		public double get_right_margin (Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_get_tab_width")]
 		[Version (since = "2.2")]
 		public uint get_tab_width ();
+		[CCode (cname = "gtk_source_print_compositor_get_top_margin")]
 		[Version (since = "2.2")]
 		public double get_top_margin (Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_get_wrap_mode")]
 		[Version (since = "2.2")]
 		public Gtk.WrapMode get_wrap_mode ();
+		[CCode (cname = "gtk_source_print_compositor_paginate")]
 		[Version (since = "2.2")]
 		public bool paginate (Gtk.PrintContext context);
+		[CCode (cname = "gtk_source_print_compositor_set_body_font_name")]
 		[Version (since = "2.2")]
 		public void set_body_font_name (string font_name);
+		[CCode (cname = "gtk_source_print_compositor_set_bottom_margin")]
 		[Version (since = "2.2")]
 		public void set_bottom_margin (double margin, Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_set_footer_font_name")]
 		[Version (since = "2.2")]
 		public void set_footer_font_name (string? font_name);
+		[CCode (cname = "gtk_source_print_compositor_set_footer_format")]
 		[Version (since = "2.2")]
 		public void set_footer_format (bool separator, string? left, string? center, string? right);
+		[CCode (cname = "gtk_source_print_compositor_set_header_font_name")]
 		[Version (since = "2.2")]
 		public void set_header_font_name (string? font_name);
+		[CCode (cname = "gtk_source_print_compositor_set_header_format")]
 		[Version (since = "2.2")]
 		public void set_header_format (bool separator, string? left, string? center, string? right);
+		[CCode (cname = "gtk_source_print_compositor_set_highlight_syntax")]
 		[Version (since = "2.2")]
 		public void set_highlight_syntax (bool highlight);
+		[CCode (cname = "gtk_source_print_compositor_set_left_margin")]
 		[Version (since = "2.2")]
 		public void set_left_margin (double margin, Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_set_line_numbers_font_name")]
 		[Version (since = "2.2")]
 		public void set_line_numbers_font_name (string? font_name);
+		[CCode (cname = "gtk_source_print_compositor_set_print_footer")]
 		[Version (since = "2.2")]
 		public void set_print_footer (bool print);
+		[CCode (cname = "gtk_source_print_compositor_set_print_header")]
 		[Version (since = "2.2")]
 		public void set_print_header (bool print);
+		[CCode (cname = "gtk_source_print_compositor_set_print_line_numbers")]
 		[Version (since = "2.2")]
 		public void set_print_line_numbers (uint interval);
+		[CCode (cname = "gtk_source_print_compositor_set_right_margin")]
 		[Version (since = "2.2")]
 		public void set_right_margin (double margin, Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_set_tab_width")]
 		[Version (since = "2.2")]
 		public void set_tab_width (uint width);
+		[CCode (cname = "gtk_source_print_compositor_set_top_margin")]
 		[Version (since = "2.2")]
 		public void set_top_margin (double margin, Gtk.Unit unit);
+		[CCode (cname = "gtk_source_print_compositor_set_wrap_mode")]
 		[Version (since = "2.2")]
 		public void set_wrap_mode (Gtk.WrapMode wrap_mode);
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public string body_font_name { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
-		public Gtk.SourceBuffer buffer { get; construct; }
+		public Gtk.SourceBuffer buffer { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public string footer_font_name { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public string header_font_name { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public bool highlight_syntax { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public string line_numbers_font_name { owned get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public int n_pages { get; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public bool print_footer { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public bool print_header { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public uint print_line_numbers { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public uint tab_width { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.2")]
 		public Gtk.WrapMode wrap_mode { get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_region_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_region_", type_id = "gtk_source_region_get_type ()")]
 	[GIR (name = "Region")]
 	public class SourceRegion : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_region_new", has_construct_function = false)]
 		[Version (since = "3.22")]
 		public SourceRegion (Gtk.TextBuffer buffer);
+		[CCode (cname = "gtk_source_region_add_region")]
 		[Version (since = "3.22")]
 		public void add_region (Gtk.SourceRegion? region_to_add);
+		[CCode (cname = "gtk_source_region_add_subregion")]
 		[Version (since = "3.22")]
 		public void add_subregion (Gtk.TextIter _start, Gtk.TextIter _end);
+		[CCode (cname = "gtk_source_region_get_bounds")]
 		[Version (since = "3.22")]
 		public bool get_bounds (out Gtk.TextIter start, out Gtk.TextIter end);
+		[CCode (cname = "gtk_source_region_get_buffer")]
 		[Version (since = "3.22")]
 		public unowned Gtk.TextBuffer? get_buffer ();
+		[CCode (cname = "gtk_source_region_get_start_region_iter")]
 		[Version (since = "3.22")]
 		public Gtk.SourceRegionIter get_start_region_iter ();
+		[CCode (cname = "gtk_source_region_intersect_region")]
 		[Version (since = "3.22")]
 		public Gtk.SourceRegion? intersect_region (Gtk.SourceRegion? region2);
+		[CCode (cname = "gtk_source_region_intersect_subregion")]
 		[Version (since = "3.22")]
 		public Gtk.SourceRegion? intersect_subregion (Gtk.TextIter _start, Gtk.TextIter _end);
+		[CCode (cname = "gtk_source_region_is_empty")]
 		[Version (since = "3.22")]
 		public bool is_empty ();
+		[CCode (cname = "gtk_source_region_subtract_region")]
 		[Version (since = "3.22")]
 		public void subtract_region (Gtk.SourceRegion? region_to_subtract);
+		[CCode (cname = "gtk_source_region_subtract_subregion")]
 		[Version (since = "3.22")]
 		public void subtract_subregion (Gtk.TextIter _start, Gtk.TextIter _end);
+		[CCode (cname = "gtk_source_region_to_string")]
 		[Version (since = "3.22")]
 		public string? to_string ();
+		[NoAccessorMethod]
 		[Version (since = "3.22")]
-		public Gtk.TextBuffer buffer { get; construct; }
+		public Gtk.TextBuffer buffer { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_search_context_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_search_context_", type_id = "gtk_source_search_context_get_type ()")]
 	[GIR (name = "SearchContext")]
 	public class SourceSearchContext : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_search_context_new", has_construct_function = false)]
 		[Version (since = "3.10")]
 		public SourceSearchContext (Gtk.SourceBuffer buffer, Gtk.SourceSearchSettings? settings);
+		[CCode (cname = "gtk_source_search_context_backward")]
 		[Version (since = "4.0")]
 		public bool backward (Gtk.TextIter iter, out Gtk.TextIter match_start, out Gtk.TextIter match_end, out bool has_wrapped_around);
+		[CCode (cname = "gtk_source_search_context_backward_async")]
 		[Version (since = "3.10")]
 		public async bool backward_async (Gtk.TextIter iter, GLib.Cancellable? cancellable, out Gtk.TextIter match_start, out Gtk.TextIter match_end, out bool has_wrapped_around) throws GLib.Error;
+		[CCode (cname = "gtk_source_search_context_forward")]
 		[Version (since = "4.0")]
 		public bool forward (Gtk.TextIter iter, out Gtk.TextIter match_start, out Gtk.TextIter match_end, out bool has_wrapped_around);
+		[CCode (cname = "gtk_source_search_context_forward_async")]
 		[Version (since = "3.10")]
 		public async bool forward_async (Gtk.TextIter iter, GLib.Cancellable? cancellable, out Gtk.TextIter match_start, out Gtk.TextIter match_end, out bool has_wrapped_around) throws GLib.Error;
+		[CCode (cname = "gtk_source_search_context_get_buffer")]
 		[Version (since = "3.10")]
 		public unowned Gtk.SourceBuffer get_buffer ();
+		[CCode (cname = "gtk_source_search_context_get_highlight")]
 		[Version (since = "3.10")]
 		public bool get_highlight ();
+		[CCode (cname = "gtk_source_search_context_get_match_style")]
 		[Version (since = "3.16")]
 		public unowned Gtk.SourceStyle get_match_style ();
+		[CCode (cname = "gtk_source_search_context_get_occurrence_position")]
 		[Version (since = "3.10")]
 		public int get_occurrence_position (Gtk.TextIter match_start, Gtk.TextIter match_end);
+		[CCode (cname = "gtk_source_search_context_get_occurrences_count")]
 		[Version (since = "3.10")]
 		public int get_occurrences_count ();
+		[CCode (cname = "gtk_source_search_context_get_regex_error")]
 		[Version (since = "3.10")]
 		public GLib.Error? get_regex_error ();
+		[CCode (cname = "gtk_source_search_context_get_settings")]
 		[Version (since = "3.10")]
 		public unowned Gtk.SourceSearchSettings get_settings ();
+		[CCode (cname = "gtk_source_search_context_replace")]
 		[Version (since = "4.0")]
 		public bool replace (Gtk.TextIter match_start, Gtk.TextIter match_end, string replace, int replace_length) throws GLib.Error;
+		[CCode (cname = "gtk_source_search_context_replace_all")]
 		[Version (since = "3.10")]
 		public uint replace_all (string replace, int replace_length) throws GLib.Error;
+		[CCode (cname = "gtk_source_search_context_set_highlight")]
 		[Version (since = "3.10")]
 		public void set_highlight (bool highlight);
+		[CCode (cname = "gtk_source_search_context_set_match_style")]
 		[Version (since = "3.16")]
 		public void set_match_style (Gtk.SourceStyle? match_style);
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
-		public Gtk.SourceBuffer buffer { get; construct; }
+		public Gtk.SourceBuffer buffer { owned get; construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public bool highlight { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.16")]
-		public Gtk.SourceStyle match_style { get; set construct; }
+		public Gtk.SourceStyle match_style { owned get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public int occurrences_count { get; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public GLib.Error? regex_error { owned get; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
-		public Gtk.SourceSearchSettings settings { get; construct; }
+		public Gtk.SourceSearchSettings settings { owned get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_search_settings_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_search_settings_", type_id = "gtk_source_search_settings_get_type ()")]
 	[GIR (name = "SearchSettings")]
 	public class SourceSearchSettings : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_search_settings_new", has_construct_function = false)]
 		[Version (since = "3.10")]
 		public SourceSearchSettings ();
+		[CCode (cname = "gtk_source_search_settings_get_at_word_boundaries")]
 		[Version (since = "3.10")]
 		public bool get_at_word_boundaries ();
+		[CCode (cname = "gtk_source_search_settings_get_case_sensitive")]
 		[Version (since = "3.10")]
 		public bool get_case_sensitive ();
+		[CCode (cname = "gtk_source_search_settings_get_regex_enabled")]
 		[Version (since = "3.10")]
 		public bool get_regex_enabled ();
+		[CCode (cname = "gtk_source_search_settings_get_search_text")]
 		[Version (since = "3.10")]
 		public unowned string? get_search_text ();
+		[CCode (cname = "gtk_source_search_settings_get_wrap_around")]
 		[Version (since = "3.10")]
 		public bool get_wrap_around ();
+		[CCode (cname = "gtk_source_search_settings_set_at_word_boundaries")]
 		[Version (since = "3.10")]
 		public void set_at_word_boundaries (bool at_word_boundaries);
+		[CCode (cname = "gtk_source_search_settings_set_case_sensitive")]
 		[Version (since = "3.10")]
 		public void set_case_sensitive (bool case_sensitive);
+		[CCode (cname = "gtk_source_search_settings_set_regex_enabled")]
 		[Version (since = "3.10")]
 		public void set_regex_enabled (bool regex_enabled);
+		[CCode (cname = "gtk_source_search_settings_set_search_text")]
 		[Version (since = "3.10")]
 		public void set_search_text (string? search_text);
+		[CCode (cname = "gtk_source_search_settings_set_wrap_around")]
 		[Version (since = "3.10")]
 		public void set_wrap_around (bool wrap_around);
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public bool at_word_boundaries { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public bool case_sensitive { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public bool regex_enabled { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
-		public string search_text { get; set construct; }
+		public string search_text { owned get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.10")]
 		public bool wrap_around { get; set construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_space_drawer_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_space_drawer_", type_id = "gtk_source_space_drawer_get_type ()")]
 	[GIR (name = "SpaceDrawer")]
 	public class SourceSpaceDrawer : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_space_drawer_new", has_construct_function = false)]
 		[Version (since = "3.24")]
 		public SourceSpaceDrawer ();
+		[CCode (cname = "gtk_source_space_drawer_bind_matrix_setting")]
 		[Version (since = "3.24")]
 		public void bind_matrix_setting (GLib.Settings settings, string key, GLib.SettingsBindFlags flags);
+		[CCode (cname = "gtk_source_space_drawer_get_enable_matrix")]
 		[Version (since = "3.24")]
 		public bool get_enable_matrix ();
+		[CCode (cname = "gtk_source_space_drawer_get_matrix")]
 		[Version (since = "3.24")]
 		public GLib.Variant get_matrix ();
+		[CCode (cname = "gtk_source_space_drawer_get_types_for_locations")]
 		[Version (since = "3.24")]
 		public Gtk.SourceSpaceTypeFlags get_types_for_locations (Gtk.SourceSpaceLocationFlags locations);
+		[CCode (cname = "gtk_source_space_drawer_set_enable_matrix")]
 		[Version (since = "3.24")]
 		public void set_enable_matrix (bool enable_matrix);
+		[CCode (cname = "gtk_source_space_drawer_set_matrix")]
 		[Version (since = "3.24")]
 		public void set_matrix (GLib.Variant? matrix);
+		[CCode (cname = "gtk_source_space_drawer_set_types_for_locations")]
 		[Version (since = "3.24")]
 		public void set_types_for_locations (Gtk.SourceSpaceLocationFlags locations, Gtk.SourceSpaceTypeFlags types);
+		[NoAccessorMethod]
 		[Version (since = "3.24")]
 		public bool enable_matrix { get; set construct; }
+		[NoAccessorMethod]
 		[Version (since = "3.24")]
 		public GLib.Variant matrix { owned get; set construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_style_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_", type_id = "gtk_source_style_get_type ()")]
 	[GIR (name = "Style")]
 	public sealed class SourceStyle : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected SourceStyle ();
+		[CCode (cname = "gtk_source_style_apply")]
 		[Version (since = "3.22")]
 		public void apply (Gtk.TextTag tag);
+		[CCode (cname = "gtk_source_style_copy")]
 		[Version (since = "2.0")]
 		public Gtk.SourceStyle copy ();
 		[NoAccessorMethod]
@@ -862,67 +1147,84 @@ namespace Gtk {
 		[NoAccessorMethod]
 		public bool underline_set { get; construct; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_style_scheme_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_scheme_", type_id = "gtk_source_style_scheme_get_type ()")]
 	[GIR (name = "StyleScheme")]
 	public class SourceStyleScheme : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected SourceStyleScheme ();
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_style_scheme_get_authors")]
 		[Version (since = "2.0")]
 		public unowned string[]? get_authors ();
+		[CCode (cname = "gtk_source_style_scheme_get_description")]
 		[Version (since = "2.0")]
 		public unowned string? get_description ();
+		[CCode (cname = "gtk_source_style_scheme_get_filename")]
 		[Version (since = "2.0")]
 		public unowned string? get_filename ();
+		[CCode (cname = "gtk_source_style_scheme_get_id")]
 		[Version (since = "2.0")]
 		public unowned string get_id ();
+		[CCode (cname = "gtk_source_style_scheme_get_name")]
 		[Version (since = "2.0")]
 		public unowned string get_name ();
+		[CCode (cname = "gtk_source_style_scheme_get_style")]
 		[Version (since = "2.0")]
 		public unowned Gtk.SourceStyle? get_style (string style_id);
-		public string description { get; }
-		public string filename { get; }
-		public string id { get; construct; }
-		public string name { get; }
+		[NoAccessorMethod]
+		public string description { owned get; }
+		[NoAccessorMethod]
+		public string filename { owned get; }
+		[NoAccessorMethod]
+		public string id { owned get; construct; }
+		[NoAccessorMethod]
+		public string name { owned get; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_style_scheme_chooser_button_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_scheme_chooser_button_", type_id = "gtk_source_style_scheme_chooser_button_get_type ()")]
 	[GIR (name = "StyleSchemeChooserButton")]
 	public class SourceStyleSchemeChooserButton : Gtk.Button, Atk.Implementor, Gtk.Actionable, Gtk.Activatable, Gtk.Buildable, Gtk.SourceStyleSchemeChooser {
-		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[CCode (cname = "gtk_source_style_scheme_chooser_button_new", has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.16")]
 		public SourceStyleSchemeChooserButton ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_style_scheme_chooser_widget_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_scheme_chooser_widget_", type_id = "gtk_source_style_scheme_chooser_widget_get_type ()")]
 	[GIR (name = "StyleSchemeChooserWidget")]
 	public class SourceStyleSchemeChooserWidget : Gtk.Bin, Atk.Implementor, Gtk.Buildable, Gtk.SourceStyleSchemeChooser {
-		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[CCode (cname = "gtk_source_style_scheme_chooser_widget_new", has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "3.16")]
 		public SourceStyleSchemeChooserWidget ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_style_scheme_manager_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_scheme_manager_", type_id = "gtk_source_style_scheme_manager_get_type ()")]
 	[GIR (name = "StyleSchemeManager")]
 	public class SourceStyleSchemeManager : GLib.Object {
-		[CCode (has_construct_function = false)]
+		[CCode (cname = "gtk_source_style_scheme_manager_new", has_construct_function = false)]
 		public SourceStyleSchemeManager ();
+		[CCode (cname = "gtk_source_style_scheme_manager_append_search_path")]
 		public void append_search_path (string path);
+		[CCode (cname = "gtk_source_style_scheme_manager_force_rescan")]
 		public void force_rescan ();
+		[CCode (cname = "gtk_source_style_scheme_manager_get_default")]
 		public static unowned Gtk.SourceStyleSchemeManager get_default ();
+		[CCode (cname = "gtk_source_style_scheme_manager_get_scheme")]
 		public unowned Gtk.SourceStyleScheme? get_scheme (string scheme_id);
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_style_scheme_manager_get_scheme_ids")]
 		public unowned string[]? get_scheme_ids ();
-		[CCode (array_length = false, array_null_terminated = true)]
+		[CCode (array_length = false, array_null_terminated = true, cname = "gtk_source_style_scheme_manager_get_search_path")]
 		public unowned string[] get_search_path ();
+		[CCode (cname = "gtk_source_style_scheme_manager_prepend_search_path")]
 		public void prepend_search_path (string path);
+		[CCode (cname = "gtk_source_style_scheme_manager_set_search_path")]
 		public void set_search_path ([CCode (array_length = false, array_null_terminated = true)] string[]? path);
 		[CCode (array_length = false, array_null_terminated = true)]
-		public string[] scheme_ids { get; }
+		[NoAccessorMethod]
+		public string[] scheme_ids { owned get; }
 		[CCode (array_length = false, array_null_terminated = true)]
-		public string[] search_path { get; set; }
+		[NoAccessorMethod]
+		public string[] search_path { owned get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_tag_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_tag_", type_id = "gtk_source_tag_get_type ()")]
 	[GIR (name = "Tag")]
 	public class SourceTag : Gtk.TextTag {
-		[CCode (has_construct_function = false, type = "GtkTextTag*")]
+		[CCode (cname = "gtk_source_tag_new", has_construct_function = false, type = "GtkTextTag*")]
 		[Version (since = "3.20")]
 		public SourceTag (string? name);
 		[NoAccessorMethod]
@@ -932,75 +1234,124 @@ namespace Gtk {
 		[Version (since = "3.20")]
 		public bool draw_spaces_set { get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_view_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_view_", type_id = "gtk_source_view_get_type ()")]
 	[GIR (name = "View")]
 	public class SourceView : Gtk.TextView, Atk.Implementor, Gtk.Buildable, Gtk.Scrollable {
-		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[CCode (cname = "gtk_source_view_new", has_construct_function = false, type = "GtkWidget*")]
 		public SourceView ();
+		[CCode (cname = "gtk_source_view_get_auto_indent")]
 		public bool get_auto_indent ();
+		[CCode (cname = "gtk_source_view_get_background_pattern")]
 		[Version (since = "3.16")]
 		public Gtk.SourceBackgroundPatternType get_background_pattern ();
+		[CCode (cname = "gtk_source_view_get_completion")]
 		public unowned Gtk.SourceCompletion get_completion ();
+		[CCode (cname = "gtk_source_view_get_gutter")]
 		[Version (since = "2.8")]
 		public unowned Gtk.SourceGutter get_gutter (Gtk.TextWindowType window_type);
+		[CCode (cname = "gtk_source_view_get_highlight_current_line")]
 		public bool get_highlight_current_line ();
+		[CCode (cname = "gtk_source_view_get_indent_on_tab")]
 		public bool get_indent_on_tab ();
+		[CCode (cname = "gtk_source_view_get_indent_width")]
 		public int get_indent_width ();
+		[CCode (cname = "gtk_source_view_get_insert_spaces_instead_of_tabs")]
 		public bool get_insert_spaces_instead_of_tabs ();
+		[CCode (cname = "gtk_source_view_get_mark_attributes")]
 		public unowned Gtk.SourceMarkAttributes get_mark_attributes (string category, int priority);
+		[CCode (cname = "gtk_source_view_get_right_margin_position")]
 		public uint get_right_margin_position ();
+		[CCode (cname = "gtk_source_view_get_show_line_marks")]
 		[Version (since = "2.2")]
 		public bool get_show_line_marks ();
+		[CCode (cname = "gtk_source_view_get_show_line_numbers")]
 		public bool get_show_line_numbers ();
+		[CCode (cname = "gtk_source_view_get_show_right_margin")]
 		public bool get_show_right_margin ();
+		[CCode (cname = "gtk_source_view_get_smart_backspace")]
 		[Version (since = "3.18")]
 		public bool get_smart_backspace ();
+		[CCode (cname = "gtk_source_view_get_smart_home_end")]
 		public Gtk.SourceSmartHomeEndType get_smart_home_end ();
+		[CCode (cname = "gtk_source_view_get_space_drawer")]
 		[Version (since = "3.24")]
 		public unowned Gtk.SourceSpaceDrawer get_space_drawer ();
+		[CCode (cname = "gtk_source_view_get_tab_width")]
 		public uint get_tab_width ();
+		[CCode (cname = "gtk_source_view_get_visual_column")]
 		public uint get_visual_column (Gtk.TextIter iter);
+		[CCode (cname = "gtk_source_view_indent_lines")]
 		[Version (since = "3.16")]
 		public void indent_lines (Gtk.TextIter start, Gtk.TextIter end);
+		[CCode (cname = "gtk_source_view_set_auto_indent")]
 		public void set_auto_indent (bool enable);
+		[CCode (cname = "gtk_source_view_set_background_pattern")]
 		[Version (since = "3.16")]
 		public void set_background_pattern (Gtk.SourceBackgroundPatternType background_pattern);
+		[CCode (cname = "gtk_source_view_set_highlight_current_line")]
 		public void set_highlight_current_line (bool highlight);
+		[CCode (cname = "gtk_source_view_set_indent_on_tab")]
 		public void set_indent_on_tab (bool enable);
+		[CCode (cname = "gtk_source_view_set_indent_width")]
 		public void set_indent_width (int width);
+		[CCode (cname = "gtk_source_view_set_insert_spaces_instead_of_tabs")]
 		public void set_insert_spaces_instead_of_tabs (bool enable);
+		[CCode (cname = "gtk_source_view_set_mark_attributes")]
 		public void set_mark_attributes (string category, Gtk.SourceMarkAttributes attributes, int priority);
+		[CCode (cname = "gtk_source_view_set_right_margin_position")]
 		public void set_right_margin_position (uint pos);
+		[CCode (cname = "gtk_source_view_set_show_line_marks")]
 		[Version (since = "2.2")]
 		public void set_show_line_marks (bool show);
+		[CCode (cname = "gtk_source_view_set_show_line_numbers")]
 		public void set_show_line_numbers (bool show);
+		[CCode (cname = "gtk_source_view_set_show_right_margin")]
 		public void set_show_right_margin (bool show);
+		[CCode (cname = "gtk_source_view_set_smart_backspace")]
 		[Version (since = "3.18")]
 		public void set_smart_backspace (bool smart_backspace);
+		[CCode (cname = "gtk_source_view_set_smart_home_end")]
 		public void set_smart_home_end (Gtk.SourceSmartHomeEndType smart_home_end);
+		[CCode (cname = "gtk_source_view_set_tab_width")]
 		public void set_tab_width (uint width);
+		[CCode (cname = "gtk_source_view_unindent_lines")]
 		[Version (since = "3.16")]
 		public void unindent_lines (Gtk.TextIter start, Gtk.TextIter end);
-		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[CCode (cname = "gtk_source_view_new_with_buffer", has_construct_function = false, type = "GtkWidget*")]
 		public SourceView.with_buffer (Gtk.SourceBuffer buffer);
+		[NoAccessorMethod]
 		public bool auto_indent { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "3.16")]
 		public Gtk.SourceBackgroundPatternType background_pattern { get; set; }
-		public Gtk.SourceCompletion completion { get; }
+		[NoAccessorMethod]
+		public Gtk.SourceCompletion completion { owned get; }
+		[NoAccessorMethod]
 		public bool highlight_current_line { get; set; }
+		[NoAccessorMethod]
 		public bool indent_on_tab { get; set; }
+		[NoAccessorMethod]
 		public int indent_width { get; set; }
+		[NoAccessorMethod]
 		public bool insert_spaces_instead_of_tabs { get; set; }
+		[NoAccessorMethod]
 		public uint right_margin_position { get; set; }
+		[NoAccessorMethod]
 		public bool show_line_marks { get; set; }
+		[NoAccessorMethod]
 		public bool show_line_numbers { get; set; }
+		[NoAccessorMethod]
 		public bool show_right_margin { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "3.18")]
 		public bool smart_backspace { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "2.0")]
 		public Gtk.SourceSmartHomeEndType smart_home_end { get; set; }
+		[NoAccessorMethod]
 		[Version (since = "3.24")]
-		public Gtk.SourceSpaceDrawer space_drawer { get; }
+		public Gtk.SourceSpaceDrawer space_drawer { owned get; }
+		[NoAccessorMethod]
 		public uint tab_width { get; set; }
 		[Version (since = "3.16")]
 		public signal void change_case (Gtk.SourceChangeCaseType case_type);
@@ -1018,7 +1369,7 @@ namespace Gtk {
 		public virtual signal void show_completion ();
 		public virtual signal void undo ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_proposal_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_proposal_", type_id = "gtk_source_completion_proposal_get_type ()")]
 	[GIR (name = "CompletionProposal")]
 	public interface SourceCompletionProposal : GLib.Object {
 		public virtual bool equal (Gtk.SourceCompletionProposal other);
@@ -1035,7 +1386,7 @@ namespace Gtk {
 		[HasEmitter]
 		public virtual signal void changed ();
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_completion_provider_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_completion_provider_", type_id = "gtk_source_completion_provider_get_type ()")]
 	[GIR (name = "CompletionProvider")]
 	public interface SourceCompletionProvider : GLib.Object {
 		public virtual bool activate_proposal (Gtk.SourceCompletionProposal proposal, Gtk.TextIter iter);
@@ -1054,7 +1405,7 @@ namespace Gtk {
 		public virtual void populate (Gtk.SourceCompletionContext context);
 		public virtual void update_info (Gtk.SourceCompletionProposal proposal, Gtk.SourceCompletionInfo info);
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_cname = "GtkSourceStyleSchemeChooserInterface", type_id = "gtk_source_style_scheme_chooser_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_style_scheme_chooser_", type_cname = "GtkSourceStyleSchemeChooserInterface", type_id = "gtk_source_style_scheme_chooser_get_type ()")]
 	[GIR (name = "StyleSchemeChooser")]
 	public interface SourceStyleSchemeChooser : GLib.Object {
 		[Version (since = "3.16")]
@@ -1064,7 +1415,7 @@ namespace Gtk {
 		[Version (since = "3.16")]
 		public abstract Gtk.SourceStyleScheme style_scheme { get; set; }
 	}
-	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_undo_manager_get_type ()")]
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", lower_case_cprefix = "gtk_undo_manager_", type_id = "gtk_source_undo_manager_get_type ()")]
 	[GIR (name = "UndoManager")]
 	public interface SourceUndoManager : GLib.Object {
 		[Version (since = "2.10")]
@@ -1246,6 +1597,21 @@ namespace Gtk {
 		[Version (replacement = "FileSaverError.quark")]
 		public static GLib.Quark uark ();
 	}
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_encoding_get_all")]
+	[Version (replacement = "Encoding.get_all", since = "3.14")]
+	public static GLib.SList<weak Gtk.SourceEncoding> Sourceencoding_get_all ();
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_encoding_get_current")]
+	[Version (replacement = "Encoding.get_current", since = "3.14")]
+	public static unowned Gtk.SourceEncoding Sourceencoding_get_current ();
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_encoding_get_default_candidates")]
+	[Version (replacement = "Encoding.get_default_candidates", since = "3.18")]
+	public static GLib.SList<weak Gtk.SourceEncoding> Sourceencoding_get_default_candidates ();
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_encoding_get_from_charset")]
+	[Version (replacement = "Encoding.get_from_charset", since = "3.14")]
+	public static unowned Gtk.SourceEncoding? Sourceencoding_get_from_charset (string charset);
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_encoding_get_utf8")]
+	[Version (replacement = "Encoding.get_utf8", since = "3.14")]
+	public static unowned Gtk.SourceEncoding Sourceencoding_get_utf8 ();
 	[CCode (cheader_filename = "gtksourceview/gtksource.h", cname = "gtk_source_finalize")]
 	[Version (since = "4.0")]
 	public static void Sourcefinalize ();

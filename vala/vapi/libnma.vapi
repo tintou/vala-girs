@@ -2,7 +2,7 @@
 
 [CCode (cprefix = "NMA", gir_namespace = "NMA", gir_version = "1.0", lower_case_cprefix = "nma_")]
 namespace NMA {
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_bar_code_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_bar_code_get_type ()")]
 	public sealed class BarCode : GLib.Object {
 		[CCode (has_construct_function = false)]
 		[Version (since = "1.8.22")]
@@ -16,14 +16,15 @@ namespace NMA {
 		public int size { get; }
 		public string text { set; }
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_bar_code_widget_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_bar_code_widget_get_type ()")]
 	public sealed class BarCodeWidget : Gtk.Box, Atk.Implementor, Gtk.Buildable, Gtk.Orientable {
-		[CCode (has_construct_function = false)]
-		protected BarCodeWidget ();
+		[CCode (has_construct_function = false, type = "GtkWidget*")]
+		[Version (since = "1.8.22")]
+		public BarCodeWidget (NM.Connection connection);
 		[NoAccessorMethod]
 		public NM.Connection connection { owned get; set; }
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_cert_chooser_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_cert_chooser_get_type ()")]
 	public sealed class CertChooser : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		[Version (since = "1.8.0")]
@@ -83,7 +84,7 @@ namespace NMA {
 		[Version (since = "1.8.0")]
 		public signal GLib.Error key_validate ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", ref_function = "nma_country_info_ref", type_id = "nma_country_info_get_type ()", unref_function = "nma_country_info_unref")]
+	[CCode (cheader_filename = "nma.h", ref_function = "nma_country_info_ref", type_id = "nma_country_info_get_type ()", unref_function = "nma_country_info_unref")]
 	[Compact]
 	public class CountryInfo {
 		public unowned string get_country_code ();
@@ -92,7 +93,7 @@ namespace NMA {
 		public NMA.CountryInfo @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", ref_function = "nma_mobile_access_method_ref", type_id = "nma_mobile_access_method_get_type ()", unref_function = "nma_mobile_access_method_unref")]
+	[CCode (cheader_filename = "nma.h", ref_function = "nma_mobile_access_method_ref", type_id = "nma_mobile_access_method_get_type ()", unref_function = "nma_mobile_access_method_unref")]
 	[Compact]
 	public class MobileAccessMethod {
 		public unowned string get_3gpp_apn ();
@@ -106,7 +107,7 @@ namespace NMA {
 		public NMA.MobileAccessMethod @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", ref_function = "nma_mobile_provider_ref", type_id = "nma_mobile_provider_get_type ()", unref_function = "nma_mobile_provider_unref")]
+	[CCode (cheader_filename = "nma.h", ref_function = "nma_mobile_provider_ref", type_id = "nma_mobile_provider_get_type ()", unref_function = "nma_mobile_provider_unref")]
 	[Compact]
 	public class MobileProvider {
 		[CCode (array_length = false, array_null_terminated = true)]
@@ -118,7 +119,7 @@ namespace NMA {
 		public NMA.MobileProvider @ref ();
 		public void unref ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_mobile_providers_database_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_mobile_providers_database_get_type ()")]
 	public class MobileProvidersDatabase : GLib.Object, GLib.AsyncInitable, GLib.Initable {
 		[CCode (cname = "nma_mobile_providers_database_new", has_construct_function = false)]
 		public async MobileProvidersDatabase (string? country_codes, string? service_providers, GLib.Cancellable? cancellable) throws GLib.Error;
@@ -134,14 +135,14 @@ namespace NMA {
 		[NoAccessorMethod]
 		public string service_providers { owned get; construct; }
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_mobile_wizard_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_mobile_wizard_get_type ()")]
 	public sealed class MobileWizard : GLib.Object {
 		[CCode (has_construct_function = false)]
 		protected MobileWizard ();
 		public void destroy ();
 		public void present ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_vpn_password_dialog_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_vpn_password_dialog_get_type ()")]
 	public class VpnPasswordDialog : Gtk.Dialog, Atk.Implementor, Gtk.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public VpnPasswordDialog (string title, string message, string password);
@@ -162,7 +163,7 @@ namespace NMA {
 		public void set_show_password_secondary (bool show);
 		public void set_show_password_ternary (bool show);
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", type_id = "nma_wifi_dialog_get_type ()")]
+	[CCode (cheader_filename = "nma.h", type_id = "nma_wifi_dialog_get_type ()")]
 	public class WifiDialog : Gtk.Dialog, Atk.Implementor, Gtk.Buildable {
 		[CCode (has_construct_function = false, type = "GtkWidget*")]
 		public WifiDialog (NM.Client client, NM.Connection connection, NM.Device device, NM.AccessPoint ap, bool secrets_only);
@@ -178,83 +179,88 @@ namespace NMA {
 		public bool get_nag_ignored ();
 		public Gtk.Widget nag_user ();
 		public void set_nag_ignored (bool ignored);
+		[NoAccessorMethod]
+		public NM.AccessPoint access_point { construct; }
+		[NoAccessorMethod]
+		public NM.Client client { construct; }
+		[NoAccessorMethod]
+		public uint operation { construct; }
+		[CCode (array_length = false, array_null_terminated = true)]
+		[NoAccessorMethod]
+		public string[] secrets_hints { construct; }
+		[NoAccessorMethod]
+		public bool secrets_only { construct; }
+		[NoAccessorMethod]
+		public string secrets_setting_name { construct; }
+		[NoAccessorMethod]
+		public NM.Connection specific_connection { construct; }
+		[NoAccessorMethod]
+		public NM.Device specific_device { construct; }
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class Ws {
+	[CCode (cheader_filename = "nma.h", lower_case_csuffix = "ws_802_1x", type_id = "nma_ws_802_1x_get_type ()")]
+	public sealed class Ws8021x : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public Ws8021x (NM.Connection connection, bool is_editor, bool secrets_only);
+		[NoAccessorMethod]
+		public bool is_editor { get; set construct; }
+		[CCode (array_length = false, array_null_terminated = true)]
+		[NoAccessorMethod]
+		public string[] secrets_hints { owned get; set construct; }
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_dynamic_wep_get_type ()")]
+	public sealed class WsDynamicWep : NMA.Ws8021x, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsDynamicWep (NM.Connection connection, bool is_editor, bool secrets_only);
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_leap_get_type ()")]
+	public sealed class WsLeap : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsLeap (NM.Connection connection, bool secrets_only);
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_owe_get_type ()")]
+	public sealed class WsOwe : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsOwe (NM.Connection connection);
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_sae_get_type ()")]
+	public sealed class WsSae : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsSae (NM.Connection connection, bool secrets_only);
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_wep_key_get_type ()")]
+	public sealed class WsWepKey : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsWepKey (NM.Connection connection, NM.WepKeyType type, bool adhoc_create, bool secrets_only);
+		[NoAccessorMethod]
+		public bool adhoc_create { get; set construct; }
+		[NoAccessorMethod]
+		public uint key_type { get; set construct; }
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_wpa_eap_get_type ()")]
+	public sealed class WsWpaEap : NMA.Ws8021x, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsWpaEap (NM.Connection connection, bool is_editor, bool secrets_only, string secrets_hints);
+	}
+	[CCode (cheader_filename = "nma.h", type_id = "nma_ws_wpa_psk_get_type ()")]
+	public sealed class WsWpaPsk : Gtk.Grid, Atk.Implementor, Gtk.Buildable, Gtk.Orientable, NMA.Ws {
+		[CCode (has_construct_function = false)]
+		public WsWpaPsk (NM.Connection connection, bool secrets_only);
+	}
+	[CCode (cheader_filename = "nma.h", type_cname = "NMAWsInterface", type_id = "nma_ws_get_type ()")]
+	public interface Ws : GLib.Object {
+		public void add_to_size_group (Gtk.SizeGroup group);
 		public bool adhoc_compatible ();
+		public void fill_connection (NM.Connection connection);
 		public bool hotspot_compatible ();
+		public void update_secrets (NM.Connection connection);
 		public bool validate () throws GLib.Error;
+		[NoAccessorMethod]
+		public abstract NM.Connection connection { owned get; set construct; }
+		[NoAccessorMethod]
+		public abstract bool secrets_only { get; set construct; }
+		public signal void ws_changed ();
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class Ws8021x {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class Ws8021xClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsDynamicWep {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsDynamicWepClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsInterface {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsLeap {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsLeapClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsOwe {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsOweClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsSae {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsSaeClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWepKey {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWepKeyClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWpaEap {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWpaEapClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWpaPsk {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
-	[Compact]
-	public class WsWpaPskClass {
-	}
-	[CCode (cheader_filename = "NMA-1.0.h", has_type_id = false)]
+	[CCode (cheader_filename = "nma.h", has_type_id = false)]
 	public struct MobileWizardAccessMethod {
 		public weak string provider_name;
 		public weak string plan_name;
@@ -263,7 +269,7 @@ namespace NMA {
 		public weak string password;
 		public weak string gsm_apn;
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", cprefix = "NMA_CERT_CHOOSER_FLAG_", has_type_id = false)]
+	[CCode (cheader_filename = "nma.h", cprefix = "NMA_CERT_CHOOSER_FLAG_", has_type_id = false)]
 	[Version (since = "1.8.0")]
 	public enum CertChooserFlags {
 		NONE,
@@ -272,32 +278,32 @@ namespace NMA {
 		PEM,
 		NO_PASSWORDS
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", cprefix = "NMA_MOBILE_FAMILY_", has_type_id = false)]
+	[CCode (cheader_filename = "nma.h", cprefix = "NMA_MOBILE_FAMILY_", has_type_id = false)]
 	public enum MobileFamily {
 		UNKNOWN,
 		@3GPP,
 		CDMA
 	}
-	[CCode (cheader_filename = "NMA-1.0.h", instance_pos = 3.9)]
+	[CCode (cheader_filename = "nma.h", instance_pos = 3.9)]
 	public delegate void MobileWizardCallback (NMA.MobileWizard self, bool canceled, NMA.MobileWizardAccessMethod method);
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_BAR_CODE_SIZE")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_BAR_CODE_SIZE")]
 	public const string BAR_CODE_SIZE;
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_BAR_CODE_TEXT")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_BAR_CODE_TEXT")]
 	public const string BAR_CODE_TEXT;
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_BAR_CODE_WIDGET_CONNECTION")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_BAR_CODE_WIDGET_CONNECTION")]
 	public const string BAR_CODE_WIDGET_CONNECTION;
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_MAJOR_VERSION")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_MICRO_VERSION")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_MICRO_VERSION")]
 	public const int MICRO_VERSION;
-	[CCode (cheader_filename = "NMA-1.0.h", cname = "NMA_MINOR_VERSION")]
+	[CCode (cheader_filename = "nma.h", cname = "NMA_MINOR_VERSION")]
 	public const int MINOR_VERSION;
-	[CCode (cheader_filename = "NMA-1.0.h")]
+	[CCode (cheader_filename = "nma.h")]
 	public static bool mobile_providers_split_3gpp_mcc_mnc (string mccmnc, out string mcc, out string mnc);
-	[CCode (cheader_filename = "NMA-1.0.h")]
+	[CCode (cheader_filename = "nma.h")]
 	public static NM.SettingSecretFlags utils_menu_to_secret_flags (Gtk.Widget passwd_entry);
-	[CCode (cheader_filename = "NMA-1.0.h")]
+	[CCode (cheader_filename = "nma.h")]
 	public static void utils_setup_password_storage (Gtk.Widget passwd_entry, NM.SettingSecretFlags initial_flags, NM.Setting setting, string password_flags_name, bool with_not_required, bool ask_mode);
-	[CCode (cheader_filename = "NMA-1.0.h")]
+	[CCode (cheader_filename = "nma.h")]
 	public static void utils_update_password_storage (Gtk.Widget passwd_entry, NM.SettingSecretFlags secret_flags, NM.Setting setting, string password_flags_name);
 }

@@ -5,7 +5,7 @@ namespace GSSDP {
 	[CCode (cheader_filename = "libgssdp/gssdp.h", type_id = "gssdp_client_get_type ()")]
 	public class Client : GLib.Object, GLib.Initable {
 		[CCode (has_construct_function = false)]
-		[Version (deprecated = true, deprecated_since = "1.6.")]
+		[Version (deprecated = true, deprecated_since = "1.6.0")]
 		public Client (string? iface) throws GLib.Error;
 		public void add_cache_entry (string ip_address, string user_agent);
 		public void append_header (string name, string? value);
@@ -13,10 +13,10 @@ namespace GSSDP {
 		public bool can_reach (GLib.InetSocketAddress address);
 		public void clear_headers ();
 		[CCode (has_construct_function = false)]
-		[Version (since = "1.6.")]
+		[Version (since = "1.6.0")]
 		public Client.for_address (GLib.InetAddress? addr, uint16 port, GSSDP.UDAVersion uda_version) throws GLib.Error;
 		[CCode (has_construct_function = false)]
-		[Version (since = "1.6.")]
+		[Version (since = "1.6.0")]
 		public Client.full (string? iface, GLib.InetAddress? addr, uint16 port, GSSDP.UDAVersion uda_version) throws GLib.Error;
 		public bool get_active ();
 		public GLib.InetAddress get_address ();
@@ -37,7 +37,7 @@ namespace GSSDP {
 		public void set_network (string network);
 		public void set_server_id (string server_id);
 		[CCode (has_construct_function = false)]
-		[Version (deprecated = true, deprecated_since = "1.6.")]
+		[Version (deprecated = true, deprecated_since = "1.6.0")]
 		public Client.with_port (string? iface, uint16 msearch_port) throws GLib.Error;
 		[NoAccessorMethod]
 		public bool active { get; set; }
@@ -50,7 +50,7 @@ namespace GSSDP {
 		public int boot_id { get; set construct; }
 		[NoAccessorMethod]
 		public int config_id { get; set construct; }
-		[Version (deprecated = true, deprecated_since = "1.6.")]
+		[Version (deprecated = true, deprecated_since = "1.6.0")]
 		public string host_ip { get; construct; }
 		[NoAccessorMethod]
 		public GLib.InetAddressMask host_mask { owned get; construct; }

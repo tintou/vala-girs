@@ -84,6 +84,8 @@ namespace Shumate {
 	public abstract class Layer : Gtk.Widget, Gtk.Accessible, Gtk.Buildable, Gtk.ConstraintTarget {
 		[CCode (has_construct_function = false)]
 		protected Layer ();
+		[NoWrapper]
+		public virtual string? get_debug_text ();
 		public unowned Shumate.Viewport get_viewport ();
 		public Shumate.Viewport viewport { get; construct; }
 	}
@@ -140,8 +142,12 @@ namespace Shumate {
 		public MapLayer (Shumate.MapSource map_source, Shumate.Viewport viewport);
 		[NoAccessorMethod]
 		public Shumate.MapSource map_source { owned get; construct; }
+		[Version (since = "1.4")]
+		public signal void map_loaded (bool errors);
 		[Version (since = "1.1")]
 		public signal void symbol_clicked (Shumate.SymbolEvent event);
+		[Version (since = "1.4")]
+		public signal void tile_error (Shumate.Tile tile, GLib.Error error);
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_map_source_get_type ()")]
 	public abstract class MapSource : GLib.Object {
@@ -202,13 +208,23 @@ namespace Shumate {
 		public void animate_out_with_delay (uint delay);
 		public unowned Gtk.Widget? get_child ();
 		public bool get_draggable ();
+		[Version (since = "1.5")]
+		public void get_hotspot (out double x_hotspot, out double y_hotspot);
 		public bool get_selectable ();
 		public bool is_selected ();
 		public void set_child (Gtk.Widget? child);
 		public void set_draggable (bool value);
+		[Version (since = "1.5")]
+		public void set_hotspot (double x_hotspot, double y_hotspot);
 		public void set_selectable (bool value);
 		public Gtk.Widget child { get; set; }
 		public bool selectable { get; set; }
+		[NoAccessorMethod]
+		[Version (since = "1.5")]
+		public double x_hotspot { get; set; }
+		[NoAccessorMethod]
+		[Version (since = "1.5")]
+		public double y_hotspot { get; set; }
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_marker_layer_get_type ()")]
 	public sealed class MarkerLayer : Shumate.Layer, Gtk.Accessible, Gtk.Buildable, Gtk.ConstraintTarget {
@@ -304,6 +320,8 @@ namespace Shumate {
 		[CCode (has_construct_function = false)]
 		public SimpleMap ();
 		public void add_overlay_layer (Shumate.Layer layer);
+		[Version (since = "1.4")]
+		public unowned Shumate.MapLayer get_base_map_layer ();
 		public unowned Shumate.Compass get_compass ();
 		public unowned Shumate.License get_license ();
 		public unowned Shumate.Map get_map ();
@@ -311,10 +329,15 @@ namespace Shumate {
 		public unowned Shumate.Scale get_scale ();
 		public bool get_show_zoom_buttons ();
 		public unowned Shumate.Viewport get_viewport ();
-		public void insert_overlay_layer (Shumate.Layer layer, uint idx);
+		[Version (since = "1.5")]
+		public void insert_overlay_layer_above (Shumate.Layer layer, Shumate.Layer sibling);
+		[Version (since = "1.5")]
+		public void insert_overlay_layer_behind (Shumate.Layer layer, Shumate.Layer sibling);
 		public void remove_overlay_layer (Shumate.Layer layer);
 		public void set_map_source (Shumate.MapSource? map_source);
 		public void set_show_zoom_buttons (bool show_zoom_buttons);
+		[Version (since = "1.4")]
+		public Shumate.MapLayer base_map_layer { get; }
 		public Shumate.Compass compass { get; }
 		public Shumate.License license { get; }
 		public Shumate.Map map { get; }
@@ -334,10 +357,15 @@ namespace Shumate {
 		[CCode (array_length = false, array_null_terminated = true)]
 		public (unowned string)[] get_keys ();
 		public unowned string get_layer ();
+		[Version (since = "1.5")]
+		public int get_n_press ();
 		public unowned string get_source_layer ();
 		public unowned string get_tag (string tag_name);
 		public string feature_id { get; }
 		public string layer { get; }
+		[NoAccessorMethod]
+		[Version (since = "1.5")]
+		public uint n_press { get; set; }
 		public string source_layer { get; }
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_tile_get_type ()")]
@@ -346,9 +374,7 @@ namespace Shumate {
 		public Tile ();
 		[CCode (has_construct_function = false)]
 		public Tile.full (uint x, uint y, uint size, uint zoom_level);
-		public unowned string get_etag ();
 		public bool get_fade_in ();
-		public GLib.DateTime get_modified_time ();
 		public unowned Gdk.Paintable? get_paintable ();
 		[Version (since = "1.1")]
 		public double get_scale_factor ();
@@ -357,9 +383,7 @@ namespace Shumate {
 		public uint get_x ();
 		public uint get_y ();
 		public uint get_zoom_level ();
-		public void set_etag (string etag);
 		public void set_fade_in (bool fade_in);
-		public void set_modified_time (GLib.DateTime modified_time);
 		public void set_paintable (Gdk.Paintable paintable);
 		[Version (since = "1.1")]
 		public void set_scale_factor (double scale_factor);
@@ -385,14 +409,81 @@ namespace Shumate {
 		[NoAccessorMethod]
 		public string url_template { owned get; construct; }
 	}
+	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_vector_reader_get_type ()")]
+	[Version (since = "1.2")]
+	public sealed class VectorReader : GLib.Object {
+		[CCode (has_construct_function = false)]
+		public VectorReader (GLib.Bytes bytes);
+		public Shumate.VectorReaderIter iterate ();
+	}
+	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_vector_reader_iter_get_type ()")]
+	[Version (since = "1.2")]
+	public sealed class VectorReaderIter : GLib.Object {
+		[CCode (has_construct_function = false)]
+		protected VectorReaderIter ();
+		public bool feature_contains_point (double x, double y);
+		public Shumate.GeometryType get_feature_geometry_type ();
+		public uint64 get_feature_id ();
+		[CCode (array_length = false, array_null_terminated = true)]
+		public (unowned string)[] get_feature_keys ();
+		public bool get_feature_point (out double x, out double y);
+		public bool get_feature_tag (string key, out GLib.Value value);
+		public uint get_layer_count ();
+		public uint get_layer_extent ();
+		public uint get_layer_feature_count ();
+		public unowned string get_layer_name ();
+		public unowned Shumate.VectorReader get_reader ();
+		public bool next_feature ();
+		public void read_feature (int index);
+		public void read_layer (int index);
+		public bool read_layer_by_name (string name);
+		public Shumate.VectorReader reader { get; construct; }
+	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_vector_renderer_get_type ()")]
 	public sealed class VectorRenderer : Shumate.MapSource, GLib.Initable {
 		[CCode (has_construct_function = false)]
 		public VectorRenderer (string id, string style_json) throws GLib.Error;
+		[Version (since = "1.1")]
+		public unowned Shumate.VectorSpriteSheet get_sprite_sheet ();
 		public static bool is_supported ();
+		[Version (since = "1.2")]
+		public void set_data_source (string name, Shumate.DataSource data_source);
+		[Version (since = "1.1")]
+		public void set_sprite_sheet (Shumate.VectorSpriteSheet sprites);
+		[Version (deprecated = true, deprecated_since = "1.1")]
 		public bool set_sprite_sheet_data (Gdk.Pixbuf sprites_pixbuf, string sprites_json) throws GLib.Error;
+		[Version (since = "1.1")]
+		public Shumate.VectorSpriteSheet sprite_sheet { get; set; }
 		[NoAccessorMethod]
 		public string style_json { owned get; construct; }
+	}
+	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_vector_sprite_get_type ()")]
+	[Version (since = "1.1")]
+	public sealed class VectorSprite : GLib.Object, Gdk.Paintable, Gtk.SymbolicPaintable {
+		[CCode (has_construct_function = false)]
+		public VectorSprite (Gdk.Paintable source_paintable);
+		[CCode (has_construct_function = false)]
+		public VectorSprite.full (Gdk.Paintable source_paintable, int width, int height, double scale_factor, Gdk.Rectangle? source_rect);
+		public int get_height ();
+		public double get_scale_factor ();
+		public unowned Gdk.Paintable get_source_paintable ();
+		public unowned Gdk.Rectangle? get_source_rect ();
+		public int get_width ();
+		public int height { get; construct; }
+		public double scale_factor { get; construct; }
+		public Gdk.Paintable source_paintable { get; construct; }
+		public Gdk.Rectangle source_rect { get; construct; }
+		public int width { get; construct; }
+	}
+	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_vector_sprite_sheet_get_type ()")]
+	[Version (since = "1.1")]
+	public sealed class VectorSpriteSheet : GLib.Object {
+		[CCode (has_construct_function = false)]
+		public VectorSpriteSheet ();
+		public bool add_page (Gdk.Texture texture, string json, double default_scale) throws GLib.Error;
+		public void add_sprite (string name, Shumate.VectorSprite sprite);
+		public Shumate.VectorSprite? get_sprite (string name, double scale);
+		public void set_fallback (owned Shumate.VectorSpriteFallbackFunc? fallback);
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_id = "shumate_viewport_get_type ()")]
 	public sealed class Viewport : GLib.Object, Shumate.Location {
@@ -418,6 +509,8 @@ namespace Shumate {
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", type_cname = "ShumateLocationInterface", type_id = "shumate_location_get_type ()")]
 	public interface Location : GLib.Object {
+		[Version (since = "1.2")]
+		public double distance (Shumate.Location other);
 		public abstract double get_latitude ();
 		public abstract double get_longitude ();
 		public abstract void set_location (double latitude, double longitude);
@@ -425,6 +518,17 @@ namespace Shumate {
 		public abstract double latitude { get; set; }
 		[NoAccessorMethod]
 		public abstract double longitude { get; set; }
+	}
+	[CCode (cheader_filename = "shumate/shumate.h", cprefix = "SHUMATE_GEOMETRY_TYPE_", type_id = "shumate_geometry_type_get_type ()")]
+	[Version (since = "1.2")]
+	public enum GeometryType {
+		UNKNOWN,
+		POINT,
+		MULTIPOINT,
+		LINESTRING,
+		MULTILINESTRING,
+		POLYGON,
+		MULTIPOLYGON
 	}
 	[CCode (cheader_filename = "shumate/shumate.h", cprefix = "SHUMATE_MAP_PROJECTION_", type_id = "shumate_map_projection_get_type ()")]
 	public enum MapProjection {
@@ -467,6 +571,9 @@ namespace Shumate {
 		OFFLINE;
 		public static GLib.Quark quark ();
 	}
+	[CCode (cheader_filename = "shumate/shumate.h", instance_pos = 3.9)]
+	[Version (since = "1.1")]
+	public delegate Shumate.VectorSprite? VectorSpriteFallbackFunc (Shumate.VectorSpriteSheet sprite_sheet, string name, double scale);
 	[CCode (cheader_filename = "shumate/shumate.h", cname = "SHUMATE_MAJOR_VERSION")]
 	public const int MAJOR_VERSION;
 	[CCode (cheader_filename = "shumate/shumate.h", cname = "SHUMATE_MAP_SOURCE_MFF_RELIEF")]

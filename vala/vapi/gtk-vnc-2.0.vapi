@@ -29,6 +29,7 @@ namespace Vnc {
 		public static unowned GLib.OptionEntry[] get_option_entries ();
 		public static GLib.OptionGroup get_option_group ();
 		public Gdk.Pixbuf get_pixbuf ();
+		public bool get_pointer_force_visible ();
 		public bool get_pointer_grab ();
 		public bool get_pointer_local ();
 		public bool get_read_only ();
@@ -56,6 +57,7 @@ namespace Vnc {
 		public void set_keep_aspect_ratio (bool enable);
 		public void set_keyboard_grab (bool enable);
 		public void set_lossy_encoding (bool enable);
+		public void set_pointer_force_visible (bool enable);
 		public void set_pointer_grab (bool enable);
 		public void set_pointer_local (bool enable);
 		public void set_read_only (bool enable);
