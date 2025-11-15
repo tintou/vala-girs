@@ -46474,6 +46474,56 @@ See: e_util_change_uri_component()</doc>
         </parameter>
       </parameters>
     </function>
+    <function name="util_construct_data_uri"
+              c:identifier="e_util_construct_data_uri"
+              version="3.60">
+      <doc xml:space="preserve"
+           filename="src/libedataserver/e-data-server-util.c"
+           line="3236">Constructs a "data:" URI (of form "data:[mime type][;charset=charset][;base64][,]encoded_data").
+The @mime_type neither the @charset cannot contain ',' nor ';',</doc>
+      <source-position filename="src/libedataserver/e-data-server-util.h"
+                       line="273"/>
+      <return-value transfer-ownership="full">
+        <doc xml:space="preserve"
+             filename="src/libedataserver/e-data-server-util.c"
+             line="3246">a newly allocated "data:" URI constructed
+   from the provided arguments. Free it with g_free(), when no longer
+   needed.</doc>
+        <type name="utf8" c:type="gchar*"/>
+      </return-value>
+      <parameters>
+        <parameter name="mime_type"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3238">optional MIME type to use, or %NULL</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </parameter>
+        <parameter name="charset"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3239">optional charset to use, or %NULL</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </parameter>
+        <parameter name="is_base64" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3240">%TRUE, when the @data is base64 encoded</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </parameter>
+        <parameter name="data" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3241">actual data</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </parameter>
+      </parameters>
+    </function>
     <function name="util_copy_object_slist"
               c:identifier="e_util_copy_object_slist"
               version="3.4"
@@ -47110,6 +47160,70 @@ This is also used by e_source_registry_build_display_tree().</doc>
                filename="src/libedataserver/e-data-server-util.c"
                line="2918">the second #ESource</doc>
           <type name="gpointer" c:type="_ESource*"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="util_split_data_uri"
+              c:identifier="e_util_split_data_uri"
+              version="3.60">
+      <doc xml:space="preserve"
+           filename="src/libedataserver/e-data-server-util.c"
+           line="3156">Splits a "data:" URI (of form data:[mime type][;charset=charset][;base64][,]encoded-data) into
+respective components. The @out_data_start points to the first byte inside the @uri.</doc>
+      <source-position filename="src/libedataserver/e-data-server-util.h"
+                       line="268"/>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="src/libedataserver/e-data-server-util.c"
+             line="3167">whether could split the @uri</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </return-value>
+      <parameters>
+        <parameter name="uri" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3158">a "data:" URI</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </parameter>
+        <parameter name="out_mime_type"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full"
+                   optional="1"
+                   allow-none="1">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3159">location to store MIME type parameter, or %NULL when not interested</doc>
+          <type name="utf8" c:type="gchar**"/>
+        </parameter>
+        <parameter name="out_charset"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full"
+                   optional="1"
+                   allow-none="1">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3160">location to store charset parameter, or %NULL when not interested</doc>
+          <type name="utf8" c:type="gchar**"/>
+        </parameter>
+        <parameter name="out_is_base64"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3161">location to store whether the URI content is base64 encoded</doc>
+          <type name="gboolean" c:type="gboolean*"/>
+        </parameter>
+        <parameter name="out_data_start"
+                   direction="out"
+                   caller-allocates="0"
+                   transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/libedataserver/e-data-server-util.c"
+               line="3162">location to store the first byte in the @uri where the actual data starts</doc>
+          <type name="utf8" c:type="const gchar**"/>
         </parameter>
       </parameters>
     </function>

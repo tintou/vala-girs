@@ -37,6 +37,8 @@ namespace E {
 		public bool get_cursor_sync (string sexp, E.ContactField sort_fields, E.BookCursorSortType sort_types, uint n_fields, out E.BookClientCursor out_cursor, GLib.Cancellable? cancellable = null) throws GLib.Error;
 		[Version (since = "3.12")]
 		public unowned string get_locale ();
+		[Version (since = "3.60")]
+		public E.VCardVersion get_prefer_vcard_version ();
 		public static bool get_self (E.SourceRegistry registry, out E.Contact out_contact, out E.BookClient out_client) throws GLib.Error;
 		public async bool get_view (string sexp, GLib.Cancellable? cancellable, out E.BookClientView out_view) throws GLib.Error;
 		public bool get_view_sync (string sexp, out E.BookClientView out_view, GLib.Cancellable? cancellable = null) throws GLib.Error;

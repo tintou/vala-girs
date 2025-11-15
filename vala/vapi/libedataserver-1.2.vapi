@@ -2442,6 +2442,9 @@ namespace E {
 	[Version (since = "3.46")]
 	public static void util_change_uri_port (ref GLib.Uri inout_uri, int port);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
+	[Version (since = "3.60")]
+	public static string util_construct_data_uri (string? mime_type, string? charset, bool is_base64, string data);
+	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (deprecated = true, deprecated_since = "3.8", since = "3.4")]
 	public static GLib.SList<GLib.Object> util_copy_object_slist (owned GLib.SList<GLib.Object>? copy_to, GLib.SList<GLib.Object> objects);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
@@ -2488,6 +2491,9 @@ namespace E {
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (since = "3.40")]
 	public static int util_source_compare_for_sort (void* source_a, void* source_b);
+	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
+	[Version (since = "3.60")]
+	public static bool util_split_data_uri (string uri, out string out_mime_type, out string out_charset, out bool out_is_base64, out unowned string out_data_start);
 	[CCode (cheader_filename = "libedataserver/libedataserver.h")]
 	[Version (since = "3.32")]
 	public static int util_strcmp0 (string? str1, string? str2);
