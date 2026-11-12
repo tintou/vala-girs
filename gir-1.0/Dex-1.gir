@@ -685,7 +685,7 @@ You create these by chaining futures together using [ctor@Dex.Future.then],
       <method name="get_kind" c:identifier="dex_block_get_kind">
         <doc xml:space="preserve"
              filename="src/dex-block.c"
-             line="300">Gets the kind of block.
+             line="307">Gets the kind of block.
 
 The kind of block relates to what situations the block would be
 executed such as for handling a future resolution, rejection, or
@@ -694,14 +694,14 @@ both.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-block.c"
-               line="310">the [enum@Dex.BlockKind] associated with the @block</doc>
+               line="317">the [enum@Dex.BlockKind] associated with the @block</doc>
           <type name="BlockKind" c:type="DexBlockKind"/>
         </return-value>
         <parameters>
           <instance-parameter name="block" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-block.c"
-                 line="302">a [class@Dex.Block]</doc>
+                 line="309">a [class@Dex.Block]</doc>
             <type name="Block" c:type="DexBlock*"/>
           </instance-parameter>
         </parameters>
@@ -709,19 +709,19 @@ both.</doc>
       <method name="get_scheduler" c:identifier="dex_block_get_scheduler">
         <doc xml:space="preserve"
              filename="src/dex-block.c"
-             line="320">Gets the scheduler to use when executing a block.</doc>
+             line="327">Gets the scheduler to use when executing a block.</doc>
         <source-position filename="src/dex-block.h" line="54"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-block.c"
-               line="326">the [class@Dex.Scheduler] associated with the @block</doc>
+               line="333">the [class@Dex.Scheduler] associated with the @block</doc>
           <type name="Scheduler" c:type="DexScheduler*"/>
         </return-value>
         <parameters>
           <instance-parameter name="block" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-block.c"
-                 line="322">a [class@Dex.Block]</doc>
+                 line="329">a [class@Dex.Block]</doc>
             <type name="Block" c:type="DexBlock*"/>
           </instance-parameter>
         </parameters>
