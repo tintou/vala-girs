@@ -906,6 +906,8 @@ namespace GtkSource {
 		[HasEmitter]
 		public virtual signal void push_snippet (GtkSource.Snippet snippet, ref Gtk.TextIter location);
 		public virtual signal void show_completion ();
+		[CCode (cname = "smart-home-end")]
+		public signal void smart_home_end_moved (Gtk.TextIter iter, int count);
 	}
 	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_vim_im_context_get_type ()")]
 	[Version (since = "5.4")]
