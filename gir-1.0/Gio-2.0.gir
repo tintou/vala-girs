@@ -27447,7 +27447,7 @@ object path.</doc>
                 writable="1"
                 construct-only="1"
                 transfer-ownership="none"
-                getter="get-connection">
+                getter="get_connection">
         <doc xml:space="preserve"
              filename="gio/gdbusobjectproxy.c"
              line="161">The connection of the proxy.</doc>

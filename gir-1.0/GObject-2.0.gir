@@ -903,7 +903,7 @@ See g_object_bind_property_with_closures() for more information.</doc>
              filename="gobject/gbindinggroup.c"
              line="377">Gets the source object used for binding properties.</doc>
         <source-position filename="gobject/gbindinggroup.h" line="46"/>
-        <return-value transfer-ownership="none" nullable="1">
+        <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gobject/gbindinggroup.c"
                line="383">a #GObject or %NULL.</doc>
