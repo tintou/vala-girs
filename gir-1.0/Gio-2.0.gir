@@ -15331,7 +15331,7 @@ As of GLib 2.34, `GConverterOutputStream` implements
            glib:type-struct="CredentialsClass">
       <doc xml:space="preserve"
            filename="gio/gcredentials.c"
-           line="38">The `GCredentials` type is a reference-counted wrapper for native
+           line="42">The `GCredentials` type is a reference-counted wrapper for native
 credentials.
 
 The information in `GCredentials` is typically used for identifying,
@@ -15365,18 +15365,24 @@ On Solaris (including OpenSolaris and its derivatives), the native credential ty
 is a `ucred_t`. This corresponds to `G_CREDENTIALS_TYPE_SOLARIS_UCRED`.
 
 Since GLib 2.72, on Windows, the native credentials may contain the PID of a
-process. This corresponds to `G_CREDENTIALS_TYPE_WIN32_PID`.</doc>
+process. This corresponds to `G_CREDENTIALS_TYPE_WIN32_PID`.
+
+Since GLib 2.92, on Windows, [method@Gio.Credentials.is_same_user] looks up
+the user who owns each of the processes in the credentials, and compares the
+two.  The lookup is made when the method is called.  A process that is gone,
+or that cannot be inspected (as it is more privileged than the caller), is
+not the same user as anyone.</doc>
       <source-position filename="gio/gcredentials.h" line="47"/>
       <constructor name="new" c:identifier="g_credentials_new" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="195">Creates a new #GCredentials object with credentials matching the
+             line="205">Creates a new #GCredentials object with credentials matching the
 the current process.</doc>
         <source-position filename="gio/gcredentials.h" line="53"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="201">A #GCredentials. Free with g_object_unref().</doc>
+               line="211">A #GCredentials. Free with g_object_unref().</doc>
           <type name="Credentials" c:type="GCredentials*"/>
         </return-value>
       </constructor>
@@ -15386,7 +15392,7 @@ the current process.</doc>
               introspectable="0">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="430">Gets a pointer to native credentials of type @native_type from
+             line="502">Gets a pointer to native credentials of type @native_type from
 @credentials.
 
 It is a programming error (which will cause a warning to be
@@ -15396,7 +15402,7 @@ the OS or if @native_type isn't supported by the OS.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="442">The pointer to native credentials or
+               line="514">The pointer to native credentials or
     %NULL if there is no #GCredentials support for the OS or if @native_type
     isn't supported by the OS. Do not free the returned data, it is owned
     by @credentials.</doc>
@@ -15406,13 +15412,13 @@ the OS or if @native_type isn't supported by the OS.</doc>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="432">A #GCredentials.</doc>
+                 line="504">A #GCredentials.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
           <parameter name="native_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="433">The type of native credentials to get.</doc>
+                 line="505">The type of native credentials to get.</doc>
             <type name="CredentialsType" c:type="GCredentialsType"/>
           </parameter>
         </parameters>
@@ -15423,7 +15429,7 @@ the OS or if @native_type isn't supported by the OS.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="570">Tries to get the UNIX process identifier from @credentials. This
+             line="642">Tries to get the UNIX process identifier from @credentials. This
 method is only available on UNIX platforms.
 
 This operation can fail if #GCredentials is not supported on the
@@ -15433,14 +15439,14 @@ about the UNIX process ID.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="582">The UNIX process ID, or `-1` if @error is set.</doc>
+               line="654">The UNIX process ID, or `-1` if @error is set.</doc>
           <type name="pid_t" c:type="pid_t"/>
         </return-value>
         <parameters>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="572">A #GCredentials</doc>
+                 line="644">A #GCredentials</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
         </parameters>
@@ -15451,7 +15457,7 @@ about the UNIX process ID.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="502">Tries to get the UNIX user identifier from @credentials. This
+             line="574">Tries to get the UNIX user identifier from @credentials. This
 method is only available on UNIX platforms.
 
 This operation can fail if #GCredentials is not supported on the
@@ -15465,14 +15471,14 @@ particularly in language bindings.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="518">The UNIX user identifier or `(uid_t) -1` if @error is set.</doc>
+               line="590">The UNIX user identifier or `(uid_t) -1` if @error is set.</doc>
           <type name="uid_t" c:type="uid_t"/>
         </return-value>
         <parameters>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="504">A #GCredentials</doc>
+                 line="576">A #GCredentials</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
         </parameters>
@@ -15483,15 +15489,19 @@ particularly in language bindings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="335">Checks if @credentials and @other_credentials is the same user.
+             line="389">Checks if @credentials and @other_credentials is the same user.
 
 This operation can fail if #GCredentials is not supported on the
-the OS.</doc>
+the OS.
+
+On Windows, since 2.92, the owners of the two processes are compared.  If
+one of the processes cannot be inspected, the result is %FALSE and @error
+is not set.</doc>
         <source-position filename="gio/gcredentials.h" line="68"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="346">%TRUE if @credentials and @other_credentials has the same
+               line="404">%TRUE if @credentials and @other_credentials has the same
 user, %FALSE otherwise or if @error is set.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -15499,13 +15509,13 @@ user, %FALSE otherwise or if @error is set.</doc>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="337">A #GCredentials.</doc>
+                 line="391">A #GCredentials.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
           <parameter name="other_credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="338">A #GCredentials.</doc>
+                 line="392">A #GCredentials.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </parameter>
         </parameters>
@@ -15515,7 +15525,7 @@ user, %FALSE otherwise or if @error is set.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="467">Copies the native credentials of type @native_type from @native
+             line="539">Copies the native credentials of type @native_type from @native
 into @credentials.
 
 It is a programming error (which will cause a warning to be
@@ -15529,19 +15539,19 @@ the OS or if @native_type isn't supported by the OS.</doc>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="469">A #GCredentials.</doc>
+                 line="541">A #GCredentials.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
           <parameter name="native_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="470">The type of native credentials to set.</doc>
+                 line="542">The type of native credentials to set.</doc>
             <type name="CredentialsType" c:type="GCredentialsType"/>
           </parameter>
           <parameter name="native" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="471">A pointer to native credentials.</doc>
+                 line="543">A pointer to native credentials.</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -15552,7 +15562,7 @@ the OS or if @native_type isn't supported by the OS.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="628">Tries to set the UNIX user identifier on @credentials. This method
+             line="700">Tries to set the UNIX user identifier on @credentials. This method
 is only available on UNIX platforms.
 
 This operation can fail if #GCredentials is not supported on the
@@ -15563,20 +15573,20 @@ use of "spoofed" credentials.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="642">%TRUE if @uid was set, %FALSE if error is set.</doc>
+               line="714">%TRUE if @uid was set, %FALSE if error is set.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="630">A #GCredentials.</doc>
+                 line="702">A #GCredentials.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
           <parameter name="uid" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="631">The UNIX user identifier to set.</doc>
+                 line="703">The UNIX user identifier to set.</doc>
             <type name="uid_t" c:type="uid_t"/>
           </parameter>
         </parameters>
@@ -15586,21 +15596,21 @@ use of "spoofed" credentials.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gcredentials.c"
-             line="213">Creates a human-readable textual representation of @credentials
+             line="223">Creates a human-readable textual representation of @credentials
 that can be used in logging and debug messages. The format of the
 returned string may change in future GLib release.</doc>
         <source-position filename="gio/gcredentials.h" line="56"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gcredentials.c"
-               line="221">A string that should be freed with g_free().</doc>
+               line="231">A string that should be freed with g_free().</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="credentials" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gcredentials.c"
-                 line="215">A #GCredentials object.</doc>
+                 line="225">A #GCredentials object.</doc>
             <type name="Credentials" c:type="GCredentials*"/>
           </instance-parameter>
         </parameters>
@@ -15614,7 +15624,7 @@ returned string may change in future GLib release.</doc>
             version="2.26">
       <doc xml:space="preserve"
            filename="gio/gcredentials.c"
-           line="110">Class structure for #GCredentials.</doc>
+           line="120">Class structure for #GCredentials.</doc>
       <source-position filename="gio/gcredentials.h" line="47"/>
     </record>
     <enumeration name="CredentialsType"
@@ -16684,12 +16694,12 @@ Here is an example for exporting a #GObject:
                    throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3119">Finishes an operation started with g_dbus_connection_new().</doc>
+             line="3150">Finishes an operation started with g_dbus_connection_new().</doc>
         <source-position filename="gio/gdbusconnection.h" line="67"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3127">a #GDBusConnection or %NULL if @error is set. Free
+               line="3158">a #GDBusConnection or %NULL if @error is set. Free
     with g_object_unref().</doc>
           <type name="DBusConnection" c:type="GDBusConnection*"/>
         </return-value>
@@ -16697,7 +16707,7 @@ Here is an example for exporting a #GObject:
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3121">a #GAsyncResult obtained from the #GAsyncReadyCallback
+                 line="3152">a #GAsyncResult obtained from the #GAsyncReadyCallback
     passed to g_dbus_connection_new().</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -16709,12 +16719,12 @@ Here is an example for exporting a #GObject:
                    throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3266">Finishes an operation started with g_dbus_connection_new_for_address().</doc>
+             line="3297">Finishes an operation started with g_dbus_connection_new_for_address().</doc>
         <source-position filename="gio/gdbusconnection.h" line="85"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3274">a #GDBusConnection or %NULL if @error is set.
+               line="3305">a #GDBusConnection or %NULL if @error is set.
     Free with g_object_unref().</doc>
           <type name="DBusConnection" c:type="GDBusConnection*"/>
         </return-value>
@@ -16722,7 +16732,7 @@ Here is an example for exporting a #GObject:
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3268">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
+                 line="3299">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
     to g_dbus_connection_new()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -16734,7 +16744,7 @@ Here is an example for exporting a #GObject:
                    throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3301">Synchronously connects and sets up a D-Bus client connection for
+             line="3332">Synchronously connects and sets up a D-Bus client connection for
 exchanging D-Bus messages with an endpoint specified by @address
 which must be in the
 [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
@@ -16755,7 +16765,7 @@ authentication process.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3327">a #GDBusConnection or %NULL if @error is set.
+               line="3358">a #GDBusConnection or %NULL if @error is set.
     Free with g_object_unref().</doc>
           <type name="DBusConnection" c:type="GDBusConnection*"/>
         </return-value>
@@ -16763,13 +16773,13 @@ authentication process.</doc>
           <parameter name="address" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3303">a D-Bus address</doc>
+                 line="3334">a D-Bus address</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3304">flags describing how to make the connection</doc>
+                 line="3335">flags describing how to make the connection</doc>
             <type name="DBusConnectionFlags" c:type="GDBusConnectionFlags"/>
           </parameter>
           <parameter name="observer"
@@ -16778,7 +16788,7 @@ authentication process.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3305">a #GDBusAuthObserver or %NULL</doc>
+                 line="3336">a #GDBusAuthObserver or %NULL</doc>
             <type name="DBusAuthObserver" c:type="GDBusAuthObserver*"/>
           </parameter>
           <parameter name="cancellable"
@@ -16787,7 +16797,7 @@ authentication process.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3306">a #GCancellable or %NULL</doc>
+                 line="3337">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -16798,7 +16808,7 @@ authentication process.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3154">Synchronously sets up a D-Bus connection for exchanging D-Bus messages
+             line="3185">Synchronously sets up a D-Bus connection for exchanging D-Bus messages
 with the end represented by @stream.
 
 If @stream is a #GSocketConnection, then the corresponding #GSocket
@@ -16817,7 +16827,7 @@ g_dbus_connection_new() for the asynchronous version.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3179">a #GDBusConnection or %NULL if @error is set.
+               line="3210">a #GDBusConnection or %NULL if @error is set.
     Free with g_object_unref().</doc>
           <type name="DBusConnection" c:type="GDBusConnection*"/>
         </return-value>
@@ -16825,7 +16835,7 @@ g_dbus_connection_new() for the asynchronous version.</doc>
           <parameter name="stream" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3156">a #GIOStream</doc>
+                 line="3187">a #GIOStream</doc>
             <type name="IOStream" c:type="GIOStream*"/>
           </parameter>
           <parameter name="guid"
@@ -16834,13 +16844,13 @@ g_dbus_connection_new() for the asynchronous version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3157">the GUID to use if authenticating as a server or %NULL</doc>
+                 line="3188">the GUID to use if authenticating as a server or %NULL</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3158">flags describing how to make the connection</doc>
+                 line="3189">flags describing how to make the connection</doc>
             <type name="DBusConnectionFlags" c:type="GDBusConnectionFlags"/>
           </parameter>
           <parameter name="observer"
@@ -16849,7 +16859,7 @@ g_dbus_connection_new() for the asynchronous version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3159">a #GDBusAuthObserver or %NULL</doc>
+                 line="3190">a #GDBusAuthObserver or %NULL</doc>
             <type name="DBusAuthObserver" c:type="GDBusAuthObserver*"/>
           </parameter>
           <parameter name="cancellable"
@@ -16858,7 +16868,7 @@ g_dbus_connection_new() for the asynchronous version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3160">a #GCancellable or %NULL</doc>
+                 line="3191">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -16869,7 +16879,7 @@ g_dbus_connection_new() for the asynchronous version.</doc>
                 glib:finish-func="new_finish">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3060">Asynchronously sets up a D-Bus connection for exchanging D-Bus messages
+             line="3091">Asynchronously sets up a D-Bus connection for exchanging D-Bus messages
 with the end represented by @stream.
 
 If @stream is a #GSocketConnection, then the corresponding #GSocket
@@ -16897,7 +16907,7 @@ version.</doc>
           <parameter name="stream" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3062">a #GIOStream</doc>
+                 line="3093">a #GIOStream</doc>
             <type name="IOStream" c:type="GIOStream*"/>
           </parameter>
           <parameter name="guid"
@@ -16906,13 +16916,13 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3063">the GUID to use if authenticating as a server or %NULL</doc>
+                 line="3094">the GUID to use if authenticating as a server or %NULL</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3064">flags describing how to make the connection</doc>
+                 line="3095">flags describing how to make the connection</doc>
             <type name="DBusConnectionFlags" c:type="GDBusConnectionFlags"/>
           </parameter>
           <parameter name="observer"
@@ -16921,7 +16931,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3065">a #GDBusAuthObserver or %NULL</doc>
+                 line="3096">a #GDBusAuthObserver or %NULL</doc>
             <type name="DBusAuthObserver" c:type="GDBusAuthObserver*"/>
           </parameter>
           <parameter name="cancellable"
@@ -16930,7 +16940,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3066">a #GCancellable or %NULL</doc>
+                 line="3097">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -16941,7 +16951,7 @@ version.</doc>
                      closure="6">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3067">a #GAsyncReadyCallback to call when the request is satisfied</doc>
+                 line="3098">a #GAsyncReadyCallback to call when the request is satisfied</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -16950,7 +16960,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3068">the data to pass to @callback</doc>
+                 line="3099">the data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -16961,7 +16971,7 @@ version.</doc>
                 glib:finish-func="new_for_address_finish">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3208">Asynchronously connects and sets up a D-Bus client connection for
+             line="3239">Asynchronously connects and sets up a D-Bus client connection for
 exchanging D-Bus messages with an endpoint specified by @address
 which must be in the
 [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
@@ -16991,13 +17001,13 @@ version.</doc>
           <parameter name="address" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3210">a D-Bus address</doc>
+                 line="3241">a D-Bus address</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3211">flags describing how to make the connection</doc>
+                 line="3242">flags describing how to make the connection</doc>
             <type name="DBusConnectionFlags" c:type="GDBusConnectionFlags"/>
           </parameter>
           <parameter name="observer"
@@ -17006,7 +17016,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3212">a #GDBusAuthObserver or %NULL</doc>
+                 line="3243">a #GDBusAuthObserver or %NULL</doc>
             <type name="DBusAuthObserver" c:type="GDBusAuthObserver*"/>
           </parameter>
           <parameter name="cancellable"
@@ -17015,7 +17025,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3213">a #GCancellable or %NULL</doc>
+                 line="3244">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -17026,7 +17036,7 @@ version.</doc>
                      closure="5">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3214">a #GAsyncReadyCallback to call when the request is satisfied</doc>
+                 line="3245">a #GAsyncReadyCallback to call when the request is satisfied</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -17035,7 +17045,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3215">the data to pass to @callback</doc>
+                 line="3246">the data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -17045,7 +17055,7 @@ version.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3491">Adds a message filter. Filters are handlers that are run on all
+             line="3522">Adds a message filter. Filters are handlers that are run on all
 incoming and outgoing messages, prior to standard dispatch. Filters
 are run in the order that they were added.  The same handler can be
 added as a filter more than once, in which case it will be run more
@@ -17076,7 +17086,7 @@ destroyed.)</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3527">a filter identifier that can be used with
+               line="3558">a filter identifier that can be used with
     g_dbus_connection_remove_filter()</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -17084,7 +17094,7 @@ destroyed.)</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3493">a #GDBusConnection</doc>
+                 line="3524">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="filter_function"
@@ -17094,7 +17104,7 @@ destroyed.)</doc>
                      destroy="2">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3494">a filter function</doc>
+                 line="3525">a filter function</doc>
             <type name="DBusMessageFilterFunction"
                   c:type="GDBusMessageFilterFunction"/>
           </parameter>
@@ -17104,7 +17114,7 @@ destroyed.)</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3495">user data to pass to @filter_function</doc>
+                 line="3526">user data to pass to @filter_function</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_data_free_func"
@@ -17112,7 +17122,7 @@ destroyed.)</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3496">function to free @user_data with when filter
+                 line="3527">function to free @user_data with when filter
     is removed or %NULL</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
@@ -17125,7 +17135,7 @@ destroyed.)</doc>
               glib:sync-func="call_sync">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6760">Asynchronously invokes the @method_name method on the
+             line="6791">Asynchronously invokes the @method_name method on the
 @interface_name D-Bus interface on the remote object at
 @object_path owned by @bus_name.
 
@@ -17178,7 +17188,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6762">a #GDBusConnection</doc>
+                 line="6793">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="bus_name"
@@ -17187,26 +17197,26 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6763">a unique or well-known bus name or %NULL if
+                 line="6794">a unique or well-known bus name or %NULL if
     @connection is not a message bus connection</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6765">path of remote object</doc>
+                 line="6796">path of remote object</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6766">D-Bus interface to invoke method on</doc>
+                 line="6797">D-Bus interface to invoke method on</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="method_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6767">the name of the method to invoke</doc>
+                 line="6798">the name of the method to invoke</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="parameters"
@@ -17215,7 +17225,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6768">a #GVariant tuple with parameters for the method
+                 line="6799">a #GVariant tuple with parameters for the method
     or %NULL if not passing parameters</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
@@ -17225,20 +17235,20 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6770">the expected type of the reply (which will be a
+                 line="6801">the expected type of the reply (which will be a
     tuple), or %NULL</doc>
             <type name="GLib.VariantType" c:type="const GVariantType*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6772">flags from the #GDBusCallFlags enumeration</doc>
+                 line="6803">flags from the #GDBusCallFlags enumeration</doc>
             <type name="DBusCallFlags" c:type="GDBusCallFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6773">the timeout in milliseconds, -1 to use the default
+                 line="6804">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -17248,7 +17258,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6775">a #GCancellable or %NULL</doc>
+                 line="6806">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -17259,7 +17269,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      closure="10">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6776">a #GAsyncReadyCallback to call when the request
+                 line="6807">a #GAsyncReadyCallback to call when the request
     is satisfied or %NULL if you don't care about the result of the
     method invocation</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
@@ -17270,7 +17280,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6779">the data to pass to @callback</doc>
+                 line="6810">the data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -17281,12 +17291,12 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6846">Finishes an operation started with g_dbus_connection_call().</doc>
+             line="6877">Finishes an operation started with g_dbus_connection_call().</doc>
         <source-position filename="gio/gdbusconnection.h" line="208"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="6854">%NULL if @error is set. Otherwise a non-floating
+               line="6885">%NULL if @error is set. Otherwise a non-floating
     #GVariant tuple with return values. Free with g_variant_unref().</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
@@ -17294,13 +17304,13 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6848">a #GDBusConnection</doc>
+                 line="6879">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6849">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to g_dbus_connection_call()</doc>
+                 line="6880">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to g_dbus_connection_call()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
         </parameters>
@@ -17312,7 +17322,7 @@ the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.</doc>
               glib:async-func="call">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6867">Synchronously invokes the @method_name method on the
+             line="6898">Synchronously invokes the @method_name method on the
 @interface_name D-Bus interface on the remote object at
 @object_path owned by @bus_name.
 
@@ -17352,7 +17362,7 @@ this method.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="6921">%NULL if @error is set. Otherwise a non-floating
+               line="6952">%NULL if @error is set. Otherwise a non-floating
     #GVariant tuple with return values. Free with g_variant_unref().</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
@@ -17360,7 +17370,7 @@ this method.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6869">a #GDBusConnection</doc>
+                 line="6900">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="bus_name"
@@ -17369,26 +17379,26 @@ this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6870">a unique or well-known bus name or %NULL if
+                 line="6901">a unique or well-known bus name or %NULL if
     @connection is not a message bus connection</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6872">path of remote object</doc>
+                 line="6903">path of remote object</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6873">D-Bus interface to invoke method on</doc>
+                 line="6904">D-Bus interface to invoke method on</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="method_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6874">the name of the method to invoke</doc>
+                 line="6905">the name of the method to invoke</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="parameters"
@@ -17397,7 +17407,7 @@ this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6875">a #GVariant tuple with parameters for the method
+                 line="6906">a #GVariant tuple with parameters for the method
     or %NULL if not passing parameters</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
@@ -17407,19 +17417,19 @@ this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6877">the expected type of the reply, or %NULL</doc>
+                 line="6908">the expected type of the reply, or %NULL</doc>
             <type name="GLib.VariantType" c:type="const GVariantType*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6878">flags from the #GDBusCallFlags enumeration</doc>
+                 line="6909">flags from the #GDBusCallFlags enumeration</doc>
             <type name="DBusCallFlags" c:type="GDBusCallFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6879">the timeout in milliseconds, -1 to use the default
+                 line="6910">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -17429,7 +17439,7 @@ this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6881">a #GCancellable or %NULL</doc>
+                 line="6912">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -17441,7 +17451,7 @@ this method.</doc>
               glib:sync-func="call_with_unix_fd_list_sync">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6946">Like g_dbus_connection_call() but also takes a #GUnixFDList object.
+             line="6977">Like g_dbus_connection_call() but also takes a #GUnixFDList object.
 
 The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
 values in the body of the message. For example, if a message contains
@@ -17464,7 +17474,7 @@ This method is only available on UNIX.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6948">a #GDBusConnection</doc>
+                 line="6979">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="bus_name"
@@ -17473,26 +17483,26 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6949">a unique or well-known bus name or %NULL if
+                 line="6980">a unique or well-known bus name or %NULL if
     @connection is not a message bus connection</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6951">path of remote object</doc>
+                 line="6982">path of remote object</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6952">D-Bus interface to invoke method on</doc>
+                 line="6983">D-Bus interface to invoke method on</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="method_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6953">the name of the method to invoke</doc>
+                 line="6984">the name of the method to invoke</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="parameters"
@@ -17501,7 +17511,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6954">a #GVariant tuple with parameters for the method
+                 line="6985">a #GVariant tuple with parameters for the method
     or %NULL if not passing parameters</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
@@ -17511,19 +17521,19 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6956">the expected type of the reply, or %NULL</doc>
+                 line="6987">the expected type of the reply, or %NULL</doc>
             <type name="GLib.VariantType" c:type="const GVariantType*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6957">flags from the #GDBusCallFlags enumeration</doc>
+                 line="6988">flags from the #GDBusCallFlags enumeration</doc>
             <type name="DBusCallFlags" c:type="GDBusCallFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6958">the timeout in milliseconds, -1 to use the default
+                 line="6989">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -17533,7 +17543,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6960">a #GUnixFDList or %NULL</doc>
+                 line="6991">a #GUnixFDList or %NULL</doc>
             <type name="UnixFDList" c:type="GUnixFDList*"/>
           </parameter>
           <parameter name="cancellable"
@@ -17542,7 +17552,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6961">a #GCancellable or %NULL</doc>
+                 line="6992">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -17553,7 +17563,7 @@ This method is only available on UNIX.</doc>
                      closure="11">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6962">a #GAsyncReadyCallback to call when the request is
+                 line="6993">a #GAsyncReadyCallback to call when the request is
     satisfied or %NULL if you don't * care about the result of the
     method invocation</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
@@ -17564,7 +17574,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6965">The data to pass to @callback.</doc>
+                 line="6996">The data to pass to @callback.</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -17575,7 +17585,7 @@ This method is only available on UNIX.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="7003">Finishes an operation started with g_dbus_connection_call_with_unix_fd_list().
+             line="7034">Finishes an operation started with g_dbus_connection_call_with_unix_fd_list().
 
 The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
 values in the body of the message. For example,
@@ -17591,7 +17601,7 @@ value of type %G_VARIANT_TYPE_HANDLE in the body of the message.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="7024">%NULL if @error is set. Otherwise a non-floating
+               line="7055">%NULL if @error is set. Otherwise a non-floating
     #GVariant tuple with return values. Free with g_variant_unref().</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
@@ -17599,7 +17609,7 @@ value of type %G_VARIANT_TYPE_HANDLE in the body of the message.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7005">a #GDBusConnection</doc>
+                 line="7036">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="out_fd_list"
@@ -17611,13 +17621,13 @@ value of type %G_VARIANT_TYPE_HANDLE in the body of the message.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7006">return location for a #GUnixFDList or %NULL</doc>
+                 line="7037">return location for a #GUnixFDList or %NULL</doc>
             <type name="UnixFDList" c:type="GUnixFDList**"/>
           </parameter>
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7007">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to
+                 line="7038">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to
     g_dbus_connection_call_with_unix_fd_list()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -17630,7 +17640,7 @@ value of type %G_VARIANT_TYPE_HANDLE in the body of the message.</doc>
               glib:async-func="call_with_unix_fd_list">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="7038">Like g_dbus_connection_call_sync() but also takes and returns #GUnixFDList objects.
+             line="7069">Like g_dbus_connection_call_sync() but also takes and returns #GUnixFDList objects.
 See g_dbus_connection_call_with_unix_fd_list() and
 g_dbus_connection_call_with_unix_fd_list_finish() for more details.
 
@@ -17639,7 +17649,7 @@ This method is only available on UNIX.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="7063">%NULL if @error is set. Otherwise a non-floating
+               line="7094">%NULL if @error is set. Otherwise a non-floating
     #GVariant tuple with return values. Free with g_variant_unref().</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
@@ -17647,7 +17657,7 @@ This method is only available on UNIX.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7040">a #GDBusConnection</doc>
+                 line="7071">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="bus_name"
@@ -17656,26 +17666,26 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7041">a unique or well-known bus name or %NULL
+                 line="7072">a unique or well-known bus name or %NULL
     if @connection is not a message bus connection</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7043">path of remote object</doc>
+                 line="7074">path of remote object</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7044">D-Bus interface to invoke method on</doc>
+                 line="7075">D-Bus interface to invoke method on</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="method_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7045">the name of the method to invoke</doc>
+                 line="7076">the name of the method to invoke</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="parameters"
@@ -17684,7 +17694,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7046">a #GVariant tuple with parameters for
+                 line="7077">a #GVariant tuple with parameters for
     the method or %NULL if not passing parameters</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
@@ -17694,19 +17704,19 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7048">the expected type of the reply, or %NULL</doc>
+                 line="7079">the expected type of the reply, or %NULL</doc>
             <type name="GLib.VariantType" c:type="const GVariantType*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7049">flags from the #GDBusCallFlags enumeration</doc>
+                 line="7080">flags from the #GDBusCallFlags enumeration</doc>
             <type name="DBusCallFlags" c:type="GDBusCallFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7050">the timeout in milliseconds, -1 to use the default
+                 line="7081">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -17716,7 +17726,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7052">a #GUnixFDList or %NULL</doc>
+                 line="7083">a #GUnixFDList or %NULL</doc>
             <type name="UnixFDList" c:type="GUnixFDList*"/>
           </parameter>
           <parameter name="out_fd_list"
@@ -17728,7 +17738,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7053">return location for a #GUnixFDList or %NULL</doc>
+                 line="7084">return location for a #GUnixFDList or %NULL</doc>
             <type name="UnixFDList" c:type="GUnixFDList**"/>
           </parameter>
           <parameter name="cancellable"
@@ -17737,7 +17747,7 @@ This method is only available on UNIX.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7054">a #GCancellable or %NULL</doc>
+                 line="7085">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -17749,7 +17759,7 @@ This method is only available on UNIX.</doc>
               glib:sync-func="close_sync">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1543">Closes @connection. Note that this never causes the process to
+             line="1573">Closes @connection. Note that this never causes the process to
 exit (this might only happen if the other end of a shared message
 bus connection disconnects, see #GDBusConnection:exit-on-close).
 
@@ -17781,7 +17791,7 @@ version.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1545">a #GDBusConnection</doc>
+                 line="1575">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="cancellable"
@@ -17790,7 +17800,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1546">a #GCancellable or %NULL</doc>
+                 line="1576">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -17801,7 +17811,7 @@ version.</doc>
                      closure="2">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1547">a #GAsyncReadyCallback to call when the request is
+                 line="1577">a #GAsyncReadyCallback to call when the request is
     satisfied or %NULL if you don't care about the result</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
           </parameter>
@@ -17811,7 +17821,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1549">The data to pass to @callback</doc>
+                 line="1579">The data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -17822,25 +17832,25 @@ version.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1600">Finishes an operation started with g_dbus_connection_close().</doc>
+             line="1630">Finishes an operation started with g_dbus_connection_close().</doc>
         <source-position filename="gio/gdbusconnection.h" line="130"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1609">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
+               line="1639">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1602">a #GDBusConnection</doc>
+                 line="1632">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1603">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
+                 line="1633">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
     to g_dbus_connection_close()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -17853,7 +17863,7 @@ version.</doc>
               glib:async-func="close">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1642">Synchronously closes @connection. The calling thread is blocked
+             line="1672">Synchronously closes @connection. The calling thread is blocked
 until this is done. See g_dbus_connection_close() for the
 asynchronous version of this method and more details about what it
 does.</doc>
@@ -17861,14 +17871,14 @@ does.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1653">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
+               line="1683">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1644">a #GDBusConnection</doc>
+                 line="1674">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="cancellable"
@@ -17877,7 +17887,7 @@ does.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1645">a #GCancellable or %NULL</doc>
+                 line="1675">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -17888,7 +17898,7 @@ does.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6260">Emits a signal.
+             line="6291">Emits a signal.
 
 If the parameters GVariant is floating, it is consumed.
 
@@ -17899,14 +17909,14 @@ This can only fail if @parameters is not compatible with the D-Bus protocol
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="6280">%TRUE unless @error is set</doc>
+               line="6311">%TRUE unless @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6262">a #GDBusConnection</doc>
+                 line="6293">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="destination_bus_name"
@@ -17915,26 +17925,26 @@ This can only fail if @parameters is not compatible with the D-Bus protocol
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6263">the unique bus name for the destination
+                 line="6294">the unique bus name for the destination
     for the signal or %NULL to emit to all listeners</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6265">path of remote object</doc>
+                 line="6296">path of remote object</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6266">D-Bus interface to emit a signal on</doc>
+                 line="6297">D-Bus interface to emit a signal on</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="signal_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6267">the name of the signal to emit</doc>
+                 line="6298">the name of the signal to emit</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="parameters"
@@ -17943,7 +17953,7 @@ This can only fail if @parameters is not compatible with the D-Bus protocol
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6268">a #GVariant tuple with parameters for the signal
+                 line="6299">a #GVariant tuple with parameters for the signal
              or %NULL if not passing parameters</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
@@ -18061,7 +18071,7 @@ this function.</doc>
               glib:sync-func="flush_sync">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1362">Asynchronously flushes @connection, that is, writes all queued
+             line="1392">Asynchronously flushes @connection, that is, writes all queued
 outgoing messages to the transport and then flushes the transport
 (using g_output_stream_flush_async()). This is useful in programs
 that want to emit a D-Bus signal and then exit immediately. Without
@@ -18083,7 +18093,7 @@ version.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1364">a #GDBusConnection</doc>
+                 line="1394">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="cancellable"
@@ -18092,7 +18102,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1365">a #GCancellable or %NULL</doc>
+                 line="1395">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -18103,7 +18113,7 @@ version.</doc>
                      closure="2">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1366">a #GAsyncReadyCallback to call when the
+                 line="1396">a #GAsyncReadyCallback to call when the
     request is satisfied or %NULL if you don't care about the result</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
           </parameter>
@@ -18113,7 +18123,7 @@ version.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1368">The data to pass to @callback</doc>
+                 line="1398">The data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -18124,25 +18134,25 @@ version.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1403">Finishes an operation started with g_dbus_connection_flush().</doc>
+             line="1433">Finishes an operation started with g_dbus_connection_flush().</doc>
         <source-position filename="gio/gdbusconnection.h" line="146"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1412">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
+               line="1442">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1405">a #GDBusConnection</doc>
+                 line="1435">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1406">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
+                 line="1436">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
     to g_dbus_connection_flush()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -18155,7 +18165,7 @@ version.</doc>
               glib:async-func="flush">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1428">Synchronously flushes @connection. The calling thread is blocked
+             line="1458">Synchronously flushes @connection. The calling thread is blocked
 until this is done. See g_dbus_connection_flush() for the
 asynchronous version of this method and more details about what it
 does.</doc>
@@ -18163,14 +18173,14 @@ does.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1439">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
+               line="1469">%TRUE if the operation succeeded, %FALSE if @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1430">a #GDBusConnection</doc>
+                 line="1460">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="cancellable"
@@ -18179,7 +18189,7 @@ does.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1431">a #GCancellable or %NULL</doc>
+                 line="1461">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -18190,19 +18200,19 @@ does.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1299">Gets the capabilities negotiated with the remote peer</doc>
+             line="1329">Gets the capabilities negotiated with the remote peer</doc>
         <source-position filename="gio/gdbusconnection.h" line="118"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1305">zero or more flags from the #GDBusCapabilityFlags enumeration</doc>
+               line="1335">zero or more flags from the #GDBusCapabilityFlags enumeration</doc>
           <type name="DBusCapabilityFlags" c:type="GDBusCapabilityFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1301">a #GDBusConnection</doc>
+                 line="1331">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18213,14 +18223,14 @@ does.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3387">Gets whether the process is terminated when @connection is
+             line="3418">Gets whether the process is terminated when @connection is
 closed by the remote peer. See
 #GDBusConnection:exit-on-close for more details.</doc>
         <source-position filename="gio/gdbusconnection.h" line="113"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3395">whether the process is terminated when @connection is
+               line="3426">whether the process is terminated when @connection is
     closed by the remote peer</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -18228,7 +18238,7 @@ closed by the remote peer. See
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3389">a #GDBusConnection</doc>
+                 line="3420">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18239,19 +18249,19 @@ closed by the remote peer. See
               version="2.60">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1321">Gets the flags used to construct this connection</doc>
+             line="1351">Gets the flags used to construct this connection</doc>
         <source-position filename="gio/gdbusconnection.h" line="120"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1327">zero or more flags from the #GDBusConnectionFlags enumeration</doc>
+               line="1357">zero or more flags from the #GDBusConnectionFlags enumeration</doc>
           <type name="DBusConnectionFlags" c:type="GDBusConnectionFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1323">a #GDBusConnection</doc>
+                 line="1353">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18262,13 +18272,13 @@ closed by the remote peer. See
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3411">The GUID of the peer performing the role of server when
+             line="3442">The GUID of the peer performing the role of server when
 authenticating. See #GDBusConnection:guid for more details.</doc>
         <source-position filename="gio/gdbusconnection.h" line="103"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3418">The GUID. Do not free this string, it is owned by
+               line="3449">The GUID. Do not free this string, it is owned by
     @connection.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -18276,7 +18286,7 @@ authenticating. See #GDBusConnection:guid for more details.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3413">a #GDBusConnection</doc>
+                 line="3444">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18286,7 +18296,7 @@ authenticating. See #GDBusConnection:guid for more details.</doc>
               version="2.34">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1694">Retrieves the last serial number assigned to a #GDBusMessage on
+             line="1724">Retrieves the last serial number assigned to a #GDBusMessage on
 the current thread. This includes messages sent via both low-level
 API such as g_dbus_connection_send_message() as well as
 high-level API such as g_dbus_connection_emit_signal(),
@@ -18295,7 +18305,7 @@ g_dbus_connection_call() or g_dbus_proxy_call().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1704">the last used serial or zero when no message has been sent
+               line="1734">the last used serial or zero when no message has been sent
     within the current thread</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
@@ -18303,7 +18313,7 @@ g_dbus_connection_call() or g_dbus_proxy_call().</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1696">a #GDBusConnection</doc>
+                 line="1726">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18313,7 +18323,7 @@ g_dbus_connection_call() or g_dbus_proxy_call().</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3456">Gets the credentials of the authenticated peer. This will always
+             line="3487">Gets the credentials of the authenticated peer. This will always
 return %NULL unless @connection acted as a server
 (e.g. %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER was passed)
 when set up and the client passed credentials as part of the
@@ -18326,7 +18336,7 @@ each application is a client. So this method will always return
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3470">a #GCredentials or %NULL if not
+               line="3501">a #GCredentials or %NULL if not
     available. Do not free this object, it is owned by @connection.</doc>
           <type name="Credentials" c:type="GCredentials*"/>
         </return-value>
@@ -18334,7 +18344,7 @@ each application is a client. So this method will always return
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3458">a #GDBusConnection</doc>
+                 line="3489">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18345,7 +18355,7 @@ each application is a client. So this method will always return
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1227">Gets the underlying stream used for IO.
+             line="1257">Gets the underlying stream used for IO.
 
 While the #GDBusConnection is active, it will interact with this
 stream from a worker thread, so it is not safe to interact with
@@ -18354,14 +18364,14 @@ the stream directly.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1237">the stream used for IO</doc>
+               line="1267">the stream used for IO</doc>
           <type name="IOStream" c:type="GIOStream*"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1229">a #GDBusConnection</doc>
+                 line="1259">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18372,14 +18382,14 @@ the stream directly.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3430">Gets the unique name of @connection as assigned by the message
+             line="3461">Gets the unique name of @connection as assigned by the message
 bus. This can also be used to figure out if @connection is a
 message bus connection.</doc>
         <source-position filename="gio/gdbusconnection.h" line="105"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3438">the unique name or %NULL if @connection is not a message
+               line="3469">the unique name or %NULL if @connection is not a message
     bus connection. Do not free this string, it is owned by
     @connection.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -18388,7 +18398,7 @@ message bus connection.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3432">a #GDBusConnection</doc>
+                 line="3463">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18399,19 +18409,19 @@ message bus connection.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1277">Gets whether @connection is closed.</doc>
+             line="1307">Gets whether @connection is closed.</doc>
         <source-position filename="gio/gdbusconnection.h" line="99"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1283">%TRUE if the connection is closed, %FALSE otherwise</doc>
+               line="1313">%TRUE if the connection is closed, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1279">a #GDBusConnection</doc>
+                 line="1309">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -18423,7 +18433,7 @@ message bus connection.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="5697">Registers callbacks for exported objects at @object_path with the
+             line="5728">Registers callbacks for exported objects at @object_path with the
 D-Bus interface that is described in @interface_info.
 
 Calls to functions in @vtable (and @user_data_free_func) will happen
@@ -18466,7 +18476,7 @@ for an example of how to use this method.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="5747">0 if @error is set, otherwise a registration id (never 0)
+               line="5778">0 if @error is set, otherwise a registration id (never 0)
     that can be used with g_dbus_connection_unregister_object()</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -18474,19 +18484,19 @@ for an example of how to use this method.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5699">a #GDBusConnection</doc>
+                 line="5730">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5700">the object path to register at</doc>
+                 line="5731">the object path to register at</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5701">introspection data for the interface</doc>
+                 line="5732">introspection data for the interface</doc>
             <type name="DBusInterfaceInfo" c:type="GDBusInterfaceInfo*"/>
           </parameter>
           <parameter name="vtable"
@@ -18495,7 +18505,7 @@ for an example of how to use this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5702">a #GDBusInterfaceVTable to call into or %NULL</doc>
+                 line="5733">a #GDBusInterfaceVTable to call into or %NULL</doc>
             <type name="DBusInterfaceVTable"
                   c:type="const GDBusInterfaceVTable*"/>
           </parameter>
@@ -18505,7 +18515,7 @@ for an example of how to use this method.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5703">data to pass to functions in @vtable</doc>
+                 line="5734">data to pass to functions in @vtable</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_data_free_func"
@@ -18513,7 +18523,7 @@ for an example of how to use this method.</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5704">function to call when the object path is unregistered</doc>
+                 line="5735">function to call when the object path is unregistered</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -18527,7 +18537,7 @@ for an example of how to use this method.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6092">Version of g_dbus_connection_register_object() using closures instead of a
+             line="6123">Version of g_dbus_connection_register_object() using closures instead of a
 #GDBusInterfaceVTable for easier binding in other languages.
 
 Note that the reference counting semantics of the function wrapped by
@@ -18541,7 +18551,7 @@ Note that the reference counting semantics of the function wrapped by
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="6110">0 if @error is set, otherwise a registration ID (never 0)
+               line="6141">0 if @error is set, otherwise a registration ID (never 0)
 that can be used with g_dbus_connection_unregister_object() .</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -18549,19 +18559,19 @@ that can be used with g_dbus_connection_unregister_object() .</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6094">A #GDBusConnection.</doc>
+                 line="6125">A #GDBusConnection.</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6095">The object path to register at.</doc>
+                 line="6126">The object path to register at.</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6096">Introspection data for the interface.</doc>
+                 line="6127">Introspection data for the interface.</doc>
             <type name="DBusInterfaceInfo" c:type="GDBusInterfaceInfo*"/>
           </parameter>
           <parameter name="method_call_closure"
@@ -18570,7 +18580,7 @@ that can be used with g_dbus_connection_unregister_object() .</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6097">#GClosure for handling incoming method calls.</doc>
+                 line="6128">#GClosure for handling incoming method calls.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
           <parameter name="get_property_closure"
@@ -18579,7 +18589,7 @@ that can be used with g_dbus_connection_unregister_object() .</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6098">#GClosure for getting a property.</doc>
+                 line="6129">#GClosure for getting a property.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
           <parameter name="set_property_closure"
@@ -18588,7 +18598,7 @@ that can be used with g_dbus_connection_unregister_object() .</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6099">#GClosure for setting a property.</doc>
+                 line="6130">#GClosure for setting a property.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
         </parameters>
@@ -18599,7 +18609,7 @@ that can be used with g_dbus_connection_unregister_object() .</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="6201">Version of [method@Gio.DBusConnection.register_object] using closures instead
+             line="6232">Version of [method@Gio.DBusConnection.register_object] using closures instead
 of a [type@Gio.DBusInterfaceVTable] for easier binding in other languages.
 
 In contrast to [method@Gio.DBusConnection.register_object] and
@@ -18615,7 +18625,7 @@ as a result of the introspection annotations on those methods.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="6224">`0` if @error is set, otherwise a registration ID (never `0`)
+               line="6255">`0` if @error is set, otherwise a registration ID (never `0`)
 that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -18623,19 +18633,19 @@ that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6203">A [class@Gio.DBusConnection].</doc>
+                 line="6234">A [class@Gio.DBusConnection].</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6204">The object path to register at.</doc>
+                 line="6235">The object path to register at.</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="interface_info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6205">Introspection data for the interface.</doc>
+                 line="6236">Introspection data for the interface.</doc>
             <type name="DBusInterfaceInfo" c:type="GDBusInterfaceInfo*"/>
           </parameter>
           <parameter name="method_call_closure"
@@ -18644,7 +18654,7 @@ that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6206">[type@GObject.Closure] for handling incoming method calls.</doc>
+                 line="6237">[type@GObject.Closure] for handling incoming method calls.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
           <parameter name="get_property_closure"
@@ -18653,7 +18663,7 @@ that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6207">[type@GObject.Closure] for getting a property.</doc>
+                 line="6238">[type@GObject.Closure] for getting a property.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
           <parameter name="set_property_closure"
@@ -18662,7 +18672,7 @@ that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="6208">[type@GObject.Closure] for setting a property.</doc>
+                 line="6239">[type@GObject.Closure] for setting a property.</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
         </parameters>
@@ -18673,7 +18683,7 @@ that can be used with [method@Gio.DBusConnection.unregister_object].</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="7502">Registers a whole subtree of dynamic objects.
+             line="7533">Registers a whole subtree of dynamic objects.
 
 The @enumerate and @introspection functions in @vtable are used to
 convey, to remote callers, what nodes exist in the subtree rooted
@@ -18711,7 +18721,7 @@ for an example of how to use this method.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="7548">0 if @error is set, otherwise a subtree registration ID (never 0)
+               line="7579">0 if @error is set, otherwise a subtree registration ID (never 0)
 that can be used with g_dbus_connection_unregister_subtree()</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -18719,26 +18729,26 @@ that can be used with g_dbus_connection_unregister_subtree()</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7504">a #GDBusConnection</doc>
+                 line="7535">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="object_path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7505">the object path to register the subtree at</doc>
+                 line="7536">the object path to register the subtree at</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="vtable" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7506">a #GDBusSubtreeVTable to enumerate, introspect and
+                 line="7537">a #GDBusSubtreeVTable to enumerate, introspect and
     dispatch nodes in the subtree</doc>
             <type name="DBusSubtreeVTable" c:type="const GDBusSubtreeVTable*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7508">flags used to fine tune the behavior of the subtree</doc>
+                 line="7539">flags used to fine tune the behavior of the subtree</doc>
             <type name="DBusSubtreeFlags" c:type="GDBusSubtreeFlags"/>
           </parameter>
           <parameter name="user_data"
@@ -18747,7 +18757,7 @@ that can be used with g_dbus_connection_unregister_subtree()</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7509">data to pass to functions in @vtable</doc>
+                 line="7540">data to pass to functions in @vtable</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_data_free_func"
@@ -18755,7 +18765,7 @@ that can be used with g_dbus_connection_unregister_subtree()</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7510">function to call when the subtree is unregistered</doc>
+                 line="7541">function to call when the subtree is unregistered</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -18765,7 +18775,7 @@ that can be used with g_dbus_connection_unregister_subtree()</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3568">Removes a filter.
+             line="3599">Removes a filter.
 
 Note that since filters run in a different thread, there is a race
 condition where it is possible that the filter will be running even
@@ -18781,13 +18791,13 @@ called when it is guaranteed that the data is no longer needed.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3570">a #GDBusConnection</doc>
+                 line="3601">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="filter_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3571">an identifier obtained from g_dbus_connection_add_filter()</doc>
+                 line="3602">an identifier obtained from g_dbus_connection_add_filter()</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -18798,7 +18808,7 @@ called when it is guaranteed that the data is no longer needed.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1831">Asynchronously sends @message to the peer represented by @connection.
+             line="1861">Asynchronously sends @message to the peer represented by @connection.
 
 Unless @flags contain the
 %G_DBUS_SEND_MESSAGE_FLAGS_PRESERVE_SERIAL flag, the serial number
@@ -18824,7 +18834,7 @@ Note that @message must be unlocked, unless @flags contain the
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="1863">%TRUE if the message was well-formed and queued for
+               line="1893">%TRUE if the message was well-formed and queued for
     transmission, %FALSE if @error is set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -18832,19 +18842,19 @@ Note that @message must be unlocked, unless @flags contain the
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1833">a #GDBusConnection</doc>
+                 line="1863">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1834">a #GDBusMessage</doc>
+                 line="1864">a #GDBusMessage</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1835">flags affecting how the message is sent</doc>
+                 line="1865">flags affecting how the message is sent</doc>
             <type name="DBusSendMessageFlags" c:type="GDBusSendMessageFlags"/>
           </parameter>
           <parameter name="out_serial"
@@ -18855,7 +18865,7 @@ Note that @message must be unlocked, unless @flags contain the
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1836">return location for serial number assigned
+                 line="1866">return location for serial number assigned
     to @message when sending it or %NULL</doc>
             <type name="guint32" c:type="volatile guint32*"/>
           </parameter>
@@ -18867,7 +18877,7 @@ Note that @message must be unlocked, unless @flags contain the
               glib:finish-func="send_message_with_reply_finish">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="2111">Asynchronously sends @message to the peer represented by @connection.
+             line="2141">Asynchronously sends @message to the peer represented by @connection.
 
 Unless @flags contain the
 %G_DBUS_SEND_MESSAGE_FLAGS_PRESERVE_SERIAL flag, the serial number
@@ -18905,25 +18915,25 @@ UNIX file descriptors.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2113">a #GDBusConnection</doc>
+                 line="2143">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2114">a #GDBusMessage</doc>
+                 line="2144">a #GDBusMessage</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2115">flags affecting how the message is sent</doc>
+                 line="2145">flags affecting how the message is sent</doc>
             <type name="DBusSendMessageFlags" c:type="GDBusSendMessageFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2116">the timeout in milliseconds, -1 to use the default
+                 line="2146">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -18935,7 +18945,7 @@ UNIX file descriptors.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2118">return location for serial number assigned
+                 line="2148">return location for serial number assigned
     to @message when sending it or %NULL</doc>
             <type name="guint32" c:type="volatile guint32*"/>
           </parameter>
@@ -18945,7 +18955,7 @@ UNIX file descriptors.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2120">a #GCancellable or %NULL</doc>
+                 line="2150">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
           <parameter name="callback"
@@ -18956,7 +18966,7 @@ UNIX file descriptors.</doc>
                      closure="6">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2121">a #GAsyncReadyCallback to call when the request
+                 line="2151">a #GAsyncReadyCallback to call when the request
     is satisfied or %NULL if you don't care about the result</doc>
             <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
           </parameter>
@@ -18966,7 +18976,7 @@ UNIX file descriptors.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2123">The data to pass to @callback</doc>
+                 line="2153">The data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -18977,7 +18987,7 @@ UNIX file descriptors.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="2185">Finishes an operation started with g_dbus_connection_send_message_with_reply().
+             line="2215">Finishes an operation started with g_dbus_connection_send_message_with_reply().
 
 Note that @error is only set if a local in-process error
 occurred. That is to say that the returned #GDBusMessage object may
@@ -18992,20 +19002,20 @@ UNIX file descriptors.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="2204">a locked #GDBusMessage or %NULL if @error is set</doc>
+               line="2234">a locked #GDBusMessage or %NULL if @error is set</doc>
           <type name="DBusMessage" c:type="GDBusMessage*"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2187">a #GDBusConnection</doc>
+                 line="2217">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="res" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2188">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to
+                 line="2218">a #GAsyncResult obtained from the #GAsyncReadyCallback passed to
     g_dbus_connection_send_message_with_reply()</doc>
             <type name="AsyncResult" c:type="GAsyncResult*"/>
           </parameter>
@@ -19017,7 +19027,7 @@ UNIX file descriptors.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="2240">Synchronously sends @message to the peer represented by @connection
+             line="2270">Synchronously sends @message to the peer represented by @connection
 and blocks the calling thread until a reply is received or the
 timeout is reached. See g_dbus_connection_send_message_with_reply()
 for the asynchronous version of this method.
@@ -19052,7 +19062,7 @@ Note that @message must be unlocked, unless @flags contain the
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="2284">a locked #GDBusMessage that is the reply
+               line="2314">a locked #GDBusMessage that is the reply
     to @message or %NULL if @error is set</doc>
           <type name="DBusMessage" c:type="GDBusMessage*"/>
         </return-value>
@@ -19060,25 +19070,25 @@ Note that @message must be unlocked, unless @flags contain the
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2242">a #GDBusConnection</doc>
+                 line="2272">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2243">a #GDBusMessage</doc>
+                 line="2273">a #GDBusMessage</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2244">flags affecting how the message is sent.</doc>
+                 line="2274">flags affecting how the message is sent.</doc>
             <type name="DBusSendMessageFlags" c:type="GDBusSendMessageFlags"/>
           </parameter>
           <parameter name="timeout_msec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2245">the timeout in milliseconds, -1 to use the default
+                 line="2275">the timeout in milliseconds, -1 to use the default
     timeout or %G_MAXINT for no timeout</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
@@ -19090,7 +19100,7 @@ Note that @message must be unlocked, unless @flags contain the
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2247">return location for serial number
+                 line="2277">return location for serial number
     assigned to @message when sending it or %NULL</doc>
             <type name="guint32" c:type="volatile guint32*"/>
           </parameter>
@@ -19100,7 +19110,7 @@ Note that @message must be unlocked, unless @flags contain the
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="2249">a #GCancellable or %NULL</doc>
+                 line="2279">a #GCancellable or %NULL</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -19111,7 +19121,7 @@ Note that @message must be unlocked, unless @flags contain the
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3355">Sets whether the process should be terminated when @connection is
+             line="3386">Sets whether the process should be terminated when @connection is
 closed by the remote peer. See #GDBusConnection:exit-on-close for
 more details.
 
@@ -19129,13 +19139,13 @@ when the user session ends.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3357">a #GDBusConnection</doc>
+                 line="3388">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="exit_on_close" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3358">whether the process should be terminated
+                 line="3389">whether the process should be terminated
     when @connection is closed by the remote peer</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
@@ -19146,7 +19156,7 @@ when the user session ends.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="3781">Subscribes to signals on @connection and invokes @callback whenever
+             line="3812">Subscribes to signals on @connection and invokes @callback whenever
 the signal is received. Note that @callback will be invoked in the
 thread-default main context (see [method@GLib.MainContext.push_thread_default])
 of the thread you are calling this method from.
@@ -19199,14 +19209,14 @@ This function can never fail.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="3851">a subscription identifier that can be used with g_dbus_connection_signal_unsubscribe()</doc>
+               line="3882">a subscription identifier that can be used with g_dbus_connection_signal_unsubscribe()</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3783">a #GDBusConnection</doc>
+                 line="3814">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="sender"
@@ -19215,7 +19225,7 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3784">sender name to match on (unique or well-known name)
+                 line="3815">sender name to match on (unique or well-known name)
     or %NULL to listen from all senders</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -19225,7 +19235,7 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3786">D-Bus interface name to match on or %NULL to
+                 line="3817">D-Bus interface name to match on or %NULL to
     match on all interfaces</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -19235,7 +19245,7 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3788">D-Bus signal name to match on or %NULL to match on
+                 line="3819">D-Bus signal name to match on or %NULL to match on
     all signals</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -19245,7 +19255,7 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3790">object path to match on or %NULL to match on
+                 line="3821">object path to match on or %NULL to match on
     all object paths</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -19255,14 +19265,14 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3792">contents of first string argument to match on or %NULL
+                 line="3823">contents of first string argument to match on or %NULL
     to match on all kinds of arguments</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3794">#GDBusSignalFlags describing how arg0 is used in subscribing to the
+                 line="3825">#GDBusSignalFlags describing how arg0 is used in subscribing to the
     signal</doc>
             <type name="DBusSignalFlags" c:type="GDBusSignalFlags"/>
           </parameter>
@@ -19273,7 +19283,7 @@ This function can never fail.</doc>
                      destroy="8">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3796">callback to invoke when there is a signal matching the requested data</doc>
+                 line="3827">callback to invoke when there is a signal matching the requested data</doc>
             <type name="DBusSignalCallback" c:type="GDBusSignalCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -19282,7 +19292,7 @@ This function can never fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3797">user data to pass to @callback</doc>
+                 line="3828">user data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_data_free_func"
@@ -19292,7 +19302,7 @@ This function can never fail.</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="3798">function to free @user_data with when
+                 line="3829">function to free @user_data with when
     subscription is removed or %NULL</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
@@ -19303,7 +19313,7 @@ This function can never fail.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="4116">Unsubscribes from signals.
+             line="4147">Unsubscribes from signals.
 
 Note that there may still be D-Bus traffic to process (relating to this
 signal subscription) in the current thread-default #GMainContext after this
@@ -19323,13 +19333,13 @@ of this subscription are released.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="4118">a #GDBusConnection</doc>
+                 line="4149">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="subscription_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="4119">a subscription id obtained from
+                 line="4150">a subscription id obtained from
     g_dbus_connection_signal_subscribe()</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
@@ -19340,7 +19350,7 @@ of this subscription are released.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1253">If @connection was created with
+             line="1283">If @connection was created with
 %G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING, this method
 starts processing messages. Does nothing on if @connection wasn't
 created with this flag or if the method has already been called.</doc>
@@ -19352,7 +19362,7 @@ created with this flag or if the method has already been called.</doc>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1255">a #GDBusConnection</doc>
+                 line="1285">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
         </parameters>
@@ -19422,25 +19432,25 @@ same ID more than once.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="5831">Unregisters an object.</doc>
+             line="5862">Unregisters an object.</doc>
         <source-position filename="gio/gdbusconnection.h" line="438"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="5839">%TRUE if the object was unregistered, %FALSE otherwise</doc>
+               line="5870">%TRUE if the object was unregistered, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5833">a #GDBusConnection</doc>
+                 line="5864">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="registration_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="5834">a registration id obtained from
+                 line="5865">a registration id obtained from
     g_dbus_connection_register_object()</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
@@ -19451,25 +19461,25 @@ same ID more than once.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="7616">Unregisters a subtree.</doc>
+             line="7647">Unregisters a subtree.</doc>
         <source-position filename="gio/gdbusconnection.h" line="565"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="7624">%TRUE if the subtree was unregistered, %FALSE otherwise</doc>
+               line="7655">%TRUE if the subtree was unregistered, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7618">a #GDBusConnection</doc>
+                 line="7649">a #GDBusConnection</doc>
             <type name="DBusConnection" c:type="GDBusConnection*"/>
           </instance-parameter>
           <parameter name="registration_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="7619">a subtree registration id obtained from
+                 line="7650">a subtree registration id obtained from
     g_dbus_connection_register_subtree()</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
@@ -19484,7 +19494,7 @@ same ID more than once.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="977">A D-Bus address specifying potential endpoints that can be used
+             line="987">A D-Bus address specifying potential endpoints that can be used
 when establishing the connection.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -19496,7 +19506,7 @@ when establishing the connection.</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1126">A #GDBusAuthObserver object to assist in the authentication process or %NULL.</doc>
+             line="1156">A #GDBusAuthObserver object to assist in the authentication process or %NULL.</doc>
         <type name="DBusAuthObserver"/>
       </property>
       <property name="capabilities"
@@ -19506,7 +19516,7 @@ when establishing the connection.</doc>
                 default-value="G_DBUS_CAPABILITY_FLAGS_NONE">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1108">Flags from the #GDBusCapabilityFlags enumeration
+             line="1138">Flags from the #GDBusCapabilityFlags enumeration
 representing connection features negotiated with the other peer.</doc>
         <type name="DBusCapabilityFlags"/>
       </property>
@@ -19517,7 +19527,7 @@ representing connection features negotiated with the other peer.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1070">A boolean specifying whether the connection has been closed.</doc>
+             line="1100">A boolean specifying whether the connection has been closed.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="exit-on-close"
@@ -19529,7 +19539,7 @@ representing connection features negotiated with the other peer.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1086">A boolean specifying whether the process will be terminated (by
+             line="1116">A boolean specifying whether the process will be terminated (by
 calling `raise(SIGTERM)`) if the connection is closed by the
 remote peer.
 
@@ -19546,7 +19556,7 @@ and g_bus_get_sync() will (usually) have this property set to %TRUE.</doc>
                 default-value="G_DBUS_CONNECTION_FLAGS_NONE">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="995">Flags from the #GDBusConnectionFlags enumeration.</doc>
+             line="1005">Flags from the #GDBusConnectionFlags enumeration.</doc>
         <type name="DBusConnectionFlags"/>
       </property>
       <property name="guid"
@@ -19558,7 +19568,7 @@ and g_bus_get_sync() will (usually) have this property set to %TRUE.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1014">The GUID of the peer performing the role of server when
+             line="1044">The GUID of the peer performing the role of server when
 authenticating.
 
 If you are constructing a #GDBusConnection and pass
@@ -19582,6 +19592,18 @@ Despite its name, the format of #GDBusConnection:guid does not follow
 GUID format.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
+      <property name="max-message-unix-fds"
+                version="2.92"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none"
+                default-value="253">
+        <doc xml:space="preserve"
+             filename="gio/gdbusconnection.c"
+             line="1024">The maximum number of Unix file descriptors that may be received in a
+single D-Bus message.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
       <property name="stream"
                 version="2.26"
                 writable="1"
@@ -19590,7 +19612,7 @@ GUID format.</doc>
                 getter="get_stream">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="952">The underlying #GIOStream used for I/O.
+             line="962">The underlying #GIOStream used for I/O.
 
 If this is passed on construction and is a #GSocketConnection,
 then the corresponding #GSocket will be put into non-blocking mode.
@@ -19607,14 +19629,14 @@ the stream directly.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1053">The unique name as assigned by the message bus or %NULL if the
+             line="1083">The unique name as assigned by the message bus or %NULL if the
 connection is not open or not a message bus connection.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <glib:signal name="closed" when="last" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="1143">Emitted when the connection is closed.
+             line="1173">Emitted when the connection is closed.
 
 The cause of this event can be
 
@@ -19637,7 +19659,7 @@ once.</doc>
           <parameter name="remote_peer_vanished" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1146">%TRUE if @connection is closed because the
+                 line="1176">%TRUE if @connection is closed because the
     remote peer closed its end of the connection</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
@@ -19647,7 +19669,7 @@ once.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusconnection.c"
-                 line="1148">a #GError with more details about the event or %NULL</doc>
+                 line="1178">a #GError with more details about the event or %NULL</doc>
             <type name="GLib.Error"/>
           </parameter>
         </parameters>
@@ -22599,7 +22621,7 @@ data is available to determine the size.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3993">Copies @message with a deep copy.
+             line="4001">Copies @message with a deep copy.
 
 The returned D-Bus message is completely identical to @message except that it
 is guaranteed to not be locked.
@@ -22610,14 +22632,14 @@ and the per-process or system-wide open files limit is reached.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="4006">A new D-Bus message</doc>
+               line="4014">A new D-Bus message</doc>
           <type name="DBusMessage" c:type="GDBusMessage*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3995">a D-Bus message</doc>
+                 line="4003">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22627,7 +22649,7 @@ and the per-process or system-wide open files limit is reached.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3563">Convenience to get the first item in the body of @message.
+             line="3571">Convenience to get the first item in the body of @message.
 
 See [method@Gio.DBusMessage.get_arg0_path] for returning object-path-typed
 arg0 values.</doc>
@@ -22635,7 +22657,7 @@ arg0 values.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3572">The string item, or `NULL` if the first item in the body
+               line="3580">The string item, or `NULL` if the first item in the body
   of @message is not a string</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -22643,7 +22665,7 @@ arg0 values.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3565">a D-Bus message</doc>
+                 line="3573">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22653,14 +22675,14 @@ arg0 values.</doc>
               version="2.80">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3588">Convenience to get the first item in the body of @message.
+             line="3596">Convenience to get the first item in the body of @message.
 
 See [method@Gio.DBusMessage.get_arg0] for returning string-typed arg0 values.</doc>
         <source-position filename="gio/gdbusmessage.h" line="180"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3596">The object path item, or `NULL` if the first item in the
+               line="3604">The object path item, or `NULL` if the first item in the
   body of @message is not an object path</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -22668,7 +22690,7 @@ See [method@Gio.DBusMessage.get_arg0] for returning string-typed arg0 values.</d
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3590">a D-Bus message</doc>
+                 line="3598">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22722,20 +22744,20 @@ See [method@Gio.DBusMessage.get_arg0] for returning string-typed arg0 values.</d
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3443">Convenience getter for the [enum@Gio.DBusMessageHeaderField.DESTINATION]
+             line="3451">Convenience getter for the [enum@Gio.DBusMessageHeaderField.DESTINATION]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="154"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3450">The value</doc>
+               line="3458">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3445">a D-Bus message</doc>
+                 line="3453">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22745,20 +22767,20 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3481">Convenience getter for the [enum@Gio.DBusMessageHeaderField.ERROR_NAME]
+             line="3489">Convenience getter for the [enum@Gio.DBusMessageHeaderField.ERROR_NAME]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="160"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3488">The value</doc>
+               line="3496">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3483">a D-Bus message</doc>
+                 line="3491">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22852,20 +22874,20 @@ Each element in the array is an `unsigned char`.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3291">Convenience getter for the [enum@Gio.DBusMessageHeaderField.INTERFACE] header
+             line="3299">Convenience getter for the [enum@Gio.DBusMessageHeaderField.INTERFACE] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="130"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3298">The value</doc>
+               line="3306">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3293">a D-Bus message</doc>
+                 line="3301">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22876,7 +22898,7 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3948">Checks whether @message is locked.
+             line="3956">Checks whether @message is locked.
 
 To monitor changes to this value, connect to the
 [signal@GObject.Object::notify] signal to listen for changes on the
@@ -22885,14 +22907,14 @@ To monitor changes to this value, connect to the
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3958">true if @message is locked, false otherwise</doc>
+               line="3966">true if @message is locked, false otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3950">a D-Bus message</doc>
+                 line="3958">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22902,20 +22924,20 @@ To monitor changes to this value, connect to the
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3329">Convenience getter for the [enum@Gio.DBusMessageHeaderField.MEMBER] header
+             line="3337">Convenience getter for the [enum@Gio.DBusMessageHeaderField.MEMBER] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="136"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3336">The value</doc>
+               line="3344">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3331">a D-Bus message</doc>
+                 line="3339">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22948,20 +22970,20 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3614">Convenience getter for the [enum@Gio.DBusMessageHeaderField.NUM_UNIX_FDS]
+             line="3622">Convenience getter for the [enum@Gio.DBusMessageHeaderField.NUM_UNIX_FDS]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="172"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3621">The value</doc>
+               line="3629">The value</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3616">a D-Bus message</doc>
+                 line="3624">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22971,20 +22993,20 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3367">Convenience getter for the [enum@Gio.DBusMessageHeaderField.PATH] header
+             line="3375">Convenience getter for the [enum@Gio.DBusMessageHeaderField.PATH] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="142"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3374">The value</doc>
+               line="3382">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3369">a D-Bus message</doc>
+                 line="3377">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -22994,20 +23016,20 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3254">Convenience getter for the [enum@Gio.DBusMessageHeaderField.REPLY_SERIAL]
+             line="3262">Convenience getter for the [enum@Gio.DBusMessageHeaderField.REPLY_SERIAL]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="124"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3261">The value</doc>
+               line="3269">The value</doc>
           <type name="guint32" c:type="guint32"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3256">a D-Bus message</doc>
+                 line="3264">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -23017,20 +23039,20 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3405">Convenience getter for the [enum@Gio.DBusMessageHeaderField.SENDER] header
+             line="3413">Convenience getter for the [enum@Gio.DBusMessageHeaderField.SENDER] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="148"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3412">The value</doc>
+               line="3420">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3407">a D-Bus message</doc>
+                 line="3415">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -23062,7 +23084,7 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3519">Convenience getter for the [enum@Gio.DBusMessageHeaderField.SIGNATURE header
+             line="3527">Convenience getter for the [enum@Gio.DBusMessageHeaderField.SIGNATURE header
 field.
 
 This will always be non-`NULL`, but may be an empty string.</doc>
@@ -23070,14 +23092,14 @@ This will always be non-`NULL`, but may be an empty string.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3528">The value</doc>
+               line="3536">The value</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3521">a D-Bus message</doc>
+                 line="3529">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -23116,7 +23138,7 @@ reference to the file descriptor that can be accessed by
       <method name="lock" c:identifier="g_dbus_message_lock" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3968">Locks the message.
+             line="3976">Locks the message.
 
 If @message is locked already, this does nothing.</doc>
         <source-position filename="gio/gdbusmessage.h" line="73"/>
@@ -23127,7 +23149,7 @@ If @message is locked already, this does nothing.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3970">a D-Bus message</doc>
+                 line="3978">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -23239,7 +23261,7 @@ bindings.</doc>
       <method name="print" c:identifier="g_dbus_message_print" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3779">Produces a human-readable multi-line description of @message.
+             line="3787">Produces a human-readable multi-line description of @message.
 
 The contents and formatting are subject to change at any time and no ABI
 guarantees are given. Typical output looks something like this:
@@ -23274,7 +23296,7 @@ UNIX File Descriptors:
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3818">Human readable description
+               line="3826">Human readable description
   of @message</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
@@ -23282,13 +23304,13 @@ UNIX File Descriptors:
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3781">a D-Bus message</doc>
+                 line="3789">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="indent" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3782">indentation level</doc>
+                 line="3790">indentation level</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -23353,7 +23375,7 @@ If @body is floating, @message assumes ownership of @body.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3460">Convenience setter for the [enum@Gio.DBusMessageHeaderField.DESTINATION]
+             line="3468">Convenience setter for the [enum@Gio.DBusMessageHeaderField.DESTINATION]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="156"/>
         <return-value transfer-ownership="none">
@@ -23363,7 +23385,7 @@ header field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3462">a D-Bus message</doc>
+                 line="3470">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23372,7 +23394,7 @@ header field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3463">the value to set</doc>
+                 line="3471">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23382,7 +23404,7 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3498">Convenience setter for the [enum@Gio.DBusMessageHeaderField.ERROR_NAME]
+             line="3506">Convenience setter for the [enum@Gio.DBusMessageHeaderField.ERROR_NAME]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="162"/>
         <return-value transfer-ownership="none">
@@ -23392,7 +23414,7 @@ header field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3500">a D-Bus message</doc>
+                 line="3508">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23401,7 +23423,7 @@ header field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3501">the value to set</doc>
+                 line="3509">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23476,7 +23498,7 @@ If @value is floating, @message assumes ownership of @value.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3308">Convenience setter for the [enum@Gio.DBusMessageHeaderField.INTERFACE] header
+             line="3316">Convenience setter for the [enum@Gio.DBusMessageHeaderField.INTERFACE] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="132"/>
         <return-value transfer-ownership="none">
@@ -23486,7 +23508,7 @@ field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3310">a D-Bus message</doc>
+                 line="3318">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23495,7 +23517,7 @@ field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3311">the value to set</doc>
+                 line="3319">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23505,7 +23527,7 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3346">Convenience setter for the [enum@Gio.DBusMessageHeaderField.MEMBER] header
+             line="3354">Convenience setter for the [enum@Gio.DBusMessageHeaderField.MEMBER] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="138"/>
         <return-value transfer-ownership="none">
@@ -23515,7 +23537,7 @@ field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3348">a D-Bus message</doc>
+                 line="3356">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23524,7 +23546,7 @@ field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3349">the value to set</doc>
+                 line="3357">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23560,7 +23582,7 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3631">Convenience setter for the [enum@Gio.DBusMessageHeaderField.NUM_UNIX_FDS]
+             line="3639">Convenience setter for the [enum@Gio.DBusMessageHeaderField.NUM_UNIX_FDS]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="174"/>
         <return-value transfer-ownership="none">
@@ -23570,13 +23592,13 @@ header field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3633">a D-Bus message</doc>
+                 line="3641">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3634">the value to set</doc>
+                 line="3642">the value to set</doc>
             <type name="guint32" c:type="guint32"/>
           </parameter>
         </parameters>
@@ -23586,7 +23608,7 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3384">Convenience setter for the [enum@Gio.DBusMessageHeaderField.PATH] header
+             line="3392">Convenience setter for the [enum@Gio.DBusMessageHeaderField.PATH] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="144"/>
         <return-value transfer-ownership="none">
@@ -23596,7 +23618,7 @@ field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3386">a D-Bus message</doc>
+                 line="3394">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23605,7 +23627,7 @@ field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3387">the value to set</doc>
+                 line="3395">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23615,7 +23637,7 @@ field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3271">Convenience setter for the [enum@Gio.DBusMessageHeaderField.REPLY_SERIAL]
+             line="3279">Convenience setter for the [enum@Gio.DBusMessageHeaderField.REPLY_SERIAL]
 header field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="126"/>
         <return-value transfer-ownership="none">
@@ -23625,13 +23647,13 @@ header field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3273">a D-Bus message</doc>
+                 line="3281">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3274">the value to set</doc>
+                 line="3282">the value to set</doc>
             <type name="guint32" c:type="guint32"/>
           </parameter>
         </parameters>
@@ -23641,7 +23663,7 @@ header field.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3422">Convenience setter for the [enum@Gio.DBusMessageHeaderField.SENDER] header
+             line="3430">Convenience setter for the [enum@Gio.DBusMessageHeaderField.SENDER] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="150"/>
         <return-value transfer-ownership="none">
@@ -23651,7 +23673,7 @@ field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3424">a D-Bus message</doc>
+                 line="3432">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23660,7 +23682,7 @@ field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3425">the value to set</doc>
+                 line="3433">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23698,7 +23720,7 @@ does not allow the @serial to be zero.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3542">Convenience setter for the [enum@Gio.DBusMessageHeaderField.SIGNATURE] header
+             line="3550">Convenience setter for the [enum@Gio.DBusMessageHeaderField.SIGNATURE] header
 field.</doc>
         <source-position filename="gio/gdbusmessage.h" line="168"/>
         <return-value transfer-ownership="none">
@@ -23708,7 +23730,7 @@ field.</doc>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3544">a D-Bus message</doc>
+                 line="3552">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
           <parameter name="value"
@@ -23717,7 +23739,7 @@ field.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3545">the value to set</doc>
+                 line="3553">the value to set</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -23811,7 +23833,7 @@ used.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusmessage.c"
-             line="3651">Encodes the error in @message as a [type@GLib.Error].
+             line="3659">Encodes the error in @message as a [type@GLib.Error].
 
 If @message is of type [enum@Gio.DBusMessageType.ERROR], this function
 calls [func@Gio.DBusError.set_dbus_error] using the information in the
@@ -23824,14 +23846,14 @@ does nothing and returns false.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusmessage.c"
-               line="3666">true if @error was set, false otherwise</doc>
+               line="3674">true if @error was set, false otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="message" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusmessage.c"
-                 line="3653">a D-Bus message</doc>
+                 line="3661">a D-Bus message</doc>
             <type name="DBusMessage" c:type="GDBusMessage*"/>
           </instance-parameter>
         </parameters>
@@ -29760,7 +29782,7 @@ server.</doc>
                    throws="1">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="464">Creates a new D-Bus server that listens on the first address in
+             line="494">Creates a new D-Bus server that listens on the first address in
 @address that works.
 
 Once constructed, you can use g_dbus_server_get_client_address() to
@@ -29784,7 +29806,7 @@ asynchronous version.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="494">A #GDBusServer or %NULL if @error is set. Free with
+               line="524">A #GDBusServer or %NULL if @error is set. Free with
 g_object_unref().</doc>
           <type name="DBusServer" c:type="GDBusServer*"/>
         </return-value>
@@ -29792,19 +29814,19 @@ g_object_unref().</doc>
           <parameter name="address" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="466">A D-Bus address.</doc>
+                 line="496">A D-Bus address.</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="467">Flags from the #GDBusServerFlags enumeration.</doc>
+                 line="497">Flags from the #GDBusServerFlags enumeration.</doc>
             <type name="DBusServerFlags" c:type="GDBusServerFlags"/>
           </parameter>
           <parameter name="guid" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="468">A D-Bus GUID.</doc>
+                 line="498">A D-Bus GUID.</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="observer"
@@ -29813,7 +29835,7 @@ g_object_unref().</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="469">A #GDBusAuthObserver or %NULL.</doc>
+                 line="499">A #GDBusAuthObserver or %NULL.</doc>
             <type name="DBusAuthObserver" c:type="GDBusAuthObserver*"/>
           </parameter>
           <parameter name="cancellable"
@@ -29822,7 +29844,7 @@ g_object_unref().</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="470">A #GCancellable or %NULL.</doc>
+                 line="500">A #GCancellable or %NULL.</doc>
             <type name="Cancellable" c:type="GCancellable*"/>
           </parameter>
         </parameters>
@@ -29833,7 +29855,7 @@ g_object_unref().</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="526">Gets a
+             line="556">Gets a
 [D-Bus address](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses)
 string that can be used by clients to connect to @server.
 
@@ -29842,7 +29864,7 @@ This is valid and non-empty if initializing the #GDBusServer succeeded.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="536">A D-Bus address string. Do not free, the string is owned
+               line="566">A D-Bus address string. Do not free, the string is owned
 by @server.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -29850,7 +29872,7 @@ by @server.</doc>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="528">A #GDBusServer.</doc>
+                 line="558">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29861,19 +29883,19 @@ by @server.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="565">Gets the flags for @server.</doc>
+             line="595">Gets the flags for @server.</doc>
         <source-position filename="gio/gdbusserver.h" line="52"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="571">A set of flags from the #GDBusServerFlags enumeration.</doc>
+               line="601">A set of flags from the #GDBusServerFlags enumeration.</doc>
           <type name="DBusServerFlags" c:type="GDBusServerFlags"/>
         </return-value>
         <parameters>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="567">A #GDBusServer.</doc>
+                 line="597">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29884,19 +29906,19 @@ by @server.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="548">Gets the GUID for @server, as provided to g_dbus_server_new_sync().</doc>
+             line="578">Gets the GUID for @server, as provided to g_dbus_server_new_sync().</doc>
         <source-position filename="gio/gdbusserver.h" line="50"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="554">A D-Bus GUID. Do not free this string, it is owned by @server.</doc>
+               line="584">A D-Bus GUID. Do not free this string, it is owned by @server.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="550">A #GDBusServer.</doc>
+                 line="580">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29907,19 +29929,19 @@ by @server.</doc>
               version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="582">Gets whether @server is active.</doc>
+             line="612">Gets whether @server is active.</doc>
         <source-position filename="gio/gdbusserver.h" line="58"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="588">%TRUE if server is active, %FALSE otherwise.</doc>
+               line="618">%TRUE if server is active, %FALSE otherwise.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="584">A #GDBusServer.</doc>
+                 line="614">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29927,7 +29949,7 @@ by @server.</doc>
       <method name="start" c:identifier="g_dbus_server_start" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="599">Starts @server.</doc>
+             line="629">Starts @server.</doc>
         <source-position filename="gio/gdbusserver.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -29936,7 +29958,7 @@ by @server.</doc>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="601">A #GDBusServer.</doc>
+                 line="631">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29944,7 +29966,7 @@ by @server.</doc>
       <method name="stop" c:identifier="g_dbus_server_stop" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="626">Stops @server.</doc>
+             line="656">Stops @server.</doc>
         <source-position filename="gio/gdbusserver.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -29953,7 +29975,7 @@ by @server.</doc>
           <instance-parameter name="server" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="628">A #GDBusServer.</doc>
+                 line="658">A #GDBusServer.</doc>
             <type name="DBusServer" c:type="GDBusServer*"/>
           </instance-parameter>
         </parameters>
@@ -29965,7 +29987,7 @@ by @server.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="371">Whether the server is currently active.</doc>
+             line="381">Whether the server is currently active.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="address"
@@ -29976,7 +29998,7 @@ by @server.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="337">The D-Bus address to listen on.</doc>
+             line="347">The D-Bus address to listen on.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="authentication-observer"
@@ -29986,7 +30008,7 @@ by @server.</doc>
                 transfer-ownership="none">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="387">A #GDBusAuthObserver object to assist in the authentication process or %NULL.</doc>
+             line="397">A #GDBusAuthObserver object to assist in the authentication process or %NULL.</doc>
         <type name="DBusAuthObserver"/>
       </property>
       <property name="client-address"
@@ -29996,7 +30018,7 @@ by @server.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="355">The D-Bus address that clients can use.</doc>
+             line="365">The D-Bus address that clients can use.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="flags"
@@ -30008,7 +30030,7 @@ by @server.</doc>
                 default-value="G_DBUS_SERVER_FLAGS_NONE">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="298">Flags from the #GDBusServerFlags enumeration.</doc>
+             line="308">Flags from the #GDBusServerFlags enumeration.</doc>
         <type name="DBusServerFlags"/>
       </property>
       <property name="guid"
@@ -30020,15 +30042,27 @@ by @server.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="317">The GUID of the server.
+             line="327">The GUID of the server.
 
 See #GDBusConnection:guid for more details.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
+      <property name="max-message-unix-fds"
+                version="2.92"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none"
+                default-value="253">
+        <doc xml:space="preserve"
+             filename="gio/gdbusserver.c"
+             line="415">The maximum number of Unix file descriptors that may be received in a
+single D-Bus message on connections accepted by the server.</doc>
+        <type name="guint" c:type="guint"/>
+      </property>
       <glib:signal name="new-connection" when="last" version="2.26">
         <doc xml:space="preserve"
              filename="gio/gdbusserver.c"
-             line="405">Emitted when a new authenticated connection has been made. Use
+             line="435">Emitted when a new authenticated connection has been made. Use
 g_dbus_connection_get_peer_credentials() to figure out what
 identity (if any), was authenticated.
 
@@ -30052,7 +30086,7 @@ similar from the signal handler.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusserver.c"
-               line="432">%TRUE to claim @connection, %FALSE to let other handlers
+               line="462">%TRUE to claim @connection, %FALSE to let other handlers
 run.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -30060,7 +30094,7 @@ run.</doc>
           <parameter name="connection" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdbusserver.c"
-                 line="408">A #GDBusConnection for the new connection.</doc>
+                 line="438">A #GDBusConnection for the new connection.</doc>
             <type name="DBusConnection"/>
           </parameter>
         </parameters>
@@ -135496,7 +135530,7 @@ g_async_initable_init_async() instead. See #GParameter for more information.</do
               glib:sync-func="bus_get_sync">
       <doc xml:space="preserve"
            filename="gio/gdbusconnection.c"
-           line="8110">Asynchronously connects to the message bus specified by @bus_type.
+           line="8141">Asynchronously connects to the message bus specified by @bus_type.
 
 When the operation is finished, @callback will be invoked. You can
 then call g_bus_get_finish() to get the result of the operation.
@@ -135511,7 +135545,7 @@ the synchronous version.</doc>
         <parameter name="bus_type" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8112">a #GBusType</doc>
+               line="8143">a #GBusType</doc>
           <type name="BusType" c:type="GBusType"/>
         </parameter>
         <parameter name="cancellable"
@@ -135520,7 +135554,7 @@ the synchronous version.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8113">a #GCancellable or %NULL</doc>
+               line="8144">a #GCancellable or %NULL</doc>
           <type name="Cancellable" c:type="GCancellable*"/>
         </parameter>
         <parameter name="callback"
@@ -135531,7 +135565,7 @@ the synchronous version.</doc>
                    closure="3">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8114">a #GAsyncReadyCallback to call when the request is satisfied</doc>
+               line="8145">a #GAsyncReadyCallback to call when the request is satisfied</doc>
           <type name="AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
         </parameter>
         <parameter name="user_data"
@@ -135540,7 +135574,7 @@ the synchronous version.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8115">the data to pass to @callback</doc>
+               line="8146">the data to pass to @callback</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -135551,7 +135585,7 @@ the synchronous version.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="gio/gdbusconnection.c"
-           line="8159">Finishes an operation started with g_bus_get().
+           line="8190">Finishes an operation started with g_bus_get().
 
 The returned object is a singleton, that is, shared with other
 callers of g_bus_get() and g_bus_get_sync() for @bus_type. In the
@@ -135567,7 +135601,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="8178">a #GDBusConnection or %NULL if @error is set.
+             line="8209">a #GDBusConnection or %NULL if @error is set.
     Free with g_object_unref().</doc>
         <type name="DBusConnection" c:type="GDBusConnection*"/>
       </return-value>
@@ -135575,7 +135609,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
         <parameter name="res" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8161">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
+               line="8192">a #GAsyncResult obtained from the #GAsyncReadyCallback passed
     to g_bus_get()</doc>
           <type name="AsyncResult" c:type="GAsyncResult*"/>
         </parameter>
@@ -135588,7 +135622,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
               glib:async-func="bus_get">
       <doc xml:space="preserve"
            filename="gio/gdbusconnection.c"
-           line="8032">Synchronously connects to the message bus specified by @bus_type.
+           line="8063">Synchronously connects to the message bus specified by @bus_type.
 Note that the returned object may shared with other callers,
 e.g. if two separate parts of a process calls this function with
 the same @bus_type, they will share the same object.
@@ -135610,7 +135644,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="gio/gdbusconnection.c"
-             line="8057">a #GDBusConnection or %NULL if @error is set.
+             line="8088">a #GDBusConnection or %NULL if @error is set.
     Free with g_object_unref().</doc>
         <type name="DBusConnection" c:type="GDBusConnection*"/>
       </return-value>
@@ -135618,7 +135652,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
         <parameter name="bus_type" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8034">a #GBusType</doc>
+               line="8065">a #GBusType</doc>
           <type name="BusType" c:type="GBusType"/>
         </parameter>
         <parameter name="cancellable"
@@ -135627,7 +135661,7 @@ the #GDBusConnection:exit-on-close property set to %TRUE.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="gio/gdbusconnection.c"
-               line="8035">a #GCancellable or %NULL</doc>
+               line="8066">a #GCancellable or %NULL</doc>
           <type name="Cancellable" c:type="GCancellable*"/>
         </parameter>
       </parameters>
