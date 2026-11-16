@@ -181,7 +181,7 @@ prefix-to-subdirectory mapping that is described in the
                 version="2.92">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="5628">Gets the default [iface@Gio.AppInfo] that implements @interface and, if @scope
+             line="5724">Gets the default [iface@Gio.AppInfo] that implements @interface and, if @scope
 is not `NULL`, also supports @scope.
 
 An application implements an interface if that interface is listed in
@@ -201,7 +201,7 @@ Application priority can be adjusted via
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="5650">app info for the given @intent and @scope,
+               line="5746">app info for the given @intent and @scope,
   or `NULL` if not found.</doc>
           <type name="Gio.AppInfo" c:type="GAppInfo*"/>
         </return-value>
@@ -209,7 +209,7 @@ Application priority can be adjusted via
           <parameter name="interface" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5630">the intent interface to find an app for</doc>
+                 line="5726">the intent interface to find an app for</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="scope"
@@ -218,7 +218,7 @@ Application priority can be adjusted via
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5631">an optional scope</doc>
+                 line="5727">an optional scope</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -228,7 +228,7 @@ Application priority can be adjusted via
                 version="2.92">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="5736">Gets all [iface@Gio.AppInfo]s that implement @interface and, if @scope is not
+             line="5832">Gets all [iface@Gio.AppInfo]s that implement @interface and, if @scope is not
 `NULL`, also supports @scope.
 
 Applications earlier in the list have higher priority.
@@ -253,7 +253,7 @@ counted in @out_n_results.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="5764">an array of
+               line="5860">an array of
 app infos for the given @intent and @scope, or `NULL` if none are found.</doc>
           <array length="2" zero-terminated="0" c:type="GAppInfo**">
             <type name="Gio.AppInfo" c:type="GAppInfo*"/>
@@ -263,7 +263,7 @@ app infos for the given @intent and @scope, or `NULL` if none are found.</doc>
           <parameter name="interface" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5738">the intent interface to find an app for</doc>
+                 line="5834">the intent interface to find an app for</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="scope"
@@ -272,7 +272,7 @@ app infos for the given @intent and @scope, or `NULL` if none are found.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5739">an optional scope</doc>
+                 line="5835">an optional scope</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="out_n_results"
@@ -283,7 +283,7 @@ app infos for the given @intent and @scope, or `NULL` if none are found.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5740">the number of infos returned</doc>
+                 line="5836">the number of infos returned</doc>
             <type name="gsize" c:type="size_t*"/>
           </parameter>
         </parameters>
@@ -293,7 +293,7 @@ app infos for the given @intent and @scope, or `NULL` if none are found.</doc>
                 version="2.42">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="5842">Gets all applications that implement @interface.
+             line="5938">Gets all applications that implement @interface.
 
 An application implements an interface if that interface is listed in
 the `Implements` line of the desktop file of the application.</doc>
@@ -301,7 +301,7 @@ the `Implements` line of the desktop file of the application.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="5851">a list of
+               line="5947">a list of
   [class@GioUnix.DesktopAppInfo] objects.</doc>
           <type name="GLib.List" c:type="GList*">
             <type name="DesktopAppInfo"/>
@@ -311,7 +311,7 @@ the `Implements` line of the desktop file of the application.</doc>
           <parameter name="interface" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5844">the name of the interface</doc>
+                 line="5940">the name of the interface</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -319,7 +319,7 @@ the `Implements` line of the desktop file of the application.</doc>
       <function name="search" c:identifier="g_desktop_app_info_search">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="5876">Searches desktop files for ones that match @search_string.
+             line="5972">Searches desktop files for ones that match @search_string.
 
 The return value is an array of strvs.  Each strv contains a list of
 applications that matched @search_string with an equal score.  The
@@ -339,7 +339,7 @@ each result.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="5897">a
+               line="5993">a
   list of strvs.  Free each item with [func@GLib.strfreev] and free the outer
   list with [func@GLib.free].</doc>
           <array c:type="gchar***">
@@ -352,7 +352,7 @@ each result.</doc>
           <parameter name="search_string" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5878">the search string to use</doc>
+                 line="5974">the search string to use</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -363,7 +363,7 @@ each result.</doc>
                 deprecated-version="2.42">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="4418">Sets the name of the desktop that the application is running in.
+             line="4514">Sets the name of the desktop that the application is running in.
 
 This is used by [method@Gio.AppInfo.should_show] and
 [method@GioUnix.DesktopAppInfo.get_show_in] to evaluate the
@@ -382,7 +382,7 @@ Should be called only once; subsequent calls are ignored.</doc>
           <parameter name="desktop_env" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4420">a string specifying what desktop this is</doc>
+                 line="4516">a string specifying what desktop this is</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -392,7 +392,7 @@ Should be called only once; subsequent calls are ignored.</doc>
               version="2.38">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6259">Gets the user-visible display name of the
+             line="6355">Gets the user-visible display name of the
 [‘additional application actions’](https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s11.html)
 specified by @action_name.
 
@@ -402,20 +402,20 @@ action.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6272">the locale-specific action name</doc>
+               line="6368">the locale-specific action name</doc>
           <type name="utf8" c:type="gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6261">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6357">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="action_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6262">the name of the action as from
+                 line="6358">the name of the action as from
   [method@GioUnix.DesktopAppInfo.list_actions]</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -426,27 +426,27 @@ action.</doc>
               version="2.36">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6147">Looks up a boolean value in the keyfile backing @info.
+             line="6243">Looks up a boolean value in the keyfile backing @info.
 
 The @key is looked up in the `Desktop Entry` group.</doc>
         <source-position filename="gio/gdesktopappinfo.h" line="96"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6156">the boolean value, or `FALSE` if the key is not found</doc>
+               line="6252">the boolean value, or `FALSE` if the key is not found</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6149">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6245">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6150">the key to look up</doc>
+                 line="6246">the key to look up</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -606,7 +606,7 @@ in it is set to `True`.</doc>
               version="2.56">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6120">Looks up a localized string value in the keyfile backing @info
+             line="6216">Looks up a localized string value in the keyfile backing @info
 translated to the current locale.
 
 The @key is looked up in the `Desktop Entry` group.</doc>
@@ -614,7 +614,7 @@ The @key is looked up in the `Desktop Entry` group.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6130">a newly allocated string, or `NULL` if the key is not
+               line="6226">a newly allocated string, or `NULL` if the key is not
   found</doc>
           <type name="utf8" c:type="char*"/>
         </return-value>
@@ -622,13 +622,13 @@ The @key is looked up in the `Desktop Entry` group.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6122">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6218">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6123">the key to look up</doc>
+                 line="6219">the key to look up</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -707,14 +707,14 @@ Note that [method@Gio.AppInfo.should_show] for @info will include this check
               version="2.34">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6075">Retrieves the `StartupWMClass` field from @info. This represents the
+             line="6171">Retrieves the `StartupWMClass` field from @info. This represents the
 `WM_CLASS` property of the main window of the application, if launched
 through @info.</doc>
         <source-position filename="gio/gdesktopappinfo.h" line="76"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6083">the startup WM class, or `NULL` if none
+               line="6179">the startup WM class, or `NULL` if none
   is set in the desktop file.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -722,7 +722,7 @@ through @info.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6077">a [class@GioUnix.DesktopAppInfo] that supports startup notify</doc>
+                 line="6173">a [class@GioUnix.DesktopAppInfo] that supports startup notify</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
         </parameters>
@@ -732,14 +732,14 @@ through @info.</doc>
               version="2.36">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6096">Looks up a string value in the keyfile backing @info.
+             line="6192">Looks up a string value in the keyfile backing @info.
 
 The @key is looked up in the `Desktop Entry` group.</doc>
         <source-position filename="gio/gdesktopappinfo.h" line="90"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6105">a newly allocated string, or `NULL` if the key is not
+               line="6201">a newly allocated string, or `NULL` if the key is not
   found</doc>
           <type name="utf8" c:type="char*"/>
         </return-value>
@@ -747,13 +747,13 @@ The @key is looked up in the `Desktop Entry` group.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6098">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6194">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6099">the key to look up</doc>
+                 line="6195">the key to look up</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -763,14 +763,14 @@ The @key is looked up in the `Desktop Entry` group.</doc>
               version="2.60">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6170">Looks up a string list value in the keyfile backing @info.
+             line="6266">Looks up a string list value in the keyfile backing @info.
 
 The @key is looked up in the `Desktop Entry` group.</doc>
         <source-position filename="gio/gdesktopappinfo.h" line="100"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6181">
+               line="6277">
   a `NULL`-terminated string array or `NULL` if the specified
   key cannot be found. The array should be freed with [func@GLib.strfreev].</doc>
           <array length="1" zero-terminated="1" c:type="gchar**">
@@ -781,13 +781,13 @@ The @key is looked up in the `Desktop Entry` group.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6172">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6268">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6173">the key to look up</doc>
+                 line="6269">the key to look up</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="length"
@@ -798,7 +798,7 @@ The @key is looked up in the `Desktop Entry` group.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6174">return location for the number of returned
+                 line="6270">return location for the number of returned
   strings, or `NULL`</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
@@ -840,26 +840,26 @@ the [`Implements` key](https://specifications.freedesktop.org/desktop-entry/late
               version="2.36">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6198">Returns whether @key exists in the `Desktop Entry` group
+             line="6294">Returns whether @key exists in the `Desktop Entry` group
 of the keyfile backing @info.</doc>
         <source-position filename="gio/gdesktopappinfo.h" line="87"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6206">`TRUE` if the @key exists</doc>
+               line="6302">`TRUE` if the @key exists</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6200">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6296">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6201">the key to look up</doc>
+                 line="6297">the key to look up</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -869,7 +869,7 @@ of the keyfile backing @info.</doc>
               version="2.38">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6302">Activates the named application action.
+             line="6398">Activates the named application action.
 
 You may only call this function on action names that were
 returned from [method@GioUnix.DesktopAppInfo.list_actions].
@@ -893,13 +893,13 @@ occur while using this function.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6304">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6400">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="action_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6305">the name of the action as from
+                 line="6401">the name of the action as from
   [method@GioUnix.DesktopAppInfo.list_actions]</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -909,7 +909,7 @@ occur while using this function.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6307">a [class@Gio.AppLaunchContext]</doc>
+                 line="6403">a [class@Gio.AppLaunchContext]</doc>
             <type name="Gio.AppLaunchContext" c:type="GAppLaunchContext*"/>
           </parameter>
         </parameters>
@@ -919,7 +919,7 @@ occur while using this function.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="4361">This function performs the equivalent of [method@Gio.AppInfo.launch_uris],
+             line="4457">This function performs the equivalent of [method@Gio.AppInfo.launch_uris],
 but is intended primarily for operating system components that
 launch applications.  Ordinary applications should use
 [method@Gio.AppInfo.launch_uris].
@@ -939,20 +939,20 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="4391">`TRUE` on successful launch, `FALSE` otherwise.</doc>
+               line="4487">`TRUE` on successful launch, `FALSE` otherwise.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="appinfo" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4363">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="4459">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="uris" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4364">List of URIs</doc>
+                 line="4460">List of URIs</doc>
             <type name="GLib.List" c:type="GList*">
               <type name="utf8"/>
             </type>
@@ -963,13 +963,13 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4365">a [class@Gio.AppLaunchContext]</doc>
+                 line="4461">a [class@Gio.AppLaunchContext]</doc>
             <type name="Gio.AppLaunchContext" c:type="GAppLaunchContext*"/>
           </parameter>
           <parameter name="spawn_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4366">[flags@GLib.SpawnFlags], used for each process</doc>
+                 line="4462">[flags@GLib.SpawnFlags], used for each process</doc>
             <type name="GLib.SpawnFlags" c:type="GSpawnFlags"/>
           </parameter>
           <parameter name="user_setup"
@@ -980,7 +980,7 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
                      closure="4">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4367">a [callback@GLib.SpawnChildSetupFunc],
+                 line="4463">a [callback@GLib.SpawnChildSetupFunc],
   used once  for each process.</doc>
             <type name="GLib.SpawnChildSetupFunc"
                   c:type="GSpawnChildSetupFunc"/>
@@ -991,7 +991,7 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4369">User data for @user_setup</doc>
+                 line="4465">User data for @user_setup</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="pid_callback"
@@ -1002,7 +1002,7 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
                      closure="6">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4370">Callback for child processes</doc>
+                 line="4466">Callback for child processes</doc>
             <type name="DesktopAppLaunchCallback"
                   c:type="GDesktopAppLaunchCallback"/>
           </parameter>
@@ -1012,7 +1012,7 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4371">User data for @callback</doc>
+                 line="4467">User data for @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -1023,7 +1023,7 @@ activation) then @spawn_flags, @user_setup, @user_setup_data,
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="4306">Equivalent to [method@GioUnix.DesktopAppInfo.launch_uris_as_manager] but
+             line="4402">Equivalent to [method@GioUnix.DesktopAppInfo.launch_uris_as_manager] but
 allows you to pass in file descriptors for the stdin, stdout and stderr
 streams of the launched process.
 
@@ -1033,20 +1033,20 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="4329">`TRUE` on successful launch, `FALSE` otherwise.</doc>
+               line="4425">`TRUE` on successful launch, `FALSE` otherwise.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="appinfo" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4308">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="4404">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="uris" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4309">List of URIs</doc>
+                 line="4405">List of URIs</doc>
             <type name="GLib.List" c:type="GList*">
               <type name="utf8"/>
             </type>
@@ -1057,13 +1057,13 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4310">a [class@Gio.AppLaunchContext]</doc>
+                 line="4406">a [class@Gio.AppLaunchContext]</doc>
             <type name="Gio.AppLaunchContext" c:type="GAppLaunchContext*"/>
           </parameter>
           <parameter name="spawn_flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4311">[flags@GLib.SpawnFlags], used for each process</doc>
+                 line="4407">[flags@GLib.SpawnFlags], used for each process</doc>
             <type name="GLib.SpawnFlags" c:type="GSpawnFlags"/>
           </parameter>
           <parameter name="user_setup"
@@ -1074,7 +1074,7 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
                      closure="4">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4312">a
+                 line="4408">a
   [callback@GLib.SpawnChildSetupFunc], used once for each process.</doc>
             <type name="GLib.SpawnChildSetupFunc"
                   c:type="GSpawnChildSetupFunc"/>
@@ -1085,7 +1085,7 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4314">User data for @user_setup</doc>
+                 line="4410">User data for @user_setup</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="pid_callback"
@@ -1096,7 +1096,7 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
                      closure="6">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4315">Callback for child processes</doc>
+                 line="4411">Callback for child processes</doc>
             <type name="DesktopAppLaunchCallback"
                   c:type="GDesktopAppLaunchCallback"/>
           </parameter>
@@ -1106,25 +1106,25 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4316">User data for @callback</doc>
+                 line="4412">User data for @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="stdin_fd" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4317">file descriptor to use for child’s stdin, or `-1`</doc>
+                 line="4413">file descriptor to use for child’s stdin, or `-1`</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="stdout_fd" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4318">file descriptor to use for child’s stdout, or `-1`</doc>
+                 line="4414">file descriptor to use for child’s stdout, or `-1`</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="stderr_fd" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="4319">file descriptor to use for child’s stderr, or `-1`</doc>
+                 line="4415">file descriptor to use for child’s stderr, or `-1`</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -1134,7 +1134,7 @@ activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.</doc>
               version="2.38">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6222">Returns the list of
+             line="6318">Returns the list of
 [‘additional application actions’](https://specifications.freedesktop.org/desktop-entry-spec/latest/ar01s11.html)
 supported on the desktop file, as per the desktop file specification.
 
@@ -1144,7 +1144,7 @@ explicitly listed in the `Actions` key of the `Desktop Entry` group.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6233">a
+               line="6329">a
   list of strings, always non-`NULL`</doc>
           <array c:type="const gchar* const*">
             <type name="utf8"/>
@@ -1154,7 +1154,7 @@ explicitly listed in the `Actions` key of the `Desktop Entry` group.</doc>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6224">a [class@GioUnix.DesktopAppInfo]</doc>
+                 line="6320">a [class@GioUnix.DesktopAppInfo]</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
         </parameters>
@@ -1165,7 +1165,7 @@ explicitly listed in the `Actions` key of the `Desktop Entry` group.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="5677">Sets the application as the default handler for an intent interface, or for
+             line="5773">Sets the application as the default handler for an intent interface, or for
 a scope of the intent interface.
 
 If @scope is provided, the default handler for that scope of the intent
@@ -1178,20 +1178,20 @@ be set to the application.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="5694">true on success; false otherwise</doc>
+               line="5790">true on success; false otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="info" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5679">an app info</doc>
+                 line="5775">an app info</doc>
             <type name="DesktopAppInfo" c:type="GDesktopAppInfo*"/>
           </instance-parameter>
           <parameter name="interface" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5680">the intent interface to set the app as default for</doc>
+                 line="5776">the intent interface to set the app as default for</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="scope"
@@ -1200,7 +1200,7 @@ be set to the application.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="5681">an optional scope</doc>
+                 line="5777">an optional scope</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1235,7 +1235,7 @@ be set to the application.</doc>
                glib:type-struct="DesktopAppInfoLookupIface">
       <doc xml:space="preserve"
            filename="gio/gdesktopappinfo.c"
-           line="6015">#GDesktopAppInfoLookup is an opaque data structure and can only be accessed
+           line="6111">#GDesktopAppInfoLookup is an opaque data structure and can only be accessed
 using the following functions.</doc>
       <doc-deprecated xml:space="preserve">The [iface@GioUnix.DesktopAppInfoLookup] interface is
   deprecated and unused by GIO.</doc-deprecated>
@@ -1246,7 +1246,7 @@ using the following functions.</doc>
                       deprecated-version="2.28">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6037">Gets the default application for launching applications
+             line="6133">Gets the default application for launching applications
 using this URI scheme for a particular [iface@GioUnix.DesktopAppInfoLookup]
 implementation.
 
@@ -1261,7 +1261,7 @@ directly. Applications should use
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6052">[iface@Gio.AppInfo] for given
+               line="6148">[iface@Gio.AppInfo] for given
   @uri_scheme or `NULL` on error.</doc>
           <type name="Gio.AppInfo" c:type="GAppInfo*"/>
         </return-value>
@@ -1269,13 +1269,13 @@ directly. Applications should use
           <instance-parameter name="lookup" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6039">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
+                 line="6135">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
             <type name="DesktopAppInfoLookup" c:type="GDesktopAppInfoLookup*"/>
           </instance-parameter>
           <parameter name="uri_scheme" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6040">a string containing a URI scheme.</doc>
+                 line="6136">a string containing a URI scheme.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1286,7 +1286,7 @@ directly. Applications should use
               deprecated-version="2.28">
         <doc xml:space="preserve"
              filename="gio/gdesktopappinfo.c"
-             line="6037">Gets the default application for launching applications
+             line="6133">Gets the default application for launching applications
 using this URI scheme for a particular [iface@GioUnix.DesktopAppInfoLookup]
 implementation.
 
@@ -1301,7 +1301,7 @@ directly. Applications should use
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gio/gdesktopappinfo.c"
-               line="6052">[iface@Gio.AppInfo] for given
+               line="6148">[iface@Gio.AppInfo] for given
   @uri_scheme or `NULL` on error.</doc>
           <type name="Gio.AppInfo" c:type="GAppInfo*"/>
         </return-value>
@@ -1309,13 +1309,13 @@ directly. Applications should use
           <instance-parameter name="lookup" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6039">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
+                 line="6135">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
             <type name="DesktopAppInfoLookup" c:type="GDesktopAppInfoLookup*"/>
           </instance-parameter>
           <parameter name="uri_scheme" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6040">a string containing a URI scheme.</doc>
+                 line="6136">a string containing a URI scheme.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1342,7 +1342,7 @@ handlers with URI schemes.</doc>
           <return-value transfer-ownership="full" nullable="1">
             <doc xml:space="preserve"
                  filename="gio/gdesktopappinfo.c"
-                 line="6052">[iface@Gio.AppInfo] for given
+                 line="6148">[iface@Gio.AppInfo] for given
   @uri_scheme or `NULL` on error.</doc>
             <type name="Gio.AppInfo" c:type="GAppInfo*"/>
           </return-value>
@@ -1350,14 +1350,14 @@ handlers with URI schemes.</doc>
             <parameter name="lookup" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="gio/gdesktopappinfo.c"
-                   line="6039">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
+                   line="6135">a [iface@GioUnix.DesktopAppInfoLookup]</doc>
               <type name="DesktopAppInfoLookup"
                     c:type="GDesktopAppInfoLookup*"/>
             </parameter>
             <parameter name="uri_scheme" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="gio/gdesktopappinfo.c"
-                   line="6040">a string containing a URI scheme.</doc>
+                   line="6136">a string containing a URI scheme.</doc>
               <type name="utf8" c:type="const char*"/>
             </parameter>
           </parameters>

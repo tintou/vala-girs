@@ -81911,7 +81911,7 @@ array directly to execvpe(), g_spawn_async(), or the like.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gshell.c"
-           line="625">Parses a command line into an argument vector, in much the same way
+           line="627">Parses a command line into an argument vector, in much the same way
 the shell would, but without many of the expansions the shell would
 perform (variable expansion, globs, operators, filename expansion,
 etc. are not supported).
@@ -81936,14 +81936,14 @@ Free the returned vector with g_strfreev().</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gshell.c"
-             line="655">%TRUE on success, %FALSE if error set</doc>
+             line="657">%TRUE on success, %FALSE if error set</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="command_line" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gshell.c"
-               line="627">command line to parse</doc>
+               line="629">command line to parse</doc>
           <type name="filename" c:type="const gchar*"/>
         </parameter>
         <parameter name="argcp"
@@ -81954,7 +81954,7 @@ Free the returned vector with g_strfreev().</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gshell.c"
-               line="628">return location for number of args</doc>
+               line="630">return location for number of args</doc>
           <type name="gint" c:type="gint*"/>
         </parameter>
         <parameter name="argvp"
@@ -81965,7 +81965,7 @@ Free the returned vector with g_strfreev().</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gshell.c"
-               line="629">
+               line="631">
   return location for array of args</doc>
           <array length="1" zero-terminated="1" c:type="gchar***">
             <type name="filename"/>

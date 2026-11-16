@@ -344,27 +344,27 @@ node onto the @bottom node.</doc>
       <constructor name="new" c:identifier="gsk_blur_node_new">
         <doc xml:space="preserve"
              filename="gsk/gskblurnode.c"
-             line="480">Creates a render node that blurs the child.
+             line="489">Creates a render node that blurs the child.
 
 The blur radius should be set to 2x the standard deviation.</doc>
         <source-position filename="gsk/gskblurnode.h" line="36"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gsk/gskblurnode.c"
-               line="489">a new `GskRenderNode`</doc>
+               line="498">a new `GskRenderNode`</doc>
           <type name="BlurNode" c:type="GskRenderNode*"/>
         </return-value>
         <parameters>
           <parameter name="child" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskblurnode.c"
-                 line="482">the child node to blur</doc>
+                 line="491">the child node to blur</doc>
             <type name="RenderNode" c:type="GskRenderNode*"/>
           </parameter>
           <parameter name="radius" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskblurnode.c"
-                 line="483">the blur radius. Must be positive</doc>
+                 line="492">the blur radius. Must be positive</doc>
             <type name="gfloat" c:type="float"/>
           </parameter>
         </parameters>
@@ -374,7 +374,7 @@ The blur radius should be set to 2x the standard deviation.</doc>
               version="4.26">
         <doc xml:space="preserve"
              filename="gsk/gskblurnode.c"
-             line="538">Retrieves the blur radius of the @node.
+             line="547">Retrieves the blur radius of the @node.
 
 The blur radius is the standard deviation of the blur to apply
 in the horizontal and vertical direction respectively.</doc>
@@ -382,14 +382,14 @@ in the horizontal and vertical direction respectively.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskblurnode.c"
-               line="547">the blur radius</doc>
+               line="556">the blur radius</doc>
           <type name="Graphene.Size" c:type="const graphene_size_t*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskblurnode.c"
-                 line="540">a blur `GskRenderNode`</doc>
+                 line="549">a blur `GskRenderNode`</doc>
             <type name="BlurNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -397,19 +397,19 @@ in the horizontal and vertical direction respectively.</doc>
       <method name="get_child" c:identifier="gsk_blur_node_get_child">
         <doc xml:space="preserve"
              filename="gsk/gskblurnode.c"
-             line="498">Retrieves the child `GskRenderNode` of the blur @node.</doc>
+             line="507">Retrieves the child `GskRenderNode` of the blur @node.</doc>
         <source-position filename="gsk/gskblurnode.h" line="39"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskblurnode.c"
-               line="504">the blurred child node</doc>
+               line="513">the blurred child node</doc>
           <type name="RenderNode" c:type="GskRenderNode*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskblurnode.c"
-                 line="500">a blur `GskRenderNode`</doc>
+                 line="509">a blur `GskRenderNode`</doc>
             <type name="BlurNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -420,7 +420,7 @@ in the horizontal and vertical direction respectively.</doc>
               deprecated-version="4.26">
         <doc xml:space="preserve"
              filename="gsk/gskblurnode.c"
-             line="514">Retrieves the blur radius of the @node.
+             line="523">Retrieves the blur radius of the @node.
 
 The blur radius is 2x the standard deviation of the blur,
 which, uhm, don't ask.</doc>
@@ -432,14 +432,14 @@ which, uhm, don't ask.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskblurnode.c"
-               line="523">the blur radius</doc>
+               line="532">the blur radius</doc>
           <type name="gfloat" c:type="float"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskblurnode.c"
-                 line="516">a blur `GskRenderNode`</doc>
+                 line="525">a blur `GskRenderNode`</doc>
             <type name="BlurNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -11440,26 +11440,26 @@ If the resulting reference count is zero, frees the builder.</doc>
       <constructor name="new" c:identifier="gsk_shadow_node_new">
         <doc xml:space="preserve"
              filename="gsk/gskshadownode.c"
-             line="240">Creates a `GskRenderNode` that will draw a @child with the given
+             line="244">Creates a `GskRenderNode` that will draw a @child with the given
 @shadows below it.</doc>
         <source-position filename="gsk/gskshadownode.h" line="57"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gsk/gskshadownode.c"
-               line="249">A new `GskRenderNode`</doc>
+               line="253">A new `GskRenderNode`</doc>
           <type name="ShadowNode" c:type="GskRenderNode*"/>
         </return-value>
         <parameters>
           <parameter name="child" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="242">The node to draw</doc>
+                 line="246">The node to draw</doc>
             <type name="RenderNode" c:type="GskRenderNode*"/>
           </parameter>
           <parameter name="shadows" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="243">The shadows to apply</doc>
+                 line="247">The shadows to apply</doc>
             <array length="2" zero-terminated="0" c:type="const GskShadow*">
               <type name="Shadow" c:type="GskShadow"/>
             </array>
@@ -11467,7 +11467,7 @@ If the resulting reference count is zero, frees the builder.</doc>
           <parameter name="n_shadows" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="244">number of entries in the @shadows array</doc>
+                 line="248">number of entries in the @shadows array</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
@@ -11475,19 +11475,19 @@ If the resulting reference count is zero, frees the builder.</doc>
       <method name="get_child" c:identifier="gsk_shadow_node_get_child">
         <doc xml:space="preserve"
              filename="gsk/gskshadownode.c"
-             line="334">Retrieves the child `GskRenderNode` of the shadow @node.</doc>
+             line="338">Retrieves the child `GskRenderNode` of the shadow @node.</doc>
         <source-position filename="gsk/gskshadownode.h" line="61"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskshadownode.c"
-               line="340">the child render node</doc>
+               line="344">the child render node</doc>
           <type name="RenderNode" c:type="GskRenderNode*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="336">a shadow `GskRenderNode`</doc>
+                 line="340">a shadow `GskRenderNode`</doc>
             <type name="ShadowNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -11496,19 +11496,19 @@ If the resulting reference count is zero, frees the builder.</doc>
               c:identifier="gsk_shadow_node_get_n_shadows">
         <doc xml:space="preserve"
              filename="gsk/gskshadownode.c"
-             line="407">Retrieves the number of shadows in the @node.</doc>
+             line="411">Retrieves the number of shadows in the @node.</doc>
         <source-position filename="gsk/gskshadownode.h" line="66"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskshadownode.c"
-               line="413">the number of shadows.</doc>
+               line="417">the number of shadows.</doc>
           <type name="gsize" c:type="gsize"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="409">a shadow `GskRenderNode`</doc>
+                 line="413">a shadow `GskRenderNode`</doc>
             <type name="ShadowNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -11516,25 +11516,25 @@ If the resulting reference count is zero, frees the builder.</doc>
       <method name="get_shadow" c:identifier="gsk_shadow_node_get_shadow">
         <doc xml:space="preserve"
              filename="gsk/gskshadownode.c"
-             line="350">Retrieves the shadow data at the given index @i.</doc>
+             line="354">Retrieves the shadow data at the given index @i.</doc>
         <source-position filename="gsk/gskshadownode.h" line="63"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gskshadownode.c"
-               line="357">the shadow data</doc>
+               line="361">the shadow data</doc>
           <type name="Shadow" c:type="const GskShadow*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="352">a shadow `GskRenderNode`</doc>
+                 line="356">a shadow `GskRenderNode`</doc>
             <type name="ShadowNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
           <parameter name="i" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gskshadownode.c"
-                 line="353">the given index</doc>
+                 line="357">the given index</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
         </parameters>
