@@ -19668,11 +19668,11 @@ If none of these choices are appropriate, simply use
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="gtk/gtkexpression.c"
-           line="1777">A variant of `GtkClosureExpression` using a C closure.</doc>
+           line="1809">A variant of `GtkClosureExpression` using a C closure.</doc>
       <constructor name="new" c:identifier="gtk_cclosure_expression_new">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1803">Creates a `GtkExpression` that calls `callback_func` when it is evaluated.
+             line="1835">Creates a `GtkExpression` that calls `callback_func` when it is evaluated.
 
 This function is a variant of [ctor@Gtk.ClosureExpression.new] that
 creates a `GClosure` by calling g_cclosure_new() with the given
@@ -19681,14 +19681,14 @@ creates a `GClosure` by calling g_cclosure_new() with the given
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1819">a new `GtkExpression`</doc>
+               line="1851">a new `GtkExpression`</doc>
           <type name="CClosureExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <parameter name="value_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1805">the type of the value that this expression evaluates to</doc>
+                 line="1837">the type of the value that this expression evaluates to</doc>
             <type name="GType" c:type="GType"/>
           </parameter>
           <parameter name="marshal"
@@ -19698,19 +19698,19 @@ creates a `GClosure` by calling g_cclosure_new() with the given
                      scope="call">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1806">marshaller used for creating a closure</doc>
+                 line="1838">marshaller used for creating a closure</doc>
             <type name="GObject.ClosureMarshal" c:type="GClosureMarshal"/>
           </parameter>
           <parameter name="n_params" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1807">the number of params needed for evaluating @closure</doc>
+                 line="1839">the number of params needed for evaluating @closure</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="params" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1808">expressions for each parameter</doc>
+                 line="1840">expressions for each parameter</doc>
             <array length="2" zero-terminated="0" c:type="GtkExpression**">
               <type name="Expression" c:type="GtkExpression*"/>
             </array>
@@ -19722,7 +19722,7 @@ creates a `GClosure` by calling g_cclosure_new() with the given
                      destroy="6">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1809">callback used for creating a closure</doc>
+                 line="1841">callback used for creating a closure</doc>
             <type name="GObject.Callback" c:type="GCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -19731,7 +19731,7 @@ creates a `GClosure` by calling g_cclosure_new() with the given
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1810">user data used for creating a closure</doc>
+                 line="1842">user data used for creating a closure</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_destroy"
@@ -19741,7 +19741,7 @@ creates a `GClosure` by calling g_cclosure_new() with the given
                      scope="notified">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1811">destroy notify for @user_data</doc>
+                 line="1843">destroy notify for @user_data</doc>
             <type name="GObject.ClosureNotify" c:type="GClosureNotify"/>
           </parameter>
         </parameters>
@@ -33364,12 +33364,12 @@ property changes.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="gtk/gtkexpression.c"
-           line="1539">An expression using a custom `GClosure` to compute the value from
+           line="1571">An expression using a custom `GClosure` to compute the value from
 its parameters.</doc>
       <constructor name="new" c:identifier="gtk_closure_expression_new">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1730">Creates a `GtkExpression` that calls `closure` when it is evaluated.
+             line="1762">Creates a `GtkExpression` that calls `closure` when it is evaluated.
 
 `closure` is called with the `this` object and the results of evaluating
 the `params` expressions.</doc>
@@ -33377,26 +33377,26 @@ the `params` expressions.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1742">a new `GtkExpression`</doc>
+               line="1774">a new `GtkExpression`</doc>
           <type name="ClosureExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <parameter name="value_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1732">the type of the value that this expression evaluates to</doc>
+                 line="1764">the type of the value that this expression evaluates to</doc>
             <type name="GType" c:type="GType"/>
           </parameter>
           <parameter name="closure" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1733">closure to call when evaluating this expression. If closure is floating, it is adopted</doc>
+                 line="1765">closure to call when evaluating this expression. If closure is floating, it is adopted</doc>
             <type name="GObject.Closure" c:type="GClosure*"/>
           </parameter>
           <parameter name="n_params" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1734">the number of params needed for evaluating `closure`</doc>
+                 line="1766">the number of params needed for evaluating `closure`</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="params"
@@ -33405,7 +33405,7 @@ the `params` expressions.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1735">expressions for each parameter</doc>
+                 line="1767">expressions for each parameter</doc>
             <array length="2" zero-terminated="0" c:type="GtkExpression**">
               <type name="Expression" c:type="GtkExpression*"/>
             </array>
@@ -56742,7 +56742,7 @@ object:
       <method name="bind" c:identifier="gtk_expression_bind">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2494">Bind `target`'s property named `property` to `self`.
+             line="2539">Bind `target`'s property named `property` to `self`.
 
 The value that `self` evaluates to is set via `g_object_set()` on
 `target`. This is repeated whenever `self` changes to ensure that
@@ -56757,26 +56757,26 @@ to keep it around, you should [method@Gtk.Expression.ref] it beforehand.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2514">a `GtkExpressionWatch`</doc>
+               line="2559">a `GtkExpressionWatch`</doc>
           <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2496">a `GtkExpression`</doc>
+                 line="2541">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
           <parameter name="target" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2497">the target object to bind to</doc>
+                 line="2542">the target object to bind to</doc>
             <type name="GObject.Object" c:type="gpointer"/>
           </parameter>
           <parameter name="property" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2498">name of the property on `target` to bind to</doc>
+                 line="2543">name of the property on `target` to bind to</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="this_"
@@ -56785,7 +56785,7 @@ to keep it around, you should [method@Gtk.Expression.ref] it beforehand.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2499">the this argument for
+                 line="2544">the this argument for
   the evaluation of `self`</doc>
             <type name="GObject.Object" c:type="gpointer"/>
           </parameter>
@@ -56794,7 +56794,7 @@ to keep it around, you should [method@Gtk.Expression.ref] it beforehand.</doc>
       <method name="evaluate" c:identifier="gtk_expression_evaluate">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2131">Evaluates the given expression and on success stores the result
+             line="2163">Evaluates the given expression and on success stores the result
 in @value.
 
 The `GType` of `value` will be the type given by
@@ -56808,14 +56808,14 @@ will be returned.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2148">`TRUE` if the expression could be evaluated</doc>
+               line="2180">`TRUE` if the expression could be evaluated</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2133">a `GtkExpression`</doc>
+                 line="2165">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
           <parameter name="this_"
@@ -56824,13 +56824,13 @@ will be returned.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2134">the this argument for the evaluation</doc>
+                 line="2166">the this argument for the evaluation</doc>
             <type name="GObject.Object" c:type="gpointer"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2135">an empty `GValue`</doc>
+                 line="2167">an empty `GValue`</doc>
             <type name="GObject.Value" c:type="GValue*"/>
           </parameter>
         </parameters>
@@ -56839,7 +56839,7 @@ will be returned.</doc>
               c:identifier="gtk_expression_get_value_type">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2112">Gets the `GType` that this expression evaluates to.
+             line="2144">Gets the `GType` that this expression evaluates to.
 
 This type is constant and will not change over the lifetime
 of this expression.</doc>
@@ -56847,14 +56847,14 @@ of this expression.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2121">The type returned from [method@Gtk.Expression.evaluate]</doc>
+               line="2153">The type returned from [method@Gtk.Expression.evaluate]</doc>
           <type name="GType" c:type="GType"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2114">a `GtkExpression`</doc>
+                 line="2146">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -56862,7 +56862,7 @@ of this expression.</doc>
       <method name="is_static" c:identifier="gtk_expression_is_static">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2162">Checks if the expression is static.
+             line="2194">Checks if the expression is static.
 
 A static expression will never change its result when
 [method@Gtk.Expression.evaluate] is called on it with the same arguments.
@@ -56873,14 +56873,14 @@ it will never trigger a notify.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2174">`TRUE` if the expression is static</doc>
+               line="2206">`TRUE` if the expression is static</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2164">a `GtkExpression`</doc>
+                 line="2196">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -56888,19 +56888,19 @@ it will never trigger a notify.</doc>
       <method name="ref" c:identifier="gtk_expression_ref">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2076">Acquires a reference on the given `GtkExpression`.</doc>
+             line="2108">Acquires a reference on the given `GtkExpression`.</doc>
         <source-position filename="gtk/gtkexpression.h" line="49"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2082">the `GtkExpression` with an additional reference</doc>
+               line="2114">the `GtkExpression` with an additional reference</doc>
           <type name="Expression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2078">a `GtkExpression`</doc>
+                 line="2110">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -56908,7 +56908,7 @@ it will never trigger a notify.</doc>
       <method name="unref" c:identifier="gtk_expression_unref">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2094">Releases a reference on the given `GtkExpression`.
+             line="2126">Releases a reference on the given `GtkExpression`.
 
 If the reference was the last, the resources associated to the `self` are
 freed.</doc>
@@ -56920,7 +56920,7 @@ freed.</doc>
           <instance-parameter name="self" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2096">a `GtkExpression`</doc>
+                 line="2128">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -56928,7 +56928,7 @@ freed.</doc>
       <method name="watch" c:identifier="gtk_expression_watch">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2220">Watch the given `expression` for changes.
+             line="2253">Watch the given `expression` for changes.
 
 The @notify function will be called whenever the evaluation of `self`
 may have changed.
@@ -56940,7 +56940,7 @@ the @notify will be invoked.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2238">The newly installed watch. Note that the only
+               line="2271">The newly installed watch. Note that the only
   reference held to the watch will be released when the watch is unwatched
   which can happen automatically, and not just via
   [method@Gtk.ExpressionWatch.unwatch]. You should call [method@Gtk.ExpressionWatch.ref]
@@ -56951,7 +56951,7 @@ the @notify will be invoked.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2222">a `GtkExpression`</doc>
+                 line="2255">a `GtkExpression`</doc>
             <type name="Expression" c:type="GtkExpression*"/>
           </instance-parameter>
           <parameter name="this_"
@@ -56960,7 +56960,7 @@ the @notify will be invoked.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2223">the `this` argument to
+                 line="2256">the `this` argument to
   watch</doc>
             <type name="GObject.Object" c:type="gpointer"/>
           </parameter>
@@ -56971,7 +56971,7 @@ the @notify will be invoked.</doc>
                      destroy="3">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2225">callback to invoke when the expression changes</doc>
+                 line="2258">callback to invoke when the expression changes</doc>
             <type name="ExpressionNotify" c:type="GtkExpressionNotify"/>
           </parameter>
           <parameter name="user_data"
@@ -56980,7 +56980,7 @@ the @notify will be invoked.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2226">user data to pass to the `notify` callback</doc>
+                 line="2259">user data to pass to the `notify` callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_destroy"
@@ -56988,7 +56988,7 @@ the @notify will be invoked.</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2227">destroy notify for `user_data`</doc>
+                 line="2260">destroy notify for `user_data`</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -57032,7 +57032,7 @@ provided API.</doc>
       <method name="evaluate" c:identifier="gtk_expression_watch_evaluate">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2358">Evaluates the watched expression and on success stores the result
+             line="2403">Evaluates the watched expression and on success stores the result
 in `value`.
 
 This is equivalent to calling [method@Gtk.Expression.evaluate] with the
@@ -57041,20 +57041,20 @@ expression and this pointer originally used to create `watch`.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2369">`TRUE` if the expression could be evaluated and `value` was set</doc>
+               line="2414">`TRUE` if the expression could be evaluated and `value` was set</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="watch" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2360">a `GtkExpressionWatch`</doc>
+                 line="2405">a `GtkExpressionWatch`</doc>
             <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
           </instance-parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2361">an empty `GValue` to be set</doc>
+                 line="2406">an empty `GValue` to be set</doc>
             <type name="GObject.Value" c:type="GValue*"/>
           </parameter>
         </parameters>
@@ -57062,19 +57062,19 @@ expression and this pointer originally used to create `watch`.</doc>
       <method name="ref" c:identifier="gtk_expression_watch_ref">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2279">Acquires a reference on the given `GtkExpressionWatch`.</doc>
+             line="2312">Acquires a reference on the given `GtkExpressionWatch`.</doc>
         <source-position filename="gtk/gtkexpression.h" line="77"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2285">the `GtkExpressionWatch` with an additional reference</doc>
+               line="2318">the `GtkExpressionWatch` with an additional reference</doc>
           <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
         </return-value>
         <parameters>
           <instance-parameter name="watch" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2281">a `GtkExpressionWatch`</doc>
+                 line="2314">a `GtkExpressionWatch`</doc>
             <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
           </instance-parameter>
         </parameters>
@@ -57082,7 +57082,7 @@ expression and this pointer originally used to create `watch`.</doc>
       <method name="unref" c:identifier="gtk_expression_watch_unref">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2305">Releases a reference on the given `GtkExpressionWatch`.
+             line="2338">Releases a reference on the given `GtkExpressionWatch`.
 
 If the reference was the last, the resources associated to `self` are
 freed.</doc>
@@ -57094,7 +57094,7 @@ freed.</doc>
           <instance-parameter name="watch" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2307">a `GtkExpressionWatch`</doc>
+                 line="2340">a `GtkExpressionWatch`</doc>
             <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
           </instance-parameter>
         </parameters>
@@ -57102,7 +57102,7 @@ freed.</doc>
       <method name="unwatch" c:identifier="gtk_expression_watch_unwatch">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2320">Stops watching an expression.
+             line="2388">Stops watching an expression.
 
 See [method@Gtk.Expression.watch] for how the watch
 was established.</doc>
@@ -57114,7 +57114,7 @@ was established.</doc>
           <instance-parameter name="watch" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2322">watch to release</doc>
+                 line="2390">watch to release</doc>
             <type name="ExpressionWatch" c:type="GtkExpressionWatch*"/>
           </instance-parameter>
         </parameters>
@@ -103311,7 +103311,7 @@ numerically, such as %G_TYPE_INT or %G_TYPE_DOUBLE.</doc>
       <constructor name="new" c:identifier="gtk_object_expression_new">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1135">Creates an expression evaluating to the given `object` with a weak reference.
+             line="1167">Creates an expression evaluating to the given `object` with a weak reference.
 
 Once the `object` is disposed, it will fail to evaluate.
 
@@ -103322,14 +103322,14 @@ If you want to keep a reference to `object`, use [ctor@Gtk.ConstantExpression.ne
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1147">a new `GtkExpression`</doc>
+               line="1179">a new `GtkExpression`</doc>
           <type name="ObjectExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <parameter name="object" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1137">object to watch</doc>
+                 line="1169">object to watch</doc>
             <type name="GObject.Object" c:type="GObject*"/>
           </parameter>
         </parameters>
@@ -103338,19 +103338,19 @@ If you want to keep a reference to `object`, use [ctor@Gtk.ConstantExpression.ne
               c:identifier="gtk_object_expression_get_object">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1170">Gets the object that the expression evaluates to.</doc>
+             line="1202">Gets the object that the expression evaluates to.</doc>
         <source-position filename="gtk/gtkexpression.h" line="131"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1176">the object, or `NULL`</doc>
+               line="1208">the object, or `NULL`</doc>
           <type name="GObject.Object" c:type="GObject*"/>
         </return-value>
         <parameters>
           <instance-parameter name="expression" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1172">an object `GtkExpression`</doc>
+                 line="1204">an object `GtkExpression`</doc>
             <type name="ObjectExpression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -119651,11 +119651,11 @@ targeting other widgets.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="gtk/gtkexpression.c"
-           line="1199">A `GObject` property value in a `GtkExpression`.</doc>
+           line="1231">A `GObject` property value in a `GtkExpression`.</doc>
       <constructor name="new" c:identifier="gtk_property_expression_new">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1408">Creates an expression that looks up a property.
+             line="1440">Creates an expression that looks up a property.
 
 The object to use is found by evaluating the `expression`,
 or using the `this` argument when `expression` is `NULL`.
@@ -119669,14 +119669,14 @@ The given `this_type` must have a property with `property_name`.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1427">a new `GtkExpression`</doc>
+               line="1459">a new `GtkExpression`</doc>
           <type name="PropertyExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <parameter name="this_type" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1410">The type to expect for the this type</doc>
+                 line="1442">The type to expect for the this type</doc>
             <type name="GType" c:type="GType"/>
           </parameter>
           <parameter name="expression"
@@ -119685,7 +119685,7 @@ The given `this_type` must have a property with `property_name`.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1411">Expression to
+                 line="1443">Expression to
   evaluate to get the object to query or `NULL` to
   query the `this` object</doc>
             <type name="Expression" c:type="GtkExpression*"/>
@@ -119693,7 +119693,7 @@ The given `this_type` must have a property with `property_name`.</doc>
           <parameter name="property_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1414">name of the property</doc>
+                 line="1446">name of the property</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -119702,7 +119702,7 @@ The given `this_type` must have a property with `property_name`.</doc>
                    c:identifier="gtk_property_expression_new_for_pspec">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1463">Creates an expression that looks up a property.
+             line="1495">Creates an expression that looks up a property.
 
 The object to use is found by evaluating the `expression`,
 or using the `this` argument when `expression` is `NULL`.
@@ -119714,7 +119714,7 @@ Otherwise, this expression's evaluation will fail.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1479">a new `GtkExpression`</doc>
+               line="1511">a new `GtkExpression`</doc>
           <type name="PropertyExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
@@ -119724,7 +119724,7 @@ Otherwise, this expression's evaluation will fail.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1465">Expression to
+                 line="1497">Expression to
   evaluate to get the object to query or `NULL` to
   query the `this` object</doc>
             <type name="Expression" c:type="GtkExpression*"/>
@@ -119732,7 +119732,7 @@ Otherwise, this expression's evaluation will fail.</doc>
           <parameter name="pspec" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1468">the `GParamSpec` for the property to query</doc>
+                 line="1500">the `GParamSpec` for the property to query</doc>
             <type name="GObject.ParamSpec" c:type="GParamSpec*"/>
           </parameter>
         </parameters>
@@ -119741,20 +119741,20 @@ Otherwise, this expression's evaluation will fail.</doc>
               c:identifier="gtk_property_expression_get_expression">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1497">Gets the expression specifying the object of
+             line="1529">Gets the expression specifying the object of
 a property expression.</doc>
         <source-position filename="gtk/gtkexpression.h" line="102"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1504">the object expression</doc>
+               line="1536">the object expression</doc>
           <type name="Expression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <instance-parameter name="expression" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1499">a property `GtkExpression`</doc>
+                 line="1531">a property `GtkExpression`</doc>
             <type name="PropertyExpression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -119763,20 +119763,20 @@ a property expression.</doc>
               c:identifier="gtk_property_expression_get_pspec">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="1516">Gets the `GParamSpec` specifying the property of
+             line="1548">Gets the `GParamSpec` specifying the property of
 a property expression.</doc>
         <source-position filename="gtk/gtkexpression.h" line="104"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="1523">the `GParamSpec` for the property</doc>
+               line="1555">the `GParamSpec` for the property</doc>
           <type name="GObject.ParamSpec" c:type="GParamSpec*"/>
         </return-value>
         <parameters>
           <instance-parameter name="expression" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="1518">a property `GtkExpression`</doc>
+                 line="1550">a property `GtkExpression`</doc>
             <type name="PropertyExpression" c:type="GtkExpression*"/>
           </instance-parameter>
         </parameters>
@@ -142534,7 +142534,7 @@ SvgAnimations can be paused and started repeatedly.</doc>
       <method name="serialize" c:identifier="gtk_svg_serialize" version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvgserialize.c"
-             line="1311">Serializes the content of the renderer as SVG.
+             line="1312">Serializes the content of the renderer as SVG.
 
 The SVG will be similar to the orignally loaded one,
 but is not guaranteed to be 100% identical.
@@ -142546,14 +142546,14 @@ of applying animations.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvgserialize.c"
-               line="1324">the serialized contents</doc>
+               line="1325">the serialized contents</doc>
           <type name="GLib.Bytes" c:type="GBytes*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvgserialize.c"
-                 line="1313">an SVG paintable</doc>
+                 line="1314">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142778,25 +142778,25 @@ from CSS.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvgserialize.c"
-             line="1334">Serializes the paintable, and saves the result to a file.</doc>
+             line="1335">Serializes the paintable, and saves the result to a file.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="62"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvgserialize.c"
-               line="1342">true, unless an error occurred</doc>
+               line="1343">true, unless an error occurred</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvgserialize.c"
-                 line="1336">an SVG paintable</doc>
+                 line="1337">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="filename" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvgserialize.c"
-                 line="1337">the file to save to</doc>
+                 line="1338">the file to save to</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -175417,7 +175417,7 @@ has some similarity to strcmp() returning 0 for equal strings.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="gtk/gtkexpression.c"
-           line="1862">A `GtkExpression` that tries to evaluate each of its expressions until it succeeds.
+           line="1894">A `GtkExpression` that tries to evaluate each of its expressions until it succeeds.
 
 If all expressions fail to evaluate, the `GtkTryExpression`'s evaluation fails as well.</doc>
       <constructor name="new"
@@ -175425,7 +175425,7 @@ If all expressions fail to evaluate, the `GtkTryExpression`'s evaluation fails a
                    version="4.22">
         <doc xml:space="preserve"
              filename="gtk/gtkexpression.c"
-             line="2030">Creates a `GtkExpression` with an array of expressions.
+             line="2062">Creates a `GtkExpression` with an array of expressions.
 
 When evaluated, the `GtkTryExpression` tries to evaluate each of its expressions until it succeeds.
 If all expressions fail to evaluate, the `GtkTryExpression`'s evaluation fails as well.
@@ -175435,20 +175435,20 @@ The value type of the expressions in the array must match.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkexpression.c"
-               line="2042">a new `GtkExpression`</doc>
+               line="2074">a new `GtkExpression`</doc>
           <type name="TryExpression" c:type="GtkExpression*"/>
         </return-value>
         <parameters>
           <parameter name="n_expressions" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2032">The number of expressions</doc>
+                 line="2064">The number of expressions</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="expressions" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkexpression.c"
-                 line="2033">The array of expressions</doc>
+                 line="2065">The array of expressions</doc>
             <array length="0" zero-terminated="0" c:type="GtkExpression**">
               <type name="Expression" c:type="GtkExpression*"/>
             </array>

@@ -23489,7 +23489,7 @@ main context.</doc>
       <method name="add_poll" c:identifier="g_main_context_add_poll">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5063">Adds a file descriptor to the set of file descriptors polled for
+             line="5073">Adds a file descriptor to the set of file descriptors polled for
 this context.
 
 This will very seldom be used directly. Instead
@@ -23505,21 +23505,21 @@ a typical event source will use `g_source_add_unix_fd()` instead.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5065">a main context (or `NULL` for the global-default
+                 line="5075">a main context (or `NULL` for the global-default
   main context)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
           <parameter name="fd" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5067">a [struct@GLib.PollFD] structure holding information about a file
+                 line="5077">a [struct@GLib.PollFD] structure holding information about a file
   descriptor to watch.</doc>
             <type name="PollFD" c:type="GPollFD*"/>
           </parameter>
           <parameter name="priority" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5069">the priority for this file descriptor which should be
+                 line="5079">the priority for this file descriptor which should be
   the same as the priority used for [method@GLib.Source.attach] to ensure
   that the file descriptor is polled whenever the results may be needed.</doc>
             <type name="gint" c:type="gint"/>
@@ -23738,12 +23738,12 @@ one found will be returned.</doc>
               introspectable="0">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5324">Gets the poll function set by [method@GLib.MainContext.set_poll_func].</doc>
+             line="5334">Gets the poll function set by [method@GLib.MainContext.set_poll_func].</doc>
         <source-position filename="glib/gmain.h" line="557"/>
         <return-value>
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5331">the poll function</doc>
+               line="5341">the poll function</doc>
           <type name="PollFunc" c:type="GPollFunc"/>
         </return-value>
         <parameters>
@@ -23753,7 +23753,7 @@ one found will be returned.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5326">a main context (if `NULL`, the global-default
+                 line="5336">a main context (if `NULL`, the global-default
   main context will be used)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
@@ -23765,7 +23765,7 @@ one found will be returned.</doc>
               introspectable="0">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6891">Invokes a function in such a way that @context is owned during the
+             line="6901">Invokes a function in such a way that @context is owned during the
 invocation of @function.
 
 If @context is `NULL` then the global-default main context — as
@@ -23797,14 +23797,14 @@ will be continuously run in a loop (and may prevent this call from returning).</
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6893">a main context, or `NULL` for the global-default
+                 line="6903">a main context, or `NULL` for the global-default
   main context</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
           <parameter name="function" transfer-ownership="none" closure="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6895">function to call</doc>
+                 line="6905">function to call</doc>
             <type name="SourceFunc" c:type="GSourceFunc"/>
           </parameter>
           <parameter name="data"
@@ -23813,7 +23813,7 @@ will be continuously run in a loop (and may prevent this call from returning).</
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6896">data to pass to @function</doc>
+                 line="6906">data to pass to @function</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -23823,7 +23823,7 @@ will be continuously run in a loop (and may prevent this call from returning).</
               version="2.28">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6932">Invokes a function in such a way that @context is owned during the
+             line="6942">Invokes a function in such a way that @context is owned during the
 invocation of @function.
 
 This function is the same as [method@GLib.MainContext.invoke] except that it
@@ -23844,14 +23844,14 @@ thread or with any particular context acquired.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6934">a main context, or `NULL` for the global-default
+                 line="6944">a main context, or `NULL` for the global-default
   main context</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
           <parameter name="priority" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6936">the priority at which to run @function</doc>
+                 line="6946">the priority at which to run @function</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="function"
@@ -23861,7 +23861,7 @@ thread or with any particular context acquired.</doc>
                      destroy="3">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6937">function to call</doc>
+                 line="6947">function to call</doc>
             <type name="SourceFunc" c:type="GSourceFunc"/>
           </parameter>
           <parameter name="data"
@@ -23870,7 +23870,7 @@ thread or with any particular context acquired.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6938">data to pass to @function</doc>
+                 line="6948">data to pass to @function</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="notify"
@@ -23880,7 +23880,7 @@ thread or with any particular context acquired.</doc>
                      scope="async">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="6939">a function to call when @data is no longer in use</doc>
+                 line="6949">a function to call when @data is no longer in use</doc>
             <type name="DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -23890,7 +23890,7 @@ thread or with any particular context acquired.</doc>
               version="2.10">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5400">Determines whether this thread holds the (recursive)
+             line="5410">Determines whether this thread holds the (recursive)
 ownership of this [struct@GLib.MainContext].
 
 This is useful to
@@ -23900,7 +23900,7 @@ blocking to get ownership of @context.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5412">true if current thread is owner of @context, false otherwise</doc>
+               line="5422">true if current thread is owner of @context, false otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
@@ -23910,7 +23910,7 @@ blocking to get ownership of @context.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5402">a main context (if `NULL`, the global-default
+                 line="5412">a main context (if `NULL`, the global-default
   main context will be used)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
@@ -24287,7 +24287,7 @@ You must have successfully acquired the context with
       <method name="remove_poll" c:identifier="g_main_context_remove_poll">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5140">Removes file descriptor from the set of file descriptors to be
+             line="5150">Removes file descriptor from the set of file descriptors to be
 polled for a particular context.</doc>
         <source-position filename="glib/gmain.h" line="566"/>
         <return-value transfer-ownership="none">
@@ -24300,14 +24300,14 @@ polled for a particular context.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5142">a main context (if `NULL`, the global-default
+                 line="5152">a main context (if `NULL`, the global-default
   main context will be used)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
           <parameter name="fd" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5144">a [struct@GLib.PollFD] descriptor previously added with
+                 line="5154">a [struct@GLib.PollFD] descriptor previously added with
   [method@GLib.MainContext.add_poll]</doc>
             <type name="PollFD" c:type="GPollFD*"/>
           </parameter>
@@ -24318,7 +24318,7 @@ polled for a particular context.</doc>
               introspectable="0">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5290">Sets the function to use to handle polling of file descriptors.
+             line="5300">Sets the function to use to handle polling of file descriptors.
 
 It will be used instead of the [`poll()`](man:poll(2)) system call
 (or GLib’s replacement function, which is used where
@@ -24337,14 +24337,14 @@ loop with an external event loop.</doc>
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5292">a main context (if `NULL`, the global-default
+                 line="5302">a main context (if `NULL`, the global-default
   main context will be used)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
           <parameter name="func" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5294">the function to call to poll all file descriptors</doc>
+                 line="5304">the function to call to poll all file descriptors</doc>
             <type name="PollFunc" c:type="GPollFunc"/>
           </parameter>
         </parameters>
@@ -24418,7 +24418,7 @@ try again (once) to become the owner.</doc>
       <method name="wakeup" c:identifier="g_main_context_wakeup">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5350">Wake up @context if it’s currently blocking in
+             line="5360">Wake up @context if it’s currently blocking in
 [method@GLib.MainContext.iteration], causing it to stop blocking.
 
 The @context could be blocking waiting for a source to become ready.
@@ -24460,7 +24460,7 @@ Then in a thread:
                               allow-none="1">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5352">a main context (if `NULL`, the global-default
+                 line="5362">a main context (if `NULL`, the global-default
   main context will be used)</doc>
             <type name="MainContext" c:type="GMainContext*"/>
           </instance-parameter>
@@ -41759,7 +41759,7 @@ a different thread, then this function is not safe to call and
               deprecated-version="2.28">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5202">This function ignores @source and is otherwise the same as
+             line="5212">This function ignores @source and is otherwise the same as
 [func@GLib.get_current_time].</doc>
         <doc-deprecated xml:space="preserve">use [method@GLib.Source.get_time] instead</doc-deprecated>
         <source-position filename="glib/gmain.h" line="812"/>
@@ -41770,13 +41770,13 @@ a different thread, then this function is not safe to call and
           <instance-parameter name="source" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5204">a source</doc>
+                 line="5214">a source</doc>
             <type name="Source" c:type="GSource*"/>
           </instance-parameter>
           <parameter name="timeval" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5205">[struct@GLib.TimeVal] structure in which to store current time</doc>
+                 line="5215">[struct@GLib.TimeVal] structure in which to store current time</doc>
             <type name="TimeVal" c:type="GTimeVal*"/>
           </parameter>
         </parameters>
@@ -41922,7 +41922,7 @@ is an indication that the source will fire immediately.</doc>
       <method name="get_time" c:identifier="g_source_get_time" version="2.28">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5265">Gets the time to be used when checking this source.
+             line="5275">Gets the time to be used when checking this source.
 
 The advantage of
 calling this function over calling [func@GLib.get_monotonic_time] directly is
@@ -41935,14 +41935,14 @@ other reasonable alternative otherwise.  See [func@GLib.get_monotonic_time].</do
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5279">the monotonic time in microseconds</doc>
+               line="5289">the monotonic time in microseconds</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="source" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5267">a source</doc>
+                 line="5277">a source</doc>
             <type name="Source" c:type="GSource*"/>
           </instance-parameter>
         </parameters>
@@ -41952,7 +41952,7 @@ other reasonable alternative otherwise.  See [func@GLib.get_monotonic_time].</do
               version="2.90">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5221">Gets the time to be used when checking this source.
+             line="5231">Gets the time to be used when checking this source.
 
 The advantage of calling this function over calling
 [func@GLib.get_monotonic_time_ns] directly is
@@ -41965,14 +41965,14 @@ other reasonable alternative otherwise.  See [func@GLib.get_monotonic_time_ns].<
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5235">the monotonic time in nanoseconds</doc>
+               line="5245">the monotonic time in nanoseconds</doc>
           <type name="guint64" c:type="uint64_t"/>
         </return-value>
         <parameters>
           <instance-parameter name="source" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="glib/gmain.c"
-                 line="5223">a source</doc>
+                 line="5233">a source</doc>
             <type name="Source" c:type="GSource*"/>
           </instance-parameter>
         </parameters>
@@ -67152,7 +67152,7 @@ not supported.</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6629">Sets a function to be called when the child indicated by @pid
+           line="6639">Sets a function to be called when the child indicated by @pid
 exits, at a default priority, [const@GLib.PRIORITY_DEFAULT].
 
 If you obtain @pid from [func@GLib.spawn_async] or
@@ -67177,14 +67177,14 @@ need greater control.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6659">the ID (greater than 0) of the event source</doc>
+             line="6669">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="pid" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6631">process to watch — on POSIX systems, this is the positive PID of a
+               line="6641">process to watch — on POSIX systems, this is the positive PID of a
   child process; on Windows it is a handle for a process (which doesn’t have
   to be a child)</doc>
           <type name="Pid" c:type="GPid"/>
@@ -67192,7 +67192,7 @@ need greater control.</doc>
         <parameter name="function" transfer-ownership="none" closure="2">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6634">function to call</doc>
+               line="6644">function to call</doc>
           <type name="ChildWatchFunc" c:type="GChildWatchFunc"/>
         </parameter>
         <parameter name="data"
@@ -67201,7 +67201,7 @@ need greater control.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6635">data to pass to @function</doc>
+               line="6645">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -67212,7 +67212,7 @@ need greater control.</doc>
               version="2.4">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6561">Sets a function to be called when the child indicated by @pid
+           line="6571">Sets a function to be called when the child indicated by @pid
 exits, at the priority @priority.
 
 If you obtain @pid from [func@GLib.spawn_async] or
@@ -67241,14 +67241,14 @@ need greater control.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6599">the ID (greater than 0) of the event source</doc>
+             line="6609">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="priority" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6563">the priority of the idle source; typically this will be in the
+               line="6573">the priority of the idle source; typically this will be in the
   range between [const@GLib.PRIORITY_DEFAULT_IDLE] and
   [const@GLib.PRIORITY_HIGH_IDLE]</doc>
           <type name="gint" c:type="gint"/>
@@ -67256,7 +67256,7 @@ need greater control.</doc>
         <parameter name="pid" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6566">process to watch — on POSIX systems, this is the positive PID of a
+               line="6576">process to watch — on POSIX systems, this is the positive PID of a
   child process; on Windows it is a handle for a process (which doesn’t have
   to be a child)</doc>
           <type name="Pid" c:type="GPid"/>
@@ -67268,7 +67268,7 @@ need greater control.</doc>
                    destroy="4">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6569">function to call</doc>
+               line="6579">function to call</doc>
           <type name="ChildWatchFunc" c:type="GChildWatchFunc"/>
         </parameter>
         <parameter name="data"
@@ -67277,7 +67277,7 @@ need greater control.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6570">data to pass to @function</doc>
+               line="6580">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="notify"
@@ -67287,7 +67287,7 @@ need greater control.</doc>
                    scope="async">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6571">function to call when the idle is removed</doc>
+               line="6581">function to call when the idle is removed</doc>
           <type name="DestroyNotify" c:type="GDestroyNotify"/>
         </parameter>
       </parameters>
@@ -67297,7 +67297,7 @@ need greater control.</doc>
               version="2.4">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6445">Creates a new child watch source.
+           line="6455">Creates a new child watch source.
 
 The source will not initially be associated with any
 [struct@GLib.MainContext] and must be added to one with
@@ -67341,14 +67341,14 @@ remains a valid thing to do.</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6492">the newly-created child watch source</doc>
+             line="6502">the newly-created child watch source</doc>
         <type name="Source" c:type="GSource*"/>
       </return-value>
       <parameters>
         <parameter name="pid" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6447">process to watch — on POSIX systems, this is the positive PID of a
+               line="6457">process to watch — on POSIX systems, this is the positive PID of a
   child process; on Windows it is a handle for a process (which doesn’t have
   to be a child)</doc>
           <type name="Pid" c:type="GPid"/>
@@ -73991,7 +73991,7 @@ more convenient than the raw iconv wrappers.</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6820">Adds a function to be called whenever there are no higher priority
+           line="6830">Adds a function to be called whenever there are no higher priority
 events pending to the default main loop.
 
 The function is given the
@@ -74011,14 +74011,14 @@ need greater control or to use a custom main context.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6842">the ID (greater than 0) of the event source</doc>
+             line="6852">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="function" transfer-ownership="none" closure="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6822">function to call</doc>
+               line="6832">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -74027,7 +74027,7 @@ need greater control or to use a custom main context.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6823">data to pass to @function</doc>
+               line="6833">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -74037,7 +74037,7 @@ need greater control or to use a custom main context.</doc>
               shadows="idle_add">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6785">Adds a function to be called whenever there are no higher priority
+           line="6795">Adds a function to be called whenever there are no higher priority
 events pending.
 
 If the function returns [const@GLib.SOURCE_REMOVE] it is automatically
@@ -74055,14 +74055,14 @@ need greater control or to use a custom main context.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6809">the ID (greater than 0) of the event source</doc>
+             line="6819">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="priority" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6787">the priority of the idle source; typically this will be in the
+               line="6797">the priority of the idle source; typically this will be in the
   range between [const@GLib.PRIORITY_DEFAULT_IDLE] and
   [const@GLib.PRIORITY_HIGH_IDLE]</doc>
           <type name="gint" c:type="gint"/>
@@ -74074,7 +74074,7 @@ need greater control or to use a custom main context.</doc>
                    destroy="3">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6790">function to call</doc>
+               line="6800">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -74083,7 +74083,7 @@ need greater control or to use a custom main context.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6791">data to pass to @function</doc>
+               line="6801">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="notify"
@@ -74093,7 +74093,7 @@ need greater control or to use a custom main context.</doc>
                    scope="async">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6792">function to call when the idle is removed</doc>
+               line="6802">function to call when the idle is removed</doc>
           <type name="DestroyNotify" c:type="GDestroyNotify"/>
         </parameter>
       </parameters>
@@ -74104,7 +74104,7 @@ need greater control or to use a custom main context.</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6851">Adds a function to be called whenever there are no higher priority
+           line="6861">Adds a function to be called whenever there are no higher priority
 events pending to the default main loop.
 
 The function is given the
@@ -74118,14 +74118,14 @@ This function otherwise behaves like [func@GLib.idle_add].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6867">the ID (greater than 0) of the event source</doc>
+             line="6877">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="function" transfer-ownership="none" closure="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6853">function to call</doc>
+               line="6863">function to call</doc>
           <type name="SourceOnceFunc" c:type="GSourceOnceFunc"/>
         </parameter>
         <parameter name="data"
@@ -74134,7 +74134,7 @@ This function otherwise behaves like [func@GLib.idle_add].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6854">data to pass to @function</doc>
+               line="6864">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -74142,12 +74142,12 @@ This function otherwise behaves like [func@GLib.idle_add].</doc>
     <function name="idle_remove_by_data" c:identifier="g_idle_remove_by_data">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6877">Removes the idle function with the given data.</doc>
+           line="6887">Removes the idle function with the given data.</doc>
       <source-position filename="glib/gmain.h" line="993"/>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6883">true if an idle source was found and removed, false otherwise</doc>
+             line="6893">true if an idle source was found and removed, false otherwise</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
@@ -74157,7 +74157,7 @@ This function otherwise behaves like [func@GLib.idle_add].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="6879">the data for the idle source’s callback.</doc>
+               line="6889">the data for the idle source’s callback.</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -74165,7 +74165,7 @@ This function otherwise behaves like [func@GLib.idle_add].</doc>
     <function name="idle_source_new" c:identifier="g_idle_source_new">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="6738">Creates a new idle source.
+           line="6748">Creates a new idle source.
 
 The source will not initially be associated with any
 [struct@GLib.MainContext] and must be added to one with
@@ -74177,7 +74177,7 @@ compared to other sources which have a default priority of
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="6750">the newly-created idle source</doc>
+             line="6760">the newly-created idle source</doc>
         <type name="Source" c:type="GSource*"/>
       </return-value>
     </function>
@@ -88359,7 +88359,7 @@ g_date_time_unref (dt);
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5691">Sets a function to be called at regular intervals, with the default
+           line="5701">Sets a function to be called at regular intervals, with the default
 priority, [const@GLib.PRIORITY_DEFAULT].
 
 The given @function is called repeatedly until it returns
@@ -88396,20 +88396,20 @@ time. See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5731">the ID (greater than 0) of the event source</doc>
+             line="5741">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5693">the time between calls to the function, in milliseconds</doc>
+               line="5703">the time between calls to the function, in milliseconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function" transfer-ownership="none" closure="2">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5694">function to call</doc>
+               line="5704">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88418,7 +88418,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5695">data to pass to @function</doc>
+               line="5705">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -88428,7 +88428,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
               shadows="timeout_add">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5640">Sets a function to be called at regular intervals, with the given
+           line="5650">Sets a function to be called at regular intervals, with the given
 priority.
 
 The function is called repeatedly until it returns
@@ -88460,14 +88460,14 @@ See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5679">the ID (greater than 0) of the event source</doc>
+             line="5689">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="priority" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5642">the priority of the timeout source; typically this will be in
+               line="5652">the priority of the timeout source; typically this will be in
   the range between [const@GLib.PRIORITY_DEFAULT] and
   [const@GLib.PRIORITY_HIGH]</doc>
           <type name="gint" c:type="gint"/>
@@ -88475,7 +88475,7 @@ See [func@GLib.get_monotonic_time].</doc>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5645">the time between calls to the function, in milliseconds</doc>
+               line="5655">the time between calls to the function, in milliseconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function"
@@ -88485,7 +88485,7 @@ See [func@GLib.get_monotonic_time].</doc>
                    destroy="4">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5646">function to call</doc>
+               line="5656">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88494,7 +88494,7 @@ See [func@GLib.get_monotonic_time].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5647">data to pass to @function</doc>
+               line="5657">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="notify"
@@ -88504,7 +88504,7 @@ See [func@GLib.get_monotonic_time].</doc>
                    scope="async">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5648">function to call when the timeout is removed</doc>
+               line="5658">function to call when the timeout is removed</doc>
           <type name="DestroyNotify" c:type="GDestroyNotify"/>
         </parameter>
       </parameters>
@@ -88515,7 +88515,7 @@ See [func@GLib.get_monotonic_time].</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5742">Sets a function to be called after @interval milliseconds have elapsed,
+           line="5752">Sets a function to be called after @interval milliseconds have elapsed,
 with the default priority, [const@GLib.PRIORITY_DEFAULT].
 
 The given @function is called once and then the source will be automatically
@@ -88526,20 +88526,20 @@ This function otherwise behaves like [func@GLib.timeout_add].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5756">the ID (greater than 0) of the event source</doc>
+             line="5766">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5744">the time after which the function will be called, in milliseconds</doc>
+               line="5754">the time after which the function will be called, in milliseconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function" transfer-ownership="none" closure="2">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5745">function to call</doc>
+               line="5755">function to call</doc>
           <type name="SourceOnceFunc" c:type="GSourceOnceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88548,7 +88548,7 @@ This function otherwise behaves like [func@GLib.timeout_add].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5746">data to pass to @function</doc>
+               line="5756">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -88560,7 +88560,7 @@ This function otherwise behaves like [func@GLib.timeout_add].</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5831">Sets a function to be called at regular intervals with the default
+           line="5841">Sets a function to be called at regular intervals with the default
 priority, [const@GLib.PRIORITY_DEFAULT].
 
 The function is called repeatedly until it returns [const@GLib.SOURCE_REMOVE],
@@ -88587,20 +88587,20 @@ time. See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5861">the ID (greater than 0) of the event source</doc>
+             line="5871">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5833">the time between calls to the function, in seconds</doc>
+               line="5843">the time between calls to the function, in seconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function" transfer-ownership="none" closure="2">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5834">function to call</doc>
+               line="5844">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88609,7 +88609,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5835">data to pass to @function</doc>
+               line="5845">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -88620,7 +88620,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
               version="2.14">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5767">Sets a function to be called at regular intervals, with @priority.
+           line="5777">Sets a function to be called at regular intervals, with @priority.
 
 The function is called repeatedly until it returns [const@GLib.SOURCE_REMOVE],
 at which point the timeout is automatically destroyed and
@@ -88664,14 +88664,14 @@ time. See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5818">the ID (greater than 0) of the event source</doc>
+             line="5828">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="priority" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5769">the priority of the timeout source; typically this will be in
+               line="5779">the priority of the timeout source; typically this will be in
   the range between [const@GLib.PRIORITY_DEFAULT] and
   [const@GLib.PRIORITY_HIGH]</doc>
           <type name="gint" c:type="gint"/>
@@ -88679,7 +88679,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5772">the time between calls to the function, in seconds</doc>
+               line="5782">the time between calls to the function, in seconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function"
@@ -88689,7 +88689,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
                    destroy="4">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5773">function to call</doc>
+               line="5783">function to call</doc>
           <type name="SourceFunc" c:type="GSourceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88698,7 +88698,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5774">data to pass to @function</doc>
+               line="5784">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="notify"
@@ -88708,7 +88708,7 @@ time. See [func@GLib.get_monotonic_time].</doc>
                    scope="async">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5775">function to call when the timeout is removed</doc>
+               line="5785">function to call when the timeout is removed</doc>
           <type name="DestroyNotify" c:type="GDestroyNotify"/>
         </parameter>
       </parameters>
@@ -88719,26 +88719,26 @@ time. See [func@GLib.get_monotonic_time].</doc>
               introspectable="0">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5874">This function behaves like [func@GLib.timeout_add_once] but with a range in
+           line="5884">This function behaves like [func@GLib.timeout_add_once] but with a range in
 seconds.</doc>
       <source-position filename="glib/gmain.h" line="968"/>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5883">the ID (greater than 0) of the event source</doc>
+             line="5893">the ID (greater than 0) of the event source</doc>
         <type name="guint" c:type="guint"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5876">the time after which the function will be called, in seconds</doc>
+               line="5886">the time after which the function will be called, in seconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
         <parameter name="function" transfer-ownership="none" closure="2">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5877">function to call</doc>
+               line="5887">function to call</doc>
           <type name="SourceOnceFunc" c:type="GSourceOnceFunc"/>
         </parameter>
         <parameter name="data"
@@ -88747,7 +88747,7 @@ seconds.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5878">data to pass to @function</doc>
+               line="5888">data to pass to @function</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -88755,7 +88755,7 @@ seconds.</doc>
     <function name="timeout_source_new" c:identifier="g_timeout_source_new">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5543">Creates a new timeout source.
+           line="5553">Creates a new timeout source.
 
 The source will not initially be associated with any [struct@GLib.MainContext]
 and must be added to one with [method@GLib.Source.attach] before it will be
@@ -88767,14 +88767,14 @@ time.  See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5556">the newly-created timeout source</doc>
+             line="5566">the newly-created timeout source</doc>
         <type name="Source" c:type="GSource*"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5545">the timeout interval in milliseconds</doc>
+               line="5555">the timeout interval in milliseconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
       </parameters>
@@ -88784,7 +88784,7 @@ time.  See [func@GLib.get_monotonic_time].</doc>
               version="2.90">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5564">Creates a new timeout source.
+           line="5574">Creates a new timeout source.
 
 The source will not initially be associated with any [struct@GLib.MainContext]
 and must be added to one with [method@GLib.Source.attach] before it will be
@@ -88796,14 +88796,14 @@ time.  See [func@GLib.get_monotonic_time_ns].</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5577">the newly-created timeout source</doc>
+             line="5587">the newly-created timeout source</doc>
         <type name="Source" c:type="GSource*"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5566">the timeout interval in nanoseconds</doc>
+               line="5576">the timeout interval in nanoseconds</doc>
           <type name="guint64" c:type="uint64_t"/>
         </parameter>
       </parameters>
@@ -88813,7 +88813,7 @@ time.  See [func@GLib.get_monotonic_time_ns].</doc>
               version="2.14">
       <doc xml:space="preserve"
            filename="glib/gmain.c"
-           line="5586">Creates a new timeout source.
+           line="5596">Creates a new timeout source.
 
 The source will not initially be associated with any
 [struct@GLib.MainContext] and must be added to one with
@@ -88828,14 +88828,14 @@ See [func@GLib.get_monotonic_time].</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve"
              filename="glib/gmain.c"
-             line="5602">the newly-created timeout source</doc>
+             line="5612">the newly-created timeout source</doc>
         <type name="Source" c:type="GSource*"/>
       </return-value>
       <parameters>
         <parameter name="interval" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gmain.c"
-               line="5588">the timeout interval in seconds</doc>
+               line="5598">the timeout interval in seconds</doc>
           <type name="guint" c:type="guint"/>
         </parameter>
       </parameters>
