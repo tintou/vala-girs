@@ -12533,7 +12533,7 @@ if the render node was created for a non-sRGB color.</doc>
       <constructor name="new" c:identifier="gsk_texture_node_new">
         <doc xml:space="preserve"
              filename="gsk/gsktexturenode.c"
-             line="262">Creates a `GskRenderNode` that will render the given
+             line="273">Creates a `GskRenderNode` that will render the given
 @texture into the area given by @bounds.
 
 Note that GSK applies linear filtering when textures are
@@ -12543,20 +12543,20 @@ for a way to influence filtering.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gsk/gsktexturenode.c"
-               line="274">A new `GskRenderNode`</doc>
+               line="285">A new `GskRenderNode`</doc>
           <type name="TextureNode" c:type="GskRenderNode*"/>
         </return-value>
         <parameters>
           <parameter name="texture" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gsktexturenode.c"
-                 line="264">the `GdkTexture`</doc>
+                 line="275">the `GdkTexture`</doc>
             <type name="Gdk.Texture" c:type="GdkTexture*"/>
           </parameter>
           <parameter name="bounds" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gsktexturenode.c"
-                 line="265">the rectangle to render the texture into</doc>
+                 line="276">the rectangle to render the texture into</doc>
             <type name="Graphene.Rect" c:type="const graphene_rect_t*"/>
           </parameter>
         </parameters>
@@ -12566,19 +12566,19 @@ for a way to influence filtering.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gsk/gsktexturenode.c"
-             line="326">Retrieves the snap value for this node</doc>
+             line="337">Retrieves the snap value for this node</doc>
         <source-position filename="gsk/gsktexturenode.h" line="41"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gsktexturenode.c"
-               line="332">the snap value</doc>
+               line="343">the snap value</doc>
           <type name="RectSnap" c:type="GskRectSnap"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gsktexturenode.c"
-                 line="328">a `GskRenderNode` for textures</doc>
+                 line="339">a `GskRenderNode` for textures</doc>
             <type name="TextureNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>
@@ -12586,19 +12586,19 @@ for a way to influence filtering.</doc>
       <method name="get_texture" c:identifier="gsk_texture_node_get_texture">
         <doc xml:space="preserve"
              filename="gsk/gsktexturenode.c"
-             line="246">Retrieves the `GdkTexture` used when creating this `GskRenderNode`.</doc>
+             line="257">Retrieves the `GdkTexture` used when creating this `GskRenderNode`.</doc>
         <source-position filename="gsk/gsktexturenode.h" line="39"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gsk/gsktexturenode.c"
-               line="252">the `GdkTexture`</doc>
+               line="263">the `GdkTexture`</doc>
           <type name="Gdk.Texture" c:type="GdkTexture*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gsk/gsktexturenode.c"
-                 line="248">a `GskRenderNode` of type %GSK_TEXTURE_NODE</doc>
+                 line="259">a `GskRenderNode` of type %GSK_TEXTURE_NODE</doc>
             <type name="TextureNode" c:type="const GskRenderNode*"/>
           </instance-parameter>
         </parameters>

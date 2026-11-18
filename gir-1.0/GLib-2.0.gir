@@ -82929,7 +82929,7 @@ are different concepts on Windows.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="475">Executes a child program asynchronously.
+           line="478">Executes a child program asynchronously.
 
 Identical to g_spawn_async_with_pipes_and_fds() but with `n_fds` set to zero,
 so no FD assignments are used.</doc>
@@ -82937,7 +82937,7 @@ so no FD assignments are used.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="496">%TRUE on success, %FALSE if an error was set</doc>
+             line="499">%TRUE on success, %FALSE if an error was set</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
@@ -82947,13 +82947,13 @@ so no FD assignments are used.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="477">child's current working directory, or %NULL to inherit parent's, in the GLib file name encoding</doc>
+               line="480">child's current working directory, or %NULL to inherit parent's, in the GLib file name encoding</doc>
           <type name="filename" c:type="const gchar*"/>
         </parameter>
         <parameter name="argv" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="478">child's argument vector, in the GLib file name encoding;
+               line="481">child's argument vector, in the GLib file name encoding;
   it must be non-empty and %NULL-terminated</doc>
           <array c:type="gchar**">
             <type name="utf8" c:type="gchar*"/>
@@ -82965,7 +82965,7 @@ so no FD assignments are used.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="480">child's environment, or %NULL to inherit parent's, in the GLib file name encoding</doc>
+               line="483">child's environment, or %NULL to inherit parent's, in the GLib file name encoding</doc>
           <array c:type="gchar**">
             <type name="utf8" c:type="gchar*"/>
           </array>
@@ -82973,7 +82973,7 @@ so no FD assignments are used.</doc>
         <parameter name="flags" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="481">flags from #GSpawnFlags</doc>
+               line="484">flags from #GSpawnFlags</doc>
           <type name="SpawnFlags" c:type="GSpawnFlags"/>
         </parameter>
         <parameter name="child_setup"
@@ -82984,7 +82984,7 @@ so no FD assignments are used.</doc>
                    closure="5">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="482">function to run
+               line="485">function to run
   in the child just before `exec()`</doc>
           <type name="SpawnChildSetupFunc" c:type="GSpawnChildSetupFunc"/>
         </parameter>
@@ -82994,7 +82994,7 @@ so no FD assignments are used.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="484">user data for @child_setup</doc>
+               line="487">user data for @child_setup</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="child_pid"
@@ -83005,25 +83005,25 @@ so no FD assignments are used.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="485">return location for child process ID, or %NULL</doc>
+               line="488">return location for child process ID, or %NULL</doc>
           <type name="Pid" c:type="GPid*"/>
         </parameter>
         <parameter name="stdin_fd" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="486">file descriptor to use for child's stdin, or `-1`</doc>
+               line="489">file descriptor to use for child's stdin, or `-1`</doc>
           <type name="gint" c:type="gint"/>
         </parameter>
         <parameter name="stdout_fd" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="487">file descriptor to use for child's stdout, or `-1`</doc>
+               line="490">file descriptor to use for child's stdout, or `-1`</doc>
           <type name="gint" c:type="gint"/>
         </parameter>
         <parameter name="stderr_fd" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="488">file descriptor to use for child's stderr, or `-1`</doc>
+               line="491">file descriptor to use for child's stderr, or `-1`</doc>
           <type name="gint" c:type="gint"/>
         </parameter>
       </parameters>
@@ -83336,13 +83336,16 @@ This optimized codepath will be used provided that the following conditions
 are met:
 
 1. %G_SPAWN_DO_NOT_REAP_CHILD is set
-2. %G_SPAWN_LEAVE_DESCRIPTORS_OPEN is set
+2. %G_SPAWN_LEAVE_DESCRIPTORS_OPEN is set, or we can use
+   `posix_spawn_file_actions_addclosefrom_np()` and there are no FD mappings
 3. %G_SPAWN_SEARCH_PATH_FROM_ENVP is not set
 4. @working_directory is %NULL
 5. @child_setup is %NULL
 6. The program is of a recognised binary format, or has a shebang.
    Otherwise, GLib will have to execute the program through the
    shell, which is not done using the optimized codepath.
+7. `PATH` is set in the parent's environment if we're using
+   %G_SPAWN_SEARCH_PATH and the program name has no slash.
 
 If you are writing a GTK application, and the program you are spawning is a
 graphical application too, then to ensure that the spawned program opens its
@@ -83352,7 +83355,7 @@ windows on the right screen, you may want to use #GdkAppLaunchContext,
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="431">%TRUE on success, %FALSE if an error was set</doc>
+             line="434">%TRUE on success, %FALSE if an error was set</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
@@ -83517,7 +83520,7 @@ windows on the right screen, you may want to use #GdkAppLaunchContext,
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="713">An old name for g_spawn_check_wait_status(), deprecated because its
+           line="716">An old name for g_spawn_check_wait_status(), deprecated because its
 name is misleading.
 
 Despite the name of the function, @wait_status must be the wait status
@@ -83530,7 +83533,7 @@ as passed to `exit()` or returned by g_subprocess_get_exit_status() or
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="727">%TRUE if child exited successfully, %FALSE otherwise (and
+             line="730">%TRUE if child exited successfully, %FALSE otherwise (and
     @error will be set)</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
@@ -83538,7 +83541,7 @@ as passed to `exit()` or returned by g_subprocess_get_exit_status() or
         <parameter name="wait_status" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="715">A status as returned from g_spawn_sync()</doc>
+               line="718">A status as returned from g_spawn_sync()</doc>
           <type name="gint" c:type="gint"/>
         </parameter>
       </parameters>
@@ -83549,7 +83552,7 @@ as passed to `exit()` or returned by g_subprocess_get_exit_status() or
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="656">Set @error if @wait_status indicates the child exited abnormally
+           line="659">Set @error if @wait_status indicates the child exited abnormally
 (e.g. with a nonzero exit code, or via a fatal signal).
 
 The g_spawn_sync() and g_child_watch_add() family of APIs return the
@@ -83592,7 +83595,7 @@ functionality, although under a misleading name.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="701">%TRUE if child exited successfully, %FALSE otherwise (and
+             line="704">%TRUE if child exited successfully, %FALSE otherwise (and
   @error will be set)</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
@@ -83600,7 +83603,7 @@ functionality, although under a misleading name.</doc>
         <parameter name="wait_status" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="658">A platform-specific wait status as returned from g_spawn_sync()</doc>
+               line="661">A platform-specific wait status as returned from g_spawn_sync()</doc>
           <type name="gint" c:type="gint"/>
         </parameter>
       </parameters>
@@ -83608,7 +83611,7 @@ functionality, although under a misleading name.</doc>
     <function name="spawn_close_pid" c:identifier="g_spawn_close_pid">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="741">On some platforms, notably Windows, the #GPid type represents a resource
+           line="744">On some platforms, notably Windows, the #GPid type represents a resource
 which must be closed to prevent resource leaking. g_spawn_close_pid()
 is provided for this purpose. It should be used on all platforms, even
 though it doesn't do anything under UNIX.</doc>
@@ -83620,7 +83623,7 @@ though it doesn't do anything under UNIX.</doc>
         <parameter name="pid" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="743">The process reference to close</doc>
+               line="746">The process reference to close</doc>
           <type name="Pid" c:type="GPid"/>
         </parameter>
       </parameters>
@@ -83630,7 +83633,7 @@ though it doesn't do anything under UNIX.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="607">A simple version of g_spawn_async() that parses a command line with
+           line="610">A simple version of g_spawn_async() that parses a command line with
 g_shell_parse_argv() and passes it to g_spawn_async().
 
 Filenames and potentially untrusted input in @command_line should be quoted
@@ -83647,14 +83650,14 @@ The same concerns on Windows apply as for g_spawn_command_line_sync().</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="626">%TRUE on success, %FALSE if error is set</doc>
+             line="629">%TRUE on success, %FALSE if error is set</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="command_line" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="609">a command line</doc>
+               line="612">a command line</doc>
           <type name="filename" c:type="const gchar*"/>
         </parameter>
       </parameters>
@@ -83664,7 +83667,7 @@ The same concerns on Windows apply as for g_spawn_command_line_sync().</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="glib/gspawn.c"
-           line="532">A simple version of g_spawn_sync() with little-used parameters
+           line="535">A simple version of g_spawn_sync() with little-used parameters
 removed, taking a command line instead of an argument vector.
 
 See g_spawn_sync() for full details.
@@ -83699,14 +83702,14 @@ separator. You need to enclose such paths with single quotes, like
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="glib/gspawn.c"
-             line="572">%TRUE on success, %FALSE if an error was set</doc>
+             line="575">%TRUE on success, %FALSE if an error was set</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
       <parameters>
         <parameter name="command_line" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="534">a command line</doc>
+               line="537">a command line</doc>
           <type name="filename" c:type="const gchar*"/>
         </parameter>
         <parameter name="standard_output"
@@ -83717,7 +83720,7 @@ separator. You need to enclose such paths with single quotes, like
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="535">return location for child output</doc>
+               line="538">return location for child output</doc>
           <array c:type="gchar**">
             <type name="guint8"/>
           </array>
@@ -83730,7 +83733,7 @@ separator. You need to enclose such paths with single quotes, like
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="536">return location for child errors</doc>
+               line="539">return location for child errors</doc>
           <array c:type="gchar**">
             <type name="guint8"/>
           </array>
@@ -83743,7 +83746,7 @@ separator. You need to enclose such paths with single quotes, like
                    allow-none="1">
           <doc xml:space="preserve"
                filename="glib/gspawn.c"
-               line="537">return location for child wait status, as returned by waitpid()</doc>
+               line="540">return location for child wait status, as returned by waitpid()</doc>
           <type name="gint" c:type="gint*"/>
         </parameter>
       </parameters>

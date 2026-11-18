@@ -33682,7 +33682,7 @@ For more flexible download capabilities, see
               version="4.10">
         <doc xml:space="preserve"
              filename="gdk/gdktexture.c"
-             line="1041">Gets the memory format most closely associated with the data of
+             line="1043">Gets the memory format most closely associated with the data of
 the texture.
 
 Note that it may not be an exact match for texture data
@@ -33695,14 +33695,14 @@ downloading the texture.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gdk/gdktexture.c"
-               line="1055">the preferred format for the texture's data</doc>
+               line="1057">the preferred format for the texture's data</doc>
           <type name="MemoryFormat" c:type="GdkMemoryFormat"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1043">a GdkTexture</doc>
+                 line="1045">a GdkTexture</doc>
             <type name="Texture" c:type="GdkTexture*"/>
           </instance-parameter>
         </parameters>
@@ -33754,7 +33754,7 @@ downloading the texture.</doc>
       <method name="save_to_png" c:identifier="gdk_texture_save_to_png">
         <doc xml:space="preserve"
              filename="gdk/gdktexture.c"
-             line="1120">Store the given @texture to the @filename as a PNG file.
+             line="1122">Store the given @texture to the @filename as a PNG file.
 
 This is a utility function intended for debugging and testing.
 If you want more control over formats, proper error handling or
@@ -33765,20 +33765,20 @@ the libglycin library.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gdk/gdktexture.c"
-               line="1133">%TRUE if saving succeeded, %FALSE on failure.</doc>
+               line="1135">%TRUE if saving succeeded, %FALSE on failure.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="texture" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1122">a `GdkTexture`</doc>
+                 line="1124">a `GdkTexture`</doc>
             <type name="Texture" c:type="GdkTexture*"/>
           </instance-parameter>
           <parameter name="filename" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1123">the filename to store to</doc>
+                 line="1125">the filename to store to</doc>
             <type name="filename" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -33788,7 +33788,7 @@ the libglycin library.</doc>
               version="4.6">
         <doc xml:space="preserve"
              filename="gdk/gdktexture.c"
-             line="1155">Store the given @texture in memory as a PNG file.
+             line="1157">Store the given @texture in memory as a PNG file.
 
 Use [ctor@Gdk.Texture.new_from_bytes] to read it back.
 
@@ -33806,14 +33806,14 @@ instead.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gdk/gdktexture.c"
-               line="1174">a newly allocated `GBytes` containing PNG data</doc>
+               line="1176">a newly allocated `GBytes` containing PNG data</doc>
           <type name="GLib.Bytes" c:type="GBytes*"/>
         </return-value>
         <parameters>
           <instance-parameter name="texture" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1157">a `GdkTexture`</doc>
+                 line="1159">a `GdkTexture`</doc>
             <type name="Texture" c:type="GdkTexture*"/>
           </instance-parameter>
         </parameters>
@@ -33823,27 +33823,27 @@ instead.</doc>
               version="4.6">
         <doc xml:space="preserve"
              filename="gdk/gdktexture.c"
-             line="1186">Store the given @texture to the @filename as a TIFF file.
+             line="1188">Store the given @texture to the @filename as a TIFF file.
 
 GTK will attempt to store data without loss.</doc>
         <source-position filename="gdk/gdktexture.h" line="94"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gdk/gdktexture.c"
-               line="1194">%TRUE if saving succeeded, %FALSE on failure.</doc>
+               line="1196">%TRUE if saving succeeded, %FALSE on failure.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="texture" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1188">a `GdkTexture`</doc>
+                 line="1190">a `GdkTexture`</doc>
             <type name="Texture" c:type="GdkTexture*"/>
           </instance-parameter>
           <parameter name="filename" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1189">the filename to store to</doc>
+                 line="1191">the filename to store to</doc>
             <type name="filename" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -33853,7 +33853,7 @@ GTK will attempt to store data without loss.</doc>
               version="4.6">
         <doc xml:space="preserve"
              filename="gdk/gdktexture.c"
-             line="1218">Store the given @texture in memory as a TIFF file.
+             line="1220">Store the given @texture in memory as a TIFF file.
 
 Use [ctor@Gdk.Texture.new_from_bytes] to read it back.
 
@@ -33869,14 +33869,14 @@ use [method@Gdk.Texture.save_to_png_bytes].</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gdk/gdktexture.c"
-               line="1235">a newly allocated `GBytes` containing TIFF data</doc>
+               line="1237">a newly allocated `GBytes` containing TIFF data</doc>
           <type name="GLib.Bytes" c:type="GBytes*"/>
         </return-value>
         <parameters>
           <instance-parameter name="texture" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gdk/gdktexture.c"
-                 line="1220">a `GdkTexture`</doc>
+                 line="1222">a `GdkTexture`</doc>
             <type name="Texture" c:type="GdkTexture*"/>
           </instance-parameter>
         </parameters>

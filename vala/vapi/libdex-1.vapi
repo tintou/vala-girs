@@ -110,6 +110,40 @@ namespace Dex {
 		protected Fiber ();
 		[Version (since = "1.2")]
 		public static bool @yield () throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_boolean (bool value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_boxed (GLib.Type expected_type, void* value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_double (double value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_enum (GLib.Type expected_type, int value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_fd (int value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_flags (GLib.Type expected_type, uint value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_float (float value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_future (Dex.Future? value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_int (int value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_int64 (int64 value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_object (GLib.Object? value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_pointer (void* value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_string (string? value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_uint (uint value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_uint64 (uint64 value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_value (GLib.Value value) throws GLib.Error;
+		[Version (since = "1.3")]
+		public static bool yield_variant (GLib.Variant? value) throws GLib.Error;
 	}
 	[CCode (cheader_filename = "libdex.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "dex_file_info_list_get_type ()")]
 	[Compact]
@@ -267,6 +301,37 @@ namespace Dex {
 		public unowned Dex.Future get_future_at (uint position);
 		public uint get_size ();
 		public unowned GLib.Value? get_value_at (uint position) throws GLib.Error;
+	}
+	[CCode (cheader_filename = "libdex.h", type_id = "dex_generator_get_type ()")]
+	[Version (since = "1.3")]
+	public sealed class Generator : Dex.Object {
+		[CCode (has_construct_function = false)]
+		public Generator (owned Dex.GeneratorFunc producer);
+		public bool await_next (out GLib.Value value) throws GLib.Error;
+		public bool await_next_boolean (out bool value) throws GLib.Error;
+		public bool await_next_boxed (GLib.Type expected_type, out void* value) throws GLib.Error;
+		public bool await_next_double (out double value) throws GLib.Error;
+		public bool await_next_enum (GLib.Type expected_type, out int value) throws GLib.Error;
+		public bool await_next_fd (out int value) throws GLib.Error;
+		public bool await_next_flags (GLib.Type expected_type, out uint value) throws GLib.Error;
+		public bool await_next_float (out float value) throws GLib.Error;
+		public bool await_next_future (out Dex.Future? value) throws GLib.Error;
+		public bool await_next_int (out int value) throws GLib.Error;
+		public bool await_next_int64 (out int64 value) throws GLib.Error;
+		public bool await_next_object (out GLib.Object? value) throws GLib.Error;
+		public bool await_next_pointer (out void* value) throws GLib.Error;
+		public bool await_next_string (out string? value) throws GLib.Error;
+		public bool await_next_uint (out uint value) throws GLib.Error;
+		public bool await_next_uint64 (out uint64 value) throws GLib.Error;
+		public bool await_next_variant (out GLib.Variant? value) throws GLib.Error;
+		public void close ();
+		public Dex.Future close_after_drain ();
+		[CCode (has_construct_function = false)]
+		public Generator.coroutine (Dex.Scheduler? scheduler, owned Dex.CoroutineFunc func);
+		[CCode (has_construct_function = false)]
+		public Generator.fiber (Dex.Scheduler? scheduler, size_t stack_size, owned Dex.FiberFunc func);
+		public bool is_exhausted ();
+		public Dex.Future? next ();
 	}
 	[CCode (cheader_filename = "libdex.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "dex_graph_builder_get_type ()")]
 	[Compact]
@@ -502,6 +567,9 @@ namespace Dex {
 	public delegate Dex.Future? FiberFunc ();
 	[CCode (cheader_filename = "libdex.h", instance_pos = 1.9)]
 	public delegate Dex.Future? FutureCallback (Dex.Future future);
+	[CCode (cheader_filename = "libdex.h", instance_pos = 0.9)]
+	[Version (since = "1.3")]
+	public delegate Dex.Future? GeneratorFunc ();
 	[CCode (cheader_filename = "libdex.h", instance_pos = 0.9)]
 	public delegate void SchedulerFunc ();
 	[CCode (cheader_filename = "libdex.h", instance_pos = 1.9)]

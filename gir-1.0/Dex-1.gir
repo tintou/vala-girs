@@ -677,15 +677,18 @@ is not available.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="src/dex-block.c"
-           line="27">`DexBlock` represents a callback closure that can be scheduled to run
+           line="28">`DexBlock` represents a callback thunk that can be scheduled to run
 within a specific [struct@GLib.MainContext].
 
 You create these by chaining futures together using [ctor@Dex.Future.then],
-[ctor@Dex.Future.catch], [ctor@Dex.Future.finally] and similar.</doc>
+[ctor@Dex.Future.catch], [ctor@Dex.Future.finally] and similar.
+
+Callback data destruction is queued on the captured scheduler, including when
+the block is discarded before invocation. It may run after future completion.</doc>
       <method name="get_kind" c:identifier="dex_block_get_kind">
         <doc xml:space="preserve"
              filename="src/dex-block.c"
-             line="307">Gets the kind of block.
+             line="296">Gets the kind of block.
 
 The kind of block relates to what situations the block would be
 executed such as for handling a future resolution, rejection, or
@@ -694,14 +697,14 @@ both.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-block.c"
-               line="317">the [enum@Dex.BlockKind] associated with the @block</doc>
+               line="306">the [enum@Dex.BlockKind] associated with the @block</doc>
           <type name="BlockKind" c:type="DexBlockKind"/>
         </return-value>
         <parameters>
           <instance-parameter name="block" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-block.c"
-                 line="309">a [class@Dex.Block]</doc>
+                 line="298">a [class@Dex.Block]</doc>
             <type name="Block" c:type="DexBlock*"/>
           </instance-parameter>
         </parameters>
@@ -709,19 +712,19 @@ both.</doc>
       <method name="get_scheduler" c:identifier="dex_block_get_scheduler">
         <doc xml:space="preserve"
              filename="src/dex-block.c"
-             line="327">Gets the scheduler to use when executing a block.</doc>
+             line="316">Gets the scheduler to use when executing a block.</doc>
         <source-position filename="src/dex-block.h" line="54"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-block.c"
-               line="333">the [class@Dex.Scheduler] associated with the @block</doc>
+               line="322">the [class@Dex.Scheduler] associated with the @block</doc>
           <type name="Scheduler" c:type="DexScheduler*"/>
         </return-value>
         <parameters>
           <instance-parameter name="block" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-block.c"
-                 line="329">a [class@Dex.Block]</doc>
+                 line="318">a [class@Dex.Block]</doc>
             <type name="Block" c:type="DexBlock*"/>
           </instance-parameter>
         </parameters>
@@ -975,6 +978,379 @@ future and is owned by the coroutine state.</doc>
         </parameter>
       </parameters>
     </function-macro>
+    <function-macro name="COROUTINE_YIELD_BOOLEAN"
+                    c:identifier="DEX_COROUTINE_YIELD_BOOLEAN"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="225">Like DEX_COROUTINE_YIELD_VALUE(), for boolean values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="229"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="227">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="228">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_BOXED"
+                    c:identifier="DEX_COROUTINE_YIELD_BOXED"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="359">Like DEX_COROUTINE_YIELD_VALUE(), for boxed values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="364"/>
+      <parameters>
+        <parameter name="type">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="361">expected value type</doc>
+        </parameter>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="362">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="363">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_DOUBLE"
+                    c:identifier="DEX_COROUTINE_YIELD_DOUBLE"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="297">Like DEX_COROUTINE_YIELD_VALUE(), for double values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="301"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="299">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="300">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_ENUM"
+                    c:identifier="DEX_COROUTINE_YIELD_ENUM"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="309">Like DEX_COROUTINE_YIELD_VALUE(), for enum values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="314"/>
+      <parameters>
+        <parameter name="type">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="311">expected value type</doc>
+        </parameter>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="312">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="313">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_FD"
+                    c:identifier="DEX_COROUTINE_YIELD_FD"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="408">Like DEX_COROUTINE_YIELD_VALUE(), for fd values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="412"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="410">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="411">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_FLAGS"
+                    c:identifier="DEX_COROUTINE_YIELD_FLAGS"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="322">Like DEX_COROUTINE_YIELD_VALUE(), for flags values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="327"/>
+      <parameters>
+        <parameter name="type">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="324">expected value type</doc>
+        </parameter>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="325">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="326">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_FLOAT"
+                    c:identifier="DEX_COROUTINE_YIELD_FLOAT"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="285">Like DEX_COROUTINE_YIELD_VALUE(), for float values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="289"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="287">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="288">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_FUTURE"
+                    c:identifier="DEX_COROUTINE_YIELD_FUTURE"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="396">Like DEX_COROUTINE_YIELD_VALUE(), for future values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="400"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="398">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="399">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_INT"
+                    c:identifier="DEX_COROUTINE_YIELD_INT"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="237">Like DEX_COROUTINE_YIELD_VALUE(), for int values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="241"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="239">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="240">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_INT64"
+                    c:identifier="DEX_COROUTINE_YIELD_INT64"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="261">Like DEX_COROUTINE_YIELD_VALUE(), for int64 values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="265"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="263">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="264">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_OBJECT"
+                    c:identifier="DEX_COROUTINE_YIELD_OBJECT"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="384">Like DEX_COROUTINE_YIELD_VALUE(), for object values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="388"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="386">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="387">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_POINTER"
+                    c:identifier="DEX_COROUTINE_YIELD_POINTER"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="372">Like DEX_COROUTINE_YIELD_VALUE(), for pointer values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="376"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="374">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="375">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_STRING"
+                    c:identifier="DEX_COROUTINE_YIELD_STRING"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="335">Like DEX_COROUTINE_YIELD_VALUE(), for string values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="339"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="337">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="338">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_UINT"
+                    c:identifier="DEX_COROUTINE_YIELD_UINT"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="249">Like DEX_COROUTINE_YIELD_VALUE(), for uint values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="253"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="251">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="252">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_UINT64"
+                    c:identifier="DEX_COROUTINE_YIELD_UINT64"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="273">Like DEX_COROUTINE_YIELD_VALUE(), for uint64 values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="277"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="275">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="276">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_VALUE"
+                    c:identifier="DEX_COROUTINE_YIELD_VALUE"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="212">Yields a copy of @value and suspends until the next pull. Keep state in
+user data across yields, and return from the producer on error.</doc>
+      <source-position filename="src/dex-coroutine.h" line="217"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="214">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="215">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="COROUTINE_YIELD_VARIANT"
+                    c:identifier="DEX_COROUTINE_YIELD_VARIANT"
+                    version="1.3"
+                    introspectable="0">
+      <doc xml:space="preserve"
+           filename="src/dex-coroutine.h"
+           line="347">Like DEX_COROUTINE_YIELD_VALUE(), for variant values.</doc>
+      <source-position filename="src/dex-coroutine.h" line="351"/>
+      <parameters>
+        <parameter name="value">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="349">expression evaluated once for this yield</doc>
+        </parameter>
+        <parameter name="error">
+          <doc xml:space="preserve"
+               filename="src/dex-coroutine.h"
+               line="350">return location for an error</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
     <class name="Cancellable"
            c:symbol-prefix="cancellable"
            c:type="DexCancellable"
@@ -1222,7 +1598,7 @@ rejected with %DEX_ERROR_CHANNEL_CLOSED.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="src/dex-coroutine.c"
-           line="29">`DexCoroutine` is a [class@Dex.Future] implemented as a stateful stackless
+           line="30">`DexCoroutine` is a [class@Dex.Future] implemented as a stateful stackless
 coroutine cooperatively scheduled on a [class@Dex.Scheduler].
 
 Each coroutine stores stackless suspension state and optionally accepts user
@@ -1250,7 +1626,7 @@ The destroy callback runs on the coroutine's scheduler thread and must not block
               c:identifier="dex_coroutine_context_resume"
               version="1.2"
               introspectable="0">
-        <source-position filename="src/dex-coroutine.h" line="48"/>
+        <source-position filename="src/dex-coroutine.h" line="42"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1285,7 +1661,7 @@ The destroy callback runs on the coroutine's scheduler thread and must not block
               c:identifier="dex_coroutine_context_suspend"
               version="1.2"
               introspectable="0">
-        <source-position filename="src/dex-coroutine.h" line="44"/>
+        <source-position filename="src/dex-coroutine.h" line="46"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1307,6 +1683,536 @@ The destroy callback runs on the coroutine's scheduler thread and must not block
                  filename="src/dex-coroutine.c"
                  line="126">the future to suspend for</doc>
             <type name="Future" c:type="DexFuture*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_boolean"
+              c:identifier="dex_coroutine_context_yield_boolean"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="916">Like dex_coroutine_context_yield_value(), for boolean values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="158"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="923">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="918">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="919">the item to publish</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_boxed"
+              c:identifier="dex_coroutine_context_yield_boxed"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2023">Like dex_coroutine_context_yield_value(), for boxed values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="161"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2031">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2025">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2026">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2027">the item to publish</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_double"
+              c:identifier="dex_coroutine_context_yield_double"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1504">Like dex_coroutine_context_yield_value(), for double values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="165"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1511">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1506">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1507">the item to publish</doc>
+            <type name="gdouble" c:type="double"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_enum"
+              c:identifier="dex_coroutine_context_yield_enum"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1609">Like dex_coroutine_context_yield_value(), for enum values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="168"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1617">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1611">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1612">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1613">the item to publish</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_fd"
+              c:identifier="dex_coroutine_context_yield_fd"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2424">Publishes a file descriptor, taking ownership of @value.</doc>
+        <source-position filename="src/dex-coroutine.h" line="172"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2431">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2426">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2427">the file descriptor to take ownership of</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_flags"
+              c:identifier="dex_coroutine_context_yield_flags"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1718">Like dex_coroutine_context_yield_value(), for flags values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="175"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1726">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1720">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1721">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1722">the item to publish</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_float"
+              c:identifier="dex_coroutine_context_yield_float"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1406">Like dex_coroutine_context_yield_value(), for float values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="179"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1413">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1408">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1409">the item to publish</doc>
+            <type name="gfloat" c:type="float"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_future"
+              c:identifier="dex_coroutine_context_yield_future"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2323">Publishes a future as an item without observing it. The future is retained.</doc>
+        <source-position filename="src/dex-coroutine.h" line="182"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2330">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2325">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2326">the item to publish</doc>
+            <type name="Future" c:type="DexFuture*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_int"
+              c:identifier="dex_coroutine_context_yield_int"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1014">Like dex_coroutine_context_yield_value(), for int values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="185"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1021">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1016">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1017">the item to publish</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_int64"
+              c:identifier="dex_coroutine_context_yield_int64"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1210">Like dex_coroutine_context_yield_value(), for int64 values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="188"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1217">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1212">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1213">the item to publish</doc>
+            <type name="gint64" c:type="gint64"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_object"
+              c:identifier="dex_coroutine_context_yield_object"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2223">Like dex_coroutine_context_yield_value(), for object values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="191"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2230">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2225">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2226">the item to publish</doc>
+            <type name="GObject.Object" c:type="GObject*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_pointer"
+              c:identifier="dex_coroutine_context_yield_pointer"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2125">Like dex_coroutine_context_yield_value(), for pointer values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="194"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2132">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2127">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2128">the item to publish</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_string"
+              c:identifier="dex_coroutine_context_yield_string"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1820">Like dex_coroutine_context_yield_value(), for string values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="197"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1827">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1822">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1823">the item to publish</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_uint"
+              c:identifier="dex_coroutine_context_yield_uint"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1112">Like dex_coroutine_context_yield_value(), for uint values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="200"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1119">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1114">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1115">the item to publish</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_uint64"
+              c:identifier="dex_coroutine_context_yield_uint64"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1308">Like dex_coroutine_context_yield_value(), for uint64 values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="203"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1315">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1310">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1311">the item to publish</doc>
+            <type name="guint64" c:type="guint64"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_value"
+              c:identifier="dex_coroutine_context_yield_value"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="822">Publishes @value before returning. Suspend on the returned demand gate using
+DEX_COROUTINE_YIELD_VALUE(). Yield expressions are evaluated once per yield.</doc>
+        <source-position filename="src/dex-coroutine.h" line="206"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="830">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="824">the producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="825">the item to copy</doc>
+            <type name="GObject.Value" c:type="const GValue*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="yield_variant"
+              c:identifier="dex_coroutine_context_yield_variant"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1918">Like dex_coroutine_context_yield_value(), for variant values.</doc>
+        <source-position filename="src/dex-coroutine.h" line="209"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1925">the next-demand gate</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1920">producer coroutine context</doc>
+            <type name="CoroutineContext" c:type="DexCoroutineContext*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1921">the item to publish</doc>
+            <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
         </parameters>
       </method>
@@ -1675,18 +2581,20 @@ by calling @clear with the address of the value.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="src/dex-deferred.c"
-           line="71">A future whose work starts when another future observes it, such as through
+           line="65">A future whose work starts when another future observes it, such as through
 [ctor@Dex.Future.then] or [method@Dex.Future.await]. Its work starts once.
 Querying its status or value does not start the work.
 Dropping it without observing it releases its callback data without
-invoking the callback.
+invoking the callback. Scheduler-backed deferreds queue data destruction on
+their captured scheduler, including when never observed. Native thread-pool
+deferreds capture their cleanup scheduler at construction too.
 If its last observer is discarded before the work starts, the deferred
 rejects with %G_IO_ERROR_CANCELLED. Work that has already started may
 still run while cancellation propagates.</doc>
       <constructor name="new" c:identifier="dex_deferred_new" version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-deferred.c"
-             line="209">Creates deferred work that calls @func on @scheduler. The returned future
+             line="206">Creates deferred work that calls @func on @scheduler. The returned future
 completes with the result of the future returned by @func.
 
 If @scheduler is %NULL and the current thread has no scheduler, the process
@@ -1695,7 +2603,7 @@ default scheduler is captured instead.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-deferred.c"
-               line="222">a new deferred</doc>
+               line="219">a new deferred</doc>
           <type name="Deferred" c:type="DexDeferred*"/>
         </return-value>
         <parameters>
@@ -1705,7 +2613,7 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="211">scheduler for @func, or %NULL to capture the thread's scheduler</doc>
+                 line="208">scheduler for @func, or %NULL to capture the thread's scheduler</doc>
             <type name="Scheduler" c:type="DexScheduler*"/>
           </parameter>
           <parameter name="func"
@@ -1715,7 +2623,7 @@ default scheduler is captured instead.</doc>
                      destroy="3">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="212">callback to run</doc>
+                 line="209">callback to run</doc>
             <type name="DeferredFunc" c:type="DexDeferredFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -1724,13 +2632,13 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="213">closure data for @func</doc>
+                 line="210">closure data for @func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="214">destroy notify for @user_data</doc>
+                 line="211">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -1740,14 +2648,14 @@ default scheduler is captured instead.</doc>
                    version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-deferred.c"
-             line="299">Creates a deferred coroutine. The coroutine starts when the deferred is observed.
+             line="292">Creates a deferred coroutine. The coroutine starts when the deferred is observed.
 If @scheduler is %NULL and the current thread has no scheduler, the process
 default scheduler is captured instead.</doc>
         <source-position filename="src/dex-deferred.h" line="67"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-deferred.c"
-               line="310">a new deferred</doc>
+               line="303">a new deferred</doc>
           <type name="Deferred" c:type="DexDeferred*"/>
         </return-value>
         <parameters>
@@ -1757,7 +2665,7 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="301">scheduler for the coroutine, or %NULL to capture the thread's scheduler</doc>
+                 line="294">scheduler for the coroutine, or %NULL to capture the thread's scheduler</doc>
             <type name="Scheduler" c:type="DexScheduler*"/>
           </parameter>
           <parameter name="func"
@@ -1767,7 +2675,7 @@ default scheduler is captured instead.</doc>
                      destroy="3">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="302">coroutine entry point</doc>
+                 line="295">coroutine entry point</doc>
             <type name="CoroutineFunc" c:type="DexCoroutineFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -1776,13 +2684,13 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="303">closure data for @func</doc>
+                 line="296">closure data for @func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="304">destroy notify for @user_data</doc>
+                 line="297">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -1792,7 +2700,7 @@ default scheduler is captured instead.</doc>
                    version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-deferred.c"
-             line="253">Creates a deferred fiber. The fiber starts when the deferred is observed.
+             line="248">Creates a deferred fiber. The fiber starts when the deferred is observed.
 
 If @scheduler is %NULL and the current thread has no scheduler, the process
 default scheduler is captured instead.</doc>
@@ -1800,7 +2708,7 @@ default scheduler is captured instead.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-deferred.c"
-               line="266">a new deferred</doc>
+               line="261">a new deferred</doc>
           <type name="Deferred" c:type="DexDeferred*"/>
         </return-value>
         <parameters>
@@ -1810,13 +2718,13 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="255">scheduler for the fiber, or %NULL to capture the thread's scheduler</doc>
+                 line="250">scheduler for the fiber, or %NULL to capture the thread's scheduler</doc>
             <type name="Scheduler" c:type="DexScheduler*"/>
           </parameter>
           <parameter name="stack_size" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="256">fiber stack size in bytes, or 0 for the default</doc>
+                 line="251">fiber stack size in bytes, or 0 for the default</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
           <parameter name="func"
@@ -1826,7 +2734,7 @@ default scheduler is captured instead.</doc>
                      destroy="4">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="257">fiber entry point</doc>
+                 line="252">fiber entry point</doc>
             <type name="FiberFunc" c:type="DexFiberFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -1835,13 +2743,13 @@ default scheduler is captured instead.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="258">closure data for @func</doc>
+                 line="253">closure data for @func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="259">destroy notify for @user_data</doc>
+                 line="254">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -1851,7 +2759,9 @@ default scheduler is captured instead.</doc>
                    version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-deferred.c"
-             line="377">Creates deferred work on @pool.
+             line="367">Creates deferred work on @pool. Callback data destruction is queued on the
+constructing thread's scheduler, or the default scheduler if it has none,
+even when the deferred is never observed.
 
 The deferred retains @pool until the submitted work completes, even if
 the deferred is discarded after submission.</doc>
@@ -1859,14 +2769,14 @@ the deferred is discarded after submission.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-deferred.c"
-               line="390">a new deferred</doc>
+               line="382">a new deferred</doc>
           <type name="Deferred" c:type="DexDeferred*"/>
         </return-value>
         <parameters>
           <parameter name="pool" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="379">a thread pool</doc>
+                 line="369">a thread pool</doc>
             <type name="ThreadPool" c:type="DexThreadPool*"/>
           </parameter>
           <parameter name="name"
@@ -1875,7 +2785,7 @@ the deferred is discarded after submission.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="380">name for the returned future</doc>
+                 line="370">name for the returned future</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="func"
@@ -1885,7 +2795,7 @@ the deferred is discarded after submission.</doc>
                      destroy="4">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="381">thread entry point</doc>
+                 line="371">thread entry point</doc>
             <type name="ThreadFunc" c:type="DexThreadFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -1894,13 +2804,13 @@ the deferred is discarded after submission.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="382">closure data for @func</doc>
+                 line="372">closure data for @func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="383">destroy notify for @user_data</doc>
+                 line="373">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -1910,7 +2820,7 @@ the deferred is discarded after submission.</doc>
                    version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-deferred.c"
-             line="341">Creates deferred work on a dedicated thread.
+             line="332">Creates deferred work on a dedicated thread.
 
 Once the thread starts, discarding the deferred does not stop the work.
 Its callback data remains valid until the work completes.</doc>
@@ -1918,7 +2828,7 @@ Its callback data remains valid until the work completes.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-deferred.c"
-               line="353">a new deferred</doc>
+               line="344">a new deferred</doc>
           <type name="Deferred" c:type="DexDeferred*"/>
         </return-value>
         <parameters>
@@ -1928,7 +2838,7 @@ Its callback data remains valid until the work completes.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="343">name of the new thread</doc>
+                 line="334">name of the new thread</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="func"
@@ -1938,7 +2848,7 @@ Its callback data remains valid until the work completes.</doc>
                      destroy="3">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="344">thread entry point</doc>
+                 line="335">thread entry point</doc>
             <type name="ThreadFunc" c:type="DexThreadFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -1947,13 +2857,13 @@ Its callback data remains valid until the work completes.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="345">closure data for @func</doc>
+                 line="336">closure data for @func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-deferred.c"
-                 line="346">destroy notify for @user_data</doc>
+                 line="337">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -2158,7 +3068,7 @@ Once a fiber is created, it is pinned to that scheduler. Use
                 throws="1">
         <doc xml:space="preserve"
              filename="src/dex-fiber.c"
-             line="864">Cooperatively yields execution back to the current scheduler.
+             line="847">Cooperatively yields execution back to the current scheduler.
 
 This may only be called from within a [class@Dex.Fiber]. If it is called
 from any other context, @error is set to %DEX_ERROR_NO_FIBER.</doc>
@@ -2166,10 +3076,439 @@ from any other context, @error is set to %DEX_ERROR_NO_FIBER.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-fiber.c"
-               line="873">%TRUE if execution was yielded and the fiber resumed successfully;
+               line="856">%TRUE if execution was yielded and the fiber resumed successfully;
   otherwise %FALSE and @error is set.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
+      </function>
+      <function name="yield_boolean"
+                c:identifier="dex_fiber_yield_boolean"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="891">Like dex_fiber_yield_value(), for boolean values.</doc>
+        <source-position filename="src/dex-fiber.h" line="39"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="898">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="893">the item to publish</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_boxed"
+                c:identifier="dex_fiber_yield_boxed"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1994">Like dex_fiber_yield_value(), for boxed values.</doc>
+        <source-position filename="src/dex-fiber.h" line="42"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2002">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1996">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1997">the item to publish</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_double"
+                c:identifier="dex_fiber_yield_double"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1479">Like dex_fiber_yield_value(), for double values.</doc>
+        <source-position filename="src/dex-fiber.h" line="46"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1486">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1481">the item to publish</doc>
+            <type name="gdouble" c:type="double"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_enum"
+                c:identifier="dex_fiber_yield_enum"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1580">Like dex_fiber_yield_value(), for enum values.</doc>
+        <source-position filename="src/dex-fiber.h" line="49"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1588">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1582">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1583">the item to publish</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_fd"
+                c:identifier="dex_fiber_yield_fd"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2399">Publishes a file descriptor, taking ownership of @value.</doc>
+        <source-position filename="src/dex-fiber.h" line="53"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2406">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2401">the file descriptor to take ownership of</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_flags"
+                c:identifier="dex_fiber_yield_flags"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1689">Like dex_fiber_yield_value(), for flags values.</doc>
+        <source-position filename="src/dex-fiber.h" line="56"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1697">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1691">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1692">the item to publish</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_float"
+                c:identifier="dex_fiber_yield_float"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1381">Like dex_fiber_yield_value(), for float values.</doc>
+        <source-position filename="src/dex-fiber.h" line="60"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1388">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1383">the item to publish</doc>
+            <type name="gfloat" c:type="float"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_future"
+                c:identifier="dex_fiber_yield_future"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2296">Publishes a future as an item without observing it. The future is retained.</doc>
+        <source-position filename="src/dex-fiber.h" line="63"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2303">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2298">the item to publish</doc>
+            <type name="Future" c:type="DexFuture*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_int"
+                c:identifier="dex_fiber_yield_int"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="989">Like dex_fiber_yield_value(), for int values.</doc>
+        <source-position filename="src/dex-fiber.h" line="66"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="996">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="991">the item to publish</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_int64"
+                c:identifier="dex_fiber_yield_int64"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1185">Like dex_fiber_yield_value(), for int64 values.</doc>
+        <source-position filename="src/dex-fiber.h" line="69"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1192">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1187">the item to publish</doc>
+            <type name="gint64" c:type="gint64"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_object"
+                c:identifier="dex_fiber_yield_object"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2198">Like dex_fiber_yield_value(), for object values.</doc>
+        <source-position filename="src/dex-fiber.h" line="72"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2205">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2200">the item to publish</doc>
+            <type name="GObject.Object" c:type="GObject*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_pointer"
+                c:identifier="dex_fiber_yield_pointer"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2100">Like dex_fiber_yield_value(), for pointer values.</doc>
+        <source-position filename="src/dex-fiber.h" line="75"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2107">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2102">the item to publish</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_string"
+                c:identifier="dex_fiber_yield_string"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1795">Like dex_fiber_yield_value(), for string values.</doc>
+        <source-position filename="src/dex-fiber.h" line="78"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1802">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1797">the item to publish</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_uint"
+                c:identifier="dex_fiber_yield_uint"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1087">Like dex_fiber_yield_value(), for uint values.</doc>
+        <source-position filename="src/dex-fiber.h" line="81"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1094">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1089">the item to publish</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_uint64"
+                c:identifier="dex_fiber_yield_uint64"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1283">Like dex_fiber_yield_value(), for uint64 values.</doc>
+        <source-position filename="src/dex-fiber.h" line="84"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1290">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1285">the item to publish</doc>
+            <type name="guint64" c:type="guint64"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_value"
+                c:identifier="dex_fiber_yield_value"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="789">Yields a copy of @value and waits for the next pull. Only valid in a
+generator producer fiber. Return from the producer if yielding fails.
+Future values are retained without observing them.</doc>
+        <source-position filename="src/dex-fiber.h" line="87"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="798">%TRUE when another pull resumes the producer</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="791">the item to copy</doc>
+            <type name="GObject.Value" c:type="const GValue*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <function name="yield_variant"
+                c:identifier="dex_fiber_yield_variant"
+                version="1.3"
+                throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1893">Like dex_fiber_yield_value(), for variant values.</doc>
+        <source-position filename="src/dex-fiber.h" line="90"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1900">%TRUE when resumed for another pull</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="value"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1895">the item to publish</doc>
+            <type name="GLib.Variant" c:type="GVariant*"/>
+          </parameter>
+        </parameters>
       </function>
     </class>
     <callback name="FiberFunc" c:type="DexFiberFunc">
@@ -3391,7 +4730,7 @@ first, the returned future rejects with %DEX_ERROR_TIMED_OUT and discards
       <method name="await" c:identifier="dex_await" throws="1">
         <doc xml:space="preserve"
              filename="src/dex-fiber.c"
-             line="833">Suspends the current [class@Dex.Fiber] and resumes when @future has completed.
+             line="816">Suspends the current [class@Dex.Fiber] and resumes when @future has completed.
 
 If @future is completed when this function is called, the fiber will handle
 the result immediately.
@@ -3408,7 +4747,7 @@ having changed.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-fiber.c"
-               line="852">%TRUE if the future resolved, otherwise %FALSE
+               line="835">%TRUE if the future resolved, otherwise %FALSE
   and @error is set.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3416,7 +4755,7 @@ having changed.</doc>
           <instance-parameter name="future" transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="src/dex-fiber.c"
-                 line="835">a [class@Dex.Future]</doc>
+                 line="818">a [class@Dex.Future]</doc>
             <type name="Future" c:type="DexFuture*"/>
           </instance-parameter>
         </parameters>
@@ -4131,6 +5470,880 @@ may use [method@Dex.FutureSet.get_future_at] to obtain the individual
               glib:name="DEX_FUTURE_STATUS_REJECTED">
       </member>
     </enumeration>
+    <function-macro name="GENERATOR"
+                    c:identifier="DEX_GENERATOR"
+                    introspectable="0">
+      <source-position filename="src/dex-generator.h" line="33"/>
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <class name="Generator"
+           c:symbol-prefix="generator"
+           c:type="DexGenerator"
+           version="1.3"
+           parent="Object"
+           final="1"
+           glib:type-name="DexGenerator"
+           glib:get-type="dex_generator_get_type"
+           glib:fundamental="1">
+      <doc xml:space="preserve"
+           filename="src/dex-generator.c"
+           line="76">A pull-driven sequence of futures. Ordinary generators transfer each future
+directly to the caller without observing it. Sequential consumers finish each
+pull before requesting another and check exhaustion after awaiting the pull.</doc>
+      <constructor name="new" c:identifier="dex_generator_new" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="255">Creates a generator whose factory runs directly in the calling context.
+Returned futures must independently retain any state they need. The factory
+data is retained until close or finalization, including after exhaustion.</doc>
+        <source-position filename="src/dex-generator.h" line="142"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="265">a new generator</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <parameter name="producer"
+                     transfer-ownership="none"
+                     scope="notified"
+                     closure="1"
+                     destroy="2">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="257">item factory</doc>
+            <type name="GeneratorFunc" c:type="DexGeneratorFunc"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="258">factory data</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+          <parameter name="destroy"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="259">destroy notify for @user_data</doc>
+            <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <constructor name="new_coroutine"
+                   c:identifier="dex_generator_new_coroutine"
+                   version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="723">Creates a lazy coroutine producer with the same demand protocol as a fiber
+generator. State surviving suspension belongs in @user_data. Cancellation
+retains data until pending work completes. If no thread scheduler exists,
+the process default is captured.</doc>
+        <source-position filename="src/dex-generator.h" line="147"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="735">a generator</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <parameter name="scheduler"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="725">scheduler, or %NULL to capture the current scheduler</doc>
+            <type name="Scheduler" c:type="DexScheduler*"/>
+          </parameter>
+          <parameter name="func"
+                     transfer-ownership="none"
+                     scope="notified"
+                     closure="2"
+                     destroy="3">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="726">producer</doc>
+            <type name="CoroutineFunc" c:type="DexCoroutineFunc"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="727">producer data</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+          <parameter name="destroy"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="728">producer data destroy notify</doc>
+            <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <constructor name="new_fiber"
+                   c:identifier="dex_generator_new_fiber"
+                   version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="688">Creates a lazy fiber producer. The first pull starts the fiber; each yield
+waits for another pull. A successful final future means exhaustion, and a
+rejected final future means failure. Returning %NULL retains the normal fiber
+error. If no thread scheduler exists, the process default is captured.</doc>
+        <source-position filename="src/dex-generator.h" line="153"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="701">a generator</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <parameter name="scheduler"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="690">scheduler, or %NULL to capture the current scheduler</doc>
+            <type name="Scheduler" c:type="DexScheduler*"/>
+          </parameter>
+          <parameter name="stack_size" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="691">stack size, or zero for the default</doc>
+            <type name="gsize" c:type="gsize"/>
+          </parameter>
+          <parameter name="func"
+                     transfer-ownership="none"
+                     scope="notified"
+                     closure="3"
+                     destroy="4">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="692">producer</doc>
+            <type name="FiberFunc" c:type="DexFiberFunc"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="693">producer data</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+          <parameter name="destroy"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="694">producer data destroy notify</doc>
+            <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <method name="await_next"
+              c:identifier="dex_generator_await_next"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="488">Consumes one sequential pull. Rejection is checked before exhaustion. On
+success, unset @value after use. On exhaustion or error it stays uninitialized.
+Completed pulls can be consumed outside fibers; pending work requires a fiber.</doc>
+        <source-position filename="src/dex-generator.h" line="50"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="498">%TRUE for an item, including false, zero, and null payloads</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="490">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="1"
+                     transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="491">an initially uninitialized value</doc>
+            <type name="GObject.Value" c:type="GValue*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_boolean"
+              c:identifier="dex_generator_await_next_boolean"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="843">Like dex_generator_await_next(), for boolean values.</doc>
+        <source-position filename="src/dex-generator.h" line="54"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="851">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="845">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="846">item output, reset on exhaustion or failure</doc>
+            <type name="gboolean" c:type="gboolean*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_boxed"
+              c:identifier="dex_generator_await_next_boxed"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1943">Like dex_generator_await_next(), for boxed values.</doc>
+        <source-position filename="src/dex-generator.h" line="58"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1952">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1945">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1946">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1947">item output, reset on exhaustion or failure</doc>
+            <type name="gpointer" c:type="gpointer*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_double"
+              c:identifier="dex_generator_await_next_double"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1431">Like dex_generator_await_next(), for double values.</doc>
+        <source-position filename="src/dex-generator.h" line="63"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1439">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1433">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1434">item output, reset on exhaustion or failure</doc>
+            <type name="gdouble" c:type="double*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_enum"
+              c:identifier="dex_generator_await_next_enum"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1529">Like dex_generator_await_next(), for enum values.</doc>
+        <source-position filename="src/dex-generator.h" line="67"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1538">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1531">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1532">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1533">item output, reset on exhaustion or failure</doc>
+            <type name="gint" c:type="int*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_fd"
+              c:identifier="dex_generator_await_next_fd"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2350">Consumes a sequential fd item. See dex_generator_await_next().
+The caller owns the returned file descriptor.</doc>
+        <source-position filename="src/dex-generator.h" line="72"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2359">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2352">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2353">item output, reset on exhaustion or failure</doc>
+            <type name="gint" c:type="int*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_flags"
+              c:identifier="dex_generator_await_next_flags"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1638">Like dex_generator_await_next(), for flags values.</doc>
+        <source-position filename="src/dex-generator.h" line="76"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1647">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1640">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="expected_type" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1641">expected item type</doc>
+            <type name="GType" c:type="GType"/>
+          </parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1642">item output, reset on exhaustion or failure</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_float"
+              c:identifier="dex_generator_await_next_float"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1333">Like dex_generator_await_next(), for float values.</doc>
+        <source-position filename="src/dex-generator.h" line="81"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1341">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1335">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1336">item output, reset on exhaustion or failure</doc>
+            <type name="gfloat" c:type="float*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_future"
+              c:identifier="dex_generator_await_next_future"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2248">Like dex_generator_await_next(), for future values.</doc>
+        <source-position filename="src/dex-generator.h" line="85"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2256">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2250">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2251">item output, reset on exhaustion or failure</doc>
+            <type name="Future" c:type="DexFuture**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_int"
+              c:identifier="dex_generator_await_next_int"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="941">Like dex_generator_await_next(), for int values.</doc>
+        <source-position filename="src/dex-generator.h" line="90"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="949">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="943">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="944">item output, reset on exhaustion or failure</doc>
+            <type name="gint" c:type="int*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_int64"
+              c:identifier="dex_generator_await_next_int64"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1137">Like dex_generator_await_next(), for int64 values.</doc>
+        <source-position filename="src/dex-generator.h" line="95"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1145">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1139">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1140">item output, reset on exhaustion or failure</doc>
+            <type name="gint64" c:type="gint64*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_object"
+              c:identifier="dex_generator_await_next_object"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2150">Like dex_generator_await_next(), for object values.</doc>
+        <source-position filename="src/dex-generator.h" line="100"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2158">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2152">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2153">item output, reset on exhaustion or failure</doc>
+            <type name="GObject.Object" c:type="GObject**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_pointer"
+              c:identifier="dex_generator_await_next_pointer"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="2052">Like dex_generator_await_next(), for pointer values.</doc>
+        <source-position filename="src/dex-generator.h" line="105"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="2060">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2054">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="none"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="2055">item output, reset on exhaustion or failure</doc>
+            <type name="gpointer" c:type="gpointer*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_string"
+              c:identifier="dex_generator_await_next_string"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1747">Like dex_generator_await_next(), for string values.</doc>
+        <source-position filename="src/dex-generator.h" line="110"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1755">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1749">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1750">item output, reset on exhaustion or failure</doc>
+            <type name="utf8" c:type="char**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_uint"
+              c:identifier="dex_generator_await_next_uint"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1039">Like dex_generator_await_next(), for uint values.</doc>
+        <source-position filename="src/dex-generator.h" line="115"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1047">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1041">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1042">item output, reset on exhaustion or failure</doc>
+            <type name="guint" c:type="guint*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_uint64"
+              c:identifier="dex_generator_await_next_uint64"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1235">Like dex_generator_await_next(), for uint64 values.</doc>
+        <source-position filename="src/dex-generator.h" line="120"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1243">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1237">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1238">item output, reset on exhaustion or failure</doc>
+            <type name="guint64" c:type="guint64*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="await_next_variant"
+              c:identifier="dex_generator_await_next_variant"
+              version="1.3"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="1845">Like dex_generator_await_next(), for variant values.</doc>
+        <source-position filename="src/dex-generator.h" line="125"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="1853">whether an item was received</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1847">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full"
+                     nullable="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="1848">item output, reset on exhaustion or failure</doc>
+            <type name="GLib.Variant" c:type="GVariant**"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="close" c:identifier="dex_generator_close" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="412">Requests shutdown without blocking. Ordinary item futures remain independent.
+Adapter cancellation is cooperative; producers must honor failed yields and
+awaits. Cleanup runs on the adapter scheduler, or on the thread closing an
+ordinary generator (the callback thread if a callback is still active).</doc>
+        <source-position filename="src/dex-generator.h" line="130"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="414">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="close_after_drain"
+              c:identifier="dex_generator_close_after_drain"
+              version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="445">Closes and waits for callback data destruction. Repeated calls share a result.
+Production errors are reported by pulls, not drain. Drain can remain pending
+while a producer or coroutine-owned external operation is still running.</doc>
+        <source-position filename="src/dex-generator.h" line="133"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="453">a future resolving to %TRUE after cleanup</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="447">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="is_exhausted"
+              c:identifier="dex_generator_is_exhausted"
+              version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="388">Tests natural exhaustion. Close and producer failure do not imply exhaustion.
+This flag classifies sequential pulls, not previously prefetched items.</doc>
+        <source-position filename="src/dex-generator.h" line="139"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="395">whether production ended normally</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="390">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="next" c:identifier="dex_generator_next" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.c"
+             line="286">Pulls an item. Concurrent or recursive factory execution is rejected.
+Adapter generators allow only one outstanding pull. Their terminal pull
+resolves after setting exhaustion; check exhaustion before reading its value.
+Explicitly closed generators reject with %G_IO_ERROR_CLOSED.</doc>
+        <source-position filename="src/dex-generator.h" line="160"/>
+        <return-value transfer-ownership="full" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.c"
+               line="295">the item future, or %NULL when exhausted</doc>
+          <type name="Future" c:type="DexFuture*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator.c"
+                 line="288">a generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+    </class>
+    <callback name="GeneratorFunc" c:type="DexGeneratorFunc" version="1.3">
+      <doc xml:space="preserve"
+           filename="src/dex-generator.h"
+           line="38">Produces the next future in the calling context, without observing it.</doc>
+      <source-position filename="src/dex-generator.h" line="47"/>
+      <return-value transfer-ownership="full" nullable="1">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.h"
+             line="44">an item, or %NULL for permanent exhaustion</doc>
+        <type name="Future" c:type="DexFuture*"/>
+      </return-value>
+      <parameters>
+        <parameter name="user_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1"
+                   closure="0">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="40">callback data</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </callback>
     <record name="GraphBuilder"
             c:type="DexGraphBuilder"
             opaque="1"
@@ -4391,6 +6604,15 @@ be freed. Node handles are only used while configuring the builder.</doc>
                     c:identifier="DEX_IS_FUTURE_SET"
                     introspectable="0">
       <source-position filename="src/dex-future-set.h" line="30"/>
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_GENERATOR"
+                    c:identifier="DEX_IS_GENERATOR"
+                    introspectable="0">
+      <source-position filename="src/dex-generator.h" line="34"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -6602,7 +8824,7 @@ to a value or reject with error.</doc>
            glib:fundamental="1">
       <doc xml:space="preserve"
            filename="src/dex-thread-pool.c"
-           line="29">`DexThreadPool` is a thread pool for managing native OS threads similar
+           line="31">`DexThreadPool` is a thread pool for managing native OS threads similar
 to [struct@GLib.ThreadPool].
 
 The threads managed by `DexThreadPool` do not contain a
@@ -6618,19 +8840,19 @@ on the permitted concurrency.</doc>
       <constructor name="new" c:identifier="dex_thread_pool_new" version="1.2">
         <doc xml:space="preserve"
              filename="src/dex-thread-pool.c"
-             line="215">Creates a fixed-size pool of reusable operating system threads.</doc>
+             line="214">Creates a fixed-size pool of reusable operating system threads.</doc>
         <source-position filename="src/dex-thread-pool.h" line="48"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-thread-pool.c"
-               line="221">a new `DexThreadPool`</doc>
+               line="220">a new `DexThreadPool`</doc>
           <type name="ThreadPool" c:type="DexThreadPool*"/>
         </return-value>
         <parameters>
           <parameter name="n_threads" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="217">the number of threads to create</doc>
+                 line="216">the number of threads to create</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -6638,25 +8860,25 @@ on the permitted concurrency.</doc>
       <method name="close" c:identifier="dex_thread_pool_close">
         <doc xml:space="preserve"
              filename="src/dex-thread-pool.c"
-             line="398">Begins shutting down the pool and prevents new submissions.</doc>
+             line="404">Begins shutting down the pool and prevents new submissions.</doc>
         <source-position filename="src/dex-thread-pool.h" line="58"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-thread-pool.c"
-               line="405">a future that resolves when shutdown completes</doc>
+               line="411">a future that resolves when shutdown completes</doc>
           <type name="Future" c:type="DexFuture*"/>
         </return-value>
         <parameters>
           <instance-parameter name="pool" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="400">a `DexThreadPool`</doc>
+                 line="406">a `DexThreadPool`</doc>
             <type name="ThreadPool" c:type="DexThreadPool*"/>
           </instance-parameter>
           <parameter name="mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="401">shutdown policy for queued work</doc>
+                 line="407">shutdown policy for queued work</doc>
             <type name="ThreadPoolShutdownMode"
                   c:type="DexThreadPoolShutdownMode"/>
           </parameter>
@@ -6667,19 +8889,19 @@ on the permitted concurrency.</doc>
               version="1.2">
         <doc xml:space="preserve"
              filename="src/dex-thread-pool.c"
-             line="258">Gets the fixed number of threads owned by the pool.</doc>
+             line="257">Gets the fixed number of threads owned by the pool.</doc>
         <source-position filename="src/dex-thread-pool.h" line="50"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-thread-pool.c"
-               line="264">the number of threads in the pool</doc>
+               line="263">the number of threads in the pool</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="pool" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="260">a `DexThreadPool`</doc>
+                 line="259">a `DexThreadPool`</doc>
             <type name="ThreadPool" c:type="DexThreadPool*"/>
           </instance-parameter>
         </parameters>
@@ -6689,7 +8911,10 @@ on the permitted concurrency.</doc>
               version="1.2">
         <doc xml:space="preserve"
              filename="src/dex-thread-pool.c"
-             line="276">Queues blocking work to run on one of the pool's reusable threads.
+             line="275">Queues blocking work to run on one of the pool's reusable threads.
+
+Callback data is freed on the submitting thread's scheduler, or the default
+scheduler if there is none. This may happen after the future completes.
 
 The provided @thread_name is applied to the returned future using
 `dex_future_set_static_name()` so that tracing and debugging tools can
@@ -6698,14 +8923,14 @@ identify the work item. It does not rename the underlying OS worker thread.</doc
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-thread-pool.c"
-               line="290">a future that resolves when the work completes</doc>
+               line="292">a future that resolves when the work completes</doc>
           <type name="Future" c:type="DexFuture*"/>
         </return-value>
         <parameters>
           <instance-parameter name="pool" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="278">a `DexThreadPool`</doc>
+                 line="277">a `DexThreadPool`</doc>
             <type name="ThreadPool" c:type="DexThreadPool*"/>
           </instance-parameter>
           <parameter name="thread_name"
@@ -6714,7 +8939,7 @@ identify the work item. It does not rename the underlying OS worker thread.</doc
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="279">the name to use for debugging the returned future</doc>
+                 line="278">the name to use for debugging the returned future</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="thread_func"
@@ -6724,7 +8949,7 @@ identify the work item. It does not rename the underlying OS worker thread.</doc
                      destroy="3">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="280">the function to run on a pooled thread</doc>
+                 line="279">the function to run on a pooled thread</doc>
             <type name="ThreadFunc" c:type="DexThreadFunc"/>
           </parameter>
           <parameter name="user_data"
@@ -6733,7 +8958,7 @@ identify the work item. It does not rename the underlying OS worker thread.</doc
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="281">closure data for @thread_func</doc>
+                 line="280">closure data for @thread_func</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="user_data_destroy"
@@ -6741,7 +8966,7 @@ identify the work item. It does not rename the underlying OS worker thread.</doc
                      scope="async">
             <doc xml:space="preserve"
                  filename="src/dex-thread-pool.c"
-                 line="282">destroy notify for @user_data</doc>
+                 line="281">destroy notify for @user_data</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -10585,10 +12810,12 @@ immediately pending sources remain.</doc>
               version="1.0">
       <doc xml:space="preserve"
            filename="src/dex-thread.c"
-           line="101">Spawns a new thread named @thread_name running @thread_func with
+           line="99">Spawns a new thread named @thread_name running @thread_func with
 @user_data passed to it.
 
-@thread_func must return a [class@Dex.Future].
+@thread_func must return a [class@Dex.Future]. Callback data remains alive
+until that future completes, even if the returned thread future is dropped.
+Destruction is queued on the captured scheduler and may run after completion.
 
 If this function is called from a thread that is not running a
 [class@Dex.Scheduler] then the default scheduler will be used
@@ -10612,7 +12839,7 @@ used to propagate the result to the caller.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="src/dex-thread.c"
-               line="103">the name for the thread</doc>
+               line="101">the name for the thread</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
         <parameter name="thread_func"
@@ -10622,7 +12849,7 @@ used to propagate the result to the caller.</doc>
                    destroy="3">
           <doc xml:space="preserve"
                filename="src/dex-thread.c"
-               line="104">the function to call on a thread</doc>
+               line="102">the function to call on a thread</doc>
           <type name="ThreadFunc" c:type="DexThreadFunc"/>
         </parameter>
         <parameter name="user_data"
@@ -10631,7 +12858,7 @@ used to propagate the result to the caller.</doc>
                    allow-none="1">
           <doc xml:space="preserve"
                filename="src/dex-thread.c"
-               line="105">closure data for @thread_func</doc>
+               line="103">closure data for @thread_func</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
         <parameter name="user_data_destroy"
@@ -10639,7 +12866,7 @@ used to propagate the result to the caller.</doc>
                    scope="async">
           <doc xml:space="preserve"
                filename="src/dex-thread.c"
-               line="106">callback to free @user_data which will be called
+               line="104">callback to free @user_data which will be called
   on the same thread calling this function.</doc>
           <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
         </parameter>
@@ -10651,13 +12878,13 @@ used to propagate the result to the caller.</doc>
               throws="1">
       <doc xml:space="preserve"
            filename="src/dex-thread.c"
-           line="173">Use this when running on a thread spawned with `dex_thread_spawn()` and
+           line="167">Use this when running on a thread spawned with `dex_thread_spawn()` and
 you need to block the thread until @future has resolved or rejected.</doc>
       <source-position filename="src/dex-thread.h" line="47"/>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve"
              filename="src/dex-thread.c"
-             line="181">%TRUE if @future resolved, otherwise %FALSE and @error is
+             line="175">%TRUE if @future resolved, otherwise %FALSE and @error is
   set to the rejection.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </return-value>
@@ -10665,7 +12892,7 @@ you need to block the thread until @future has resolved or rejected.</doc>
         <parameter name="future" transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-thread.c"
-               line="175">a [class@Dex.Future]</doc>
+               line="169">a [class@Dex.Future]</doc>
           <type name="Future" c:type="DexFuture*"/>
         </parameter>
       </parameters>
