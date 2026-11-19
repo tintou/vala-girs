@@ -424,6 +424,8 @@ namespace GtkSource {
 		[CCode (array_length = false, array_null_terminated = true)]
 		public string[]? get_style_ids ();
 		public unowned string? get_style_name (string style_id);
+		[Version (since = "5.24")]
+		public async bool prepare_async (GLib.Cancellable? cancellable) throws GLib.Error;
 		public bool hidden { get; }
 		public string id { get; }
 		public string name { get; }
