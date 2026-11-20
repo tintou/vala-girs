@@ -231,20 +231,51 @@ namespace GtkSource {
 		public unowned GtkSource.Encoding get_encoding ();
 		public unowned GtkSource.File get_file ();
 		public unowned GLib.InputStream? get_input_stream ();
+		[Version (since = "5.24")]
+		public uint64 get_line_count_threshold ();
+		[Version (since = "5.24")]
+		public uint64 get_line_length_threshold ();
 		public unowned GLib.File? get_location ();
 		[Version (since = "5.22")]
 		public uint64 get_max_size ();
 		public GtkSource.NewlineType get_newline_type ();
+		[Version (since = "5.24")]
+		public uint64 get_size_threshold ();
 		public async bool load_async (int io_priority, GLib.Cancellable? cancellable, owned GLib.FileProgressCallback? progress_callback) throws GLib.Error;
 		public void set_candidate_encodings (GLib.SList<GtkSource.Encoding> candidate_encodings);
+		[Version (since = "5.24")]
+		public void set_line_count_threshold (uint64 threshold);
+		[Version (since = "5.24")]
+		public void set_line_length_threshold (uint64 threshold);
 		[Version (since = "5.22")]
 		public void set_max_size (uint64 max_size);
+		[Version (since = "5.24")]
+		public void set_size_threshold (uint64 threshold);
 		public GtkSource.Buffer buffer { get; construct; }
 		public GtkSource.File file { get; construct; }
 		public GLib.InputStream input_stream { get; construct; }
+		[Version (since = "5.24")]
+		public uint64 line_count_threshold { get; set; }
+		[Version (since = "5.24")]
+		public uint64 line_length_threshold { get; set; }
 		public GLib.File location { get; construct; }
 		[Version (since = "5.22")]
 		public uint64 max_size { get; set; }
+		[Version (since = "5.24")]
+		public uint64 size_threshold { get; set; }
+		[Version (since = "5.24")]
+		public signal bool decide_policy (GtkSource.FileLoaderPolicyDecision decision);
+	}
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_file_loader_policy_decision_get_type ()")]
+	[Version (since = "5.24")]
+	public sealed class FileLoaderPolicyDecision : GLib.Object {
+		[CCode (has_construct_function = false)]
+		protected FileLoaderPolicyDecision ();
+		public GtkSource.FileLoaderPolicyReason get_reason ();
+		public uint64 get_threshold ();
+		public uint64 get_value ();
+		public void ignore ();
+		public void use ();
 	}
 	[CCode (cheader_filename = "gtksourceview/gtksource.h", type_id = "gtk_source_file_saver_get_type ()")]
 	public sealed class FileSaver : GLib.Object {
@@ -1013,6 +1044,13 @@ namespace GtkSource {
 		NONE,
 		GZIP
 	}
+	[CCode (cheader_filename = "gtksourceview/gtksource.h", cprefix = "GTK_SOURCE_FILE_LOADER_POLICY_REASON_", type_id = "gtk_source_file_loader_policy_reason_get_type ()")]
+	[Version (since = "5.24")]
+	public enum FileLoaderPolicyReason {
+		SIZE,
+		LINE_LENGTH,
+		LINE_COUNT
+	}
 	[CCode (cheader_filename = "gtksourceview/gtksource.h", cprefix = "GTK_SOURCE_FILE_SAVER_FLAGS_", type_id = "gtk_source_file_saver_flags_get_type ()")]
 	[Flags]
 	public enum FileSaverFlags {
@@ -1078,7 +1116,9 @@ namespace GtkSource {
 	public errordomain FileLoaderError {
 		TOO_BIG,
 		ENCODING_AUTO_DETECTION_FAILED,
-		CONVERSION_FALLBACK;
+		CONVERSION_FALLBACK,
+		LINE_TOO_LONG,
+		TOO_MANY_LINES;
 		public static GLib.Quark quark ();
 	}
 	[CCode (cheader_filename = "gtksourceview/gtksource.h", cprefix = "GTK_SOURCE_FILE_SAVER_ERROR_", type_id = "gtk_source_file_saver_error_get_type ()")]

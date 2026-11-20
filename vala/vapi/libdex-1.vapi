@@ -330,8 +330,13 @@ namespace Dex {
 		public Generator.coroutine (Dex.Scheduler? scheduler, owned Dex.CoroutineFunc func);
 		[CCode (has_construct_function = false)]
 		public Generator.fiber (Dex.Scheduler? scheduler, size_t stack_size, owned Dex.FiberFunc func);
+		[DestroysInstance]
+		public Dex.Generator filter (owned Dex.GeneratorFilterFunc callback);
 		public bool is_exhausted ();
+		[DestroysInstance]
+		public Dex.Generator map (owned Dex.GeneratorMapFunc callback);
 		public Dex.Future? next ();
+		public static Dex.Generator zipv ([CCode (array_length_cname = "n_generators", array_length_pos = 1.1, array_length_type = "guint")] Dex.Generator[]? generators);
 	}
 	[CCode (cheader_filename = "libdex.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free", type_id = "dex_graph_builder_get_type ()")]
 	[Compact]
@@ -492,6 +497,17 @@ namespace Dex {
 		[CCode (has_construct_function = false, type = "DexFuture*")]
 		public Timeout.usec (int64 usec);
 	}
+	[CCode (cheader_filename = "libdex.h", ref_function = "dex_tuple_ref", type_id = "dex_tuple_get_type ()", unref_function = "dex_tuple_unref")]
+	[Compact]
+	[Version (since = "1.3")]
+	public class Tuple {
+		public uint get_size ();
+		public unowned GLib.Value? get_value_at (uint position);
+		[CCode (cname = "dex_tuple_newv", has_construct_function = false)]
+		public Tuple.newv ([CCode (array_length_cname = "n_values", array_length_pos = 1.1, array_length_type = "guint")] GLib.Value[]? values);
+		public Dex.Tuple @ref ();
+		public void unref ();
+	}
 	[CCode (cheader_filename = "libdex.h", type_id = "dex_unix_signal_get_type ()")]
 	public sealed class UnixSignal : Dex.Future {
 		[CCode (has_construct_function = false, type = "DexFuture*")]
@@ -567,9 +583,15 @@ namespace Dex {
 	public delegate Dex.Future? FiberFunc ();
 	[CCode (cheader_filename = "libdex.h", instance_pos = 1.9)]
 	public delegate Dex.Future? FutureCallback (Dex.Future future);
+	[CCode (cheader_filename = "libdex.h", instance_pos = 1.9)]
+	[Version (since = "1.3")]
+	public delegate bool GeneratorFilterFunc (GLib.Value value);
 	[CCode (cheader_filename = "libdex.h", instance_pos = 0.9)]
 	[Version (since = "1.3")]
 	public delegate Dex.Future? GeneratorFunc ();
+	[CCode (cheader_filename = "libdex.h", instance_pos = 2.9)]
+	[Version (since = "1.3")]
+	public delegate void GeneratorMapFunc (GLib.Value value, out GLib.Value result);
 	[CCode (cheader_filename = "libdex.h", instance_pos = 0.9)]
 	public delegate void SchedulerFunc ();
 	[CCode (cheader_filename = "libdex.h", instance_pos = 1.9)]

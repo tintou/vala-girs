@@ -5473,7 +5473,7 @@ may use [method@Dex.FutureSet.get_future_at] to obtain the individual
     <function-macro name="GENERATOR"
                     c:identifier="DEX_GENERATOR"
                     introspectable="0">
-      <source-position filename="src/dex-generator.h" line="33"/>
+      <source-position filename="src/dex-generator.h" line="34"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -5499,7 +5499,7 @@ pull before requesting another and check exhaustion after awaiting the pull.</do
              line="255">Creates a generator whose factory runs directly in the calling context.
 Returned futures must independently retain any state they need. The factory
 data is retained until close or finalization, including after exhaustion.</doc>
-        <source-position filename="src/dex-generator.h" line="142"/>
+        <source-position filename="src/dex-generator.h" line="166"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5547,7 +5547,7 @@ data is retained until close or finalization, including after exhaustion.</doc>
 generator. State surviving suspension belongs in @user_data. Cancellation
 retains data until pending work completes. If no thread scheduler exists,
 the process default is captured.</doc>
-        <source-position filename="src/dex-generator.h" line="147"/>
+        <source-position filename="src/dex-generator.h" line="170"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5604,7 +5604,7 @@ the process default is captured.</doc>
 waits for another pull. A successful final future means exhaustion, and a
 rejected final future means failure. Returning %NULL retains the normal fiber
 error. If no thread scheduler exists, the process default is captured.</doc>
-        <source-position filename="src/dex-generator.h" line="153"/>
+        <source-position filename="src/dex-generator.h" line="175"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5658,6 +5658,43 @@ error. If no thread scheduler exists, the process default is captured.</doc>
           </parameter>
         </parameters>
       </constructor>
+      <function name="zipv" c:identifier="dex_generator_zipv" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator-functional.c"
+             line="108">Zips sources lazily, pulling left to right, one at a time. Like Python's
+`zip()`, it stops at the shortest input. An earlier input can advance once
+before a later input reports exhaustion. The sources are closed when the
+result ends, fails, or closes. The result takes a reference to each source.
+Zero inputs produce an empty generator.</doc>
+        <source-position filename="src/dex-generator.h" line="186"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator-functional.c"
+               line="119">a generator of [struct@Dex.Tuple] values</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <parameter name="generators"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="110">sources</doc>
+            <array length="1"
+                   zero-terminated="0"
+                   c:type="DexGenerator* const*">
+              <type name="Generator"/>
+            </array>
+          </parameter>
+          <parameter name="n_generators" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="111">number of sources</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </function>
       <method name="await_next"
               c:identifier="dex_generator_await_next"
               version="1.3"
@@ -5667,7 +5704,7 @@ error. If no thread scheduler exists, the process default is captured.</doc>
              line="488">Consumes one sequential pull. Rejection is checked before exhaustion. On
 success, unset @value after use. On exhaustion or error it stays uninitialized.
 Completed pulls can be consumed outside fibers; pending work requires a fiber.</doc>
-        <source-position filename="src/dex-generator.h" line="50"/>
+        <source-position filename="src/dex-generator.h" line="77"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5699,7 +5736,7 @@ Completed pulls can be consumed outside fibers; pending work requires a fiber.</
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="843">Like dex_generator_await_next(), for boolean values.</doc>
-        <source-position filename="src/dex-generator.h" line="54"/>
+        <source-position filename="src/dex-generator.h" line="81"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5731,7 +5768,7 @@ Completed pulls can be consumed outside fibers; pending work requires a fiber.</
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1943">Like dex_generator_await_next(), for boxed values.</doc>
-        <source-position filename="src/dex-generator.h" line="58"/>
+        <source-position filename="src/dex-generator.h" line="85"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5770,7 +5807,7 @@ Completed pulls can be consumed outside fibers; pending work requires a fiber.</
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1431">Like dex_generator_await_next(), for double values.</doc>
-        <source-position filename="src/dex-generator.h" line="63"/>
+        <source-position filename="src/dex-generator.h" line="90"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5802,7 +5839,7 @@ Completed pulls can be consumed outside fibers; pending work requires a fiber.</
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1529">Like dex_generator_await_next(), for enum values.</doc>
-        <source-position filename="src/dex-generator.h" line="67"/>
+        <source-position filename="src/dex-generator.h" line="94"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5841,7 +5878,7 @@ Completed pulls can be consumed outside fibers; pending work requires a fiber.</
              filename="src/dex-generator.c"
              line="2350">Consumes a sequential fd item. See dex_generator_await_next().
 The caller owns the returned file descriptor.</doc>
-        <source-position filename="src/dex-generator.h" line="72"/>
+        <source-position filename="src/dex-generator.h" line="99"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5873,7 +5910,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1638">Like dex_generator_await_next(), for flags values.</doc>
-        <source-position filename="src/dex-generator.h" line="76"/>
+        <source-position filename="src/dex-generator.h" line="103"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5911,7 +5948,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1333">Like dex_generator_await_next(), for float values.</doc>
-        <source-position filename="src/dex-generator.h" line="81"/>
+        <source-position filename="src/dex-generator.h" line="108"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5943,7 +5980,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="2248">Like dex_generator_await_next(), for future values.</doc>
-        <source-position filename="src/dex-generator.h" line="85"/>
+        <source-position filename="src/dex-generator.h" line="112"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -5976,7 +6013,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="941">Like dex_generator_await_next(), for int values.</doc>
-        <source-position filename="src/dex-generator.h" line="90"/>
+        <source-position filename="src/dex-generator.h" line="116"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6008,7 +6045,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1137">Like dex_generator_await_next(), for int64 values.</doc>
-        <source-position filename="src/dex-generator.h" line="95"/>
+        <source-position filename="src/dex-generator.h" line="120"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6040,7 +6077,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="2150">Like dex_generator_await_next(), for object values.</doc>
-        <source-position filename="src/dex-generator.h" line="100"/>
+        <source-position filename="src/dex-generator.h" line="124"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6073,7 +6110,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="2052">Like dex_generator_await_next(), for pointer values.</doc>
-        <source-position filename="src/dex-generator.h" line="105"/>
+        <source-position filename="src/dex-generator.h" line="128"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6106,7 +6143,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1747">Like dex_generator_await_next(), for string values.</doc>
-        <source-position filename="src/dex-generator.h" line="110"/>
+        <source-position filename="src/dex-generator.h" line="132"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6139,7 +6176,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1039">Like dex_generator_await_next(), for uint values.</doc>
-        <source-position filename="src/dex-generator.h" line="115"/>
+        <source-position filename="src/dex-generator.h" line="136"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6171,7 +6208,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1235">Like dex_generator_await_next(), for uint64 values.</doc>
-        <source-position filename="src/dex-generator.h" line="120"/>
+        <source-position filename="src/dex-generator.h" line="140"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6203,7 +6240,7 @@ The caller owns the returned file descriptor.</doc>
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
              line="1845">Like dex_generator_await_next(), for variant values.</doc>
-        <source-position filename="src/dex-generator.h" line="125"/>
+        <source-position filename="src/dex-generator.h" line="144"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6236,7 +6273,7 @@ The caller owns the returned file descriptor.</doc>
 Adapter cancellation is cooperative; producers must honor failed yields and
 awaits. Cleanup runs on the adapter scheduler, or on the thread closing an
 ordinary generator (the callback thread if a callback is still active).</doc>
-        <source-position filename="src/dex-generator.h" line="130"/>
+        <source-position filename="src/dex-generator.h" line="148"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -6257,7 +6294,7 @@ ordinary generator (the callback thread if a callback is still active).</doc>
              line="445">Closes and waits for callback data destruction. Repeated calls share a result.
 Production errors are reported by pulls, not drain. Drain can remain pending
 while a producer or coroutine-owned external operation is still running.</doc>
-        <source-position filename="src/dex-generator.h" line="133"/>
+        <source-position filename="src/dex-generator.h" line="150"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6273,6 +6310,56 @@ while a producer or coroutine-owned external operation is still running.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="filter" c:identifier="dex_generator_filter" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator-functional.c"
+             line="280">Selects input values lazily using a synchronous predicate. Source rejection
+terminates the adapter.</doc>
+        <source-position filename="src/dex-generator.h" line="152"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator-functional.c"
+               line="290">the filtered generator</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="source" transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="282">source generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     scope="notified"
+                     closure="1"
+                     destroy="2">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="283">predicate</doc>
+            <type name="GeneratorFilterFunc" c:type="DexGeneratorFilterFunc"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="284">callback data</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+          <parameter name="destroy"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="285">callback data destroy notify</doc>
+            <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="is_exhausted"
               c:identifier="dex_generator_is_exhausted"
               version="1.3">
@@ -6280,7 +6367,7 @@ while a producer or coroutine-owned external operation is still running.</doc>
              filename="src/dex-generator.c"
              line="388">Tests natural exhaustion. Close and producer failure do not imply exhaustion.
 This flag classifies sequential pulls, not previously prefetched items.</doc>
-        <source-position filename="src/dex-generator.h" line="139"/>
+        <source-position filename="src/dex-generator.h" line="159"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6296,6 +6383,57 @@ This flag classifies sequential pulls, not previously prefetched items.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="map" c:identifier="dex_generator_map" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-generator-functional.c"
+             line="246">Maps each input lazily. The callback initializes an output #GValue, which
+may have any type. Leaving it uninitialized fails with %DEX_ERROR_NO_RESULT.
+Source rejection terminates the adapter.</doc>
+        <source-position filename="src/dex-generator.h" line="161"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator-functional.c"
+               line="257">the mapped generator</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="source" transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="248">source generator</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     scope="notified"
+                     closure="1"
+                     destroy="2">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="249">mapper</doc>
+            <type name="GeneratorMapFunc" c:type="DexGeneratorMapFunc"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="250">callback data</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+          <parameter name="destroy"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="251">callback data destroy notify</doc>
+            <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="next" c:identifier="dex_generator_next" version="1.3">
         <doc xml:space="preserve"
              filename="src/dex-generator.c"
@@ -6303,7 +6441,7 @@ This flag classifies sequential pulls, not previously prefetched items.</doc>
 Adapter generators allow only one outstanding pull. Their terminal pull
 resolves after setting exhaustion; check exhaustion before reading its value.
 Explicitly closed generators reject with %G_IO_ERROR_CLOSED.</doc>
-        <source-position filename="src/dex-generator.h" line="160"/>
+        <source-position filename="src/dex-generator.h" line="181"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/dex-generator.c"
@@ -6319,16 +6457,77 @@ Explicitly closed generators reject with %G_IO_ERROR_CLOSED.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="zip"
+              c:identifier="dex_generator_zip"
+              version="1.3"
+              introspectable="0">
+        <doc xml:space="preserve"
+             filename="src/dex-generator-functional.c"
+             line="142">Convenience form of dex_generator_zipv() for C callers.</doc>
+        <source-position filename="src/dex-generator.h" line="183"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-generator-functional.c"
+               line="149">a generator of tuples</doc>
+          <type name="Generator" c:type="DexGenerator*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="first"
+                              transfer-ownership="full"
+                              nullable="1"
+                              allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="144">first source, or %NULL for no sources</doc>
+            <type name="Generator" c:type="DexGenerator*"/>
+          </instance-parameter>
+          <parameter name="..." transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-generator-functional.c"
+                 line="145">additional sources, terminated by %NULL</doc>
+            <varargs/>
+          </parameter>
+        </parameters>
+      </method>
     </class>
+    <callback name="GeneratorFilterFunc"
+              c:type="DexGeneratorFilterFunc"
+              version="1.3">
+      <source-position filename="src/dex-generator.h" line="73"/>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve"
+             filename="src/dex-generator.h"
+             line="70">whether to keep the input value</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </return-value>
+      <parameters>
+        <parameter name="value" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="67">the borrowed input value</doc>
+          <type name="GObject.Value" c:type="const GValue*"/>
+        </parameter>
+        <parameter name="user_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1"
+                   closure="1">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="68">callback data</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </callback>
     <callback name="GeneratorFunc" c:type="DexGeneratorFunc" version="1.3">
       <doc xml:space="preserve"
            filename="src/dex-generator.h"
-           line="38">Produces the next future in the calling context, without observing it.</doc>
-      <source-position filename="src/dex-generator.h" line="47"/>
+           line="39">Produces the next future in the calling context, without observing it.</doc>
+      <source-position filename="src/dex-generator.h" line="48"/>
       <return-value transfer-ownership="full" nullable="1">
         <doc xml:space="preserve"
              filename="src/dex-generator.h"
-             line="44">an item, or %NULL for permanent exhaustion</doc>
+             line="45">an item, or %NULL for permanent exhaustion</doc>
         <type name="Future" c:type="DexFuture*"/>
       </return-value>
       <parameters>
@@ -6339,7 +6538,46 @@ Explicitly closed generators reject with %G_IO_ERROR_CLOSED.</doc>
                    closure="0">
           <doc xml:space="preserve"
                filename="src/dex-generator.h"
-               line="40">callback data</doc>
+               line="41">callback data</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </callback>
+    <callback name="GeneratorMapFunc"
+              c:type="DexGeneratorMapFunc"
+              version="1.3">
+      <doc xml:space="preserve"
+           filename="src/dex-generator.h"
+           line="50">Initializes @result with the mapped value. The adapter unsets it after
+yielding a copy.</doc>
+      <source-position filename="src/dex-generator.h" line="61"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="value" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="52">the borrowed input value</doc>
+          <type name="GObject.Value" c:type="const GValue*"/>
+        </parameter>
+        <parameter name="result"
+                   direction="out"
+                   caller-allocates="1"
+                   transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="53">an initially uninitialized output value</doc>
+          <type name="GObject.Value" c:type="GValue*"/>
+        </parameter>
+        <parameter name="user_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1"
+                   closure="2">
+          <doc xml:space="preserve"
+               filename="src/dex-generator.h"
+               line="54">callback data</doc>
           <type name="gpointer" c:type="gpointer"/>
         </parameter>
       </parameters>
@@ -6612,7 +6850,7 @@ be freed. Node handles are only used while configuring the builder.</doc>
     <function-macro name="IS_GENERATOR"
                     c:identifier="DEX_IS_GENERATOR"
                     introspectable="0">
-      <source-position filename="src/dex-generator.h" line="34"/>
+      <source-position filename="src/dex-generator.h" line="35"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -9148,6 +9386,122 @@ monotonic time in microseconds.</doc>
         </parameters>
       </method>
     </class>
+    <record name="Tuple"
+            c:type="DexTuple"
+            opaque="1"
+            version="1.3"
+            glib:type-name="DexTuple"
+            glib:get-type="dex_tuple_get_type"
+            c:symbol-prefix="tuple">
+      <doc xml:space="preserve"
+           filename="src/dex-tuple.c"
+           line="32">An immutable row of owned values.</doc>
+      <source-position filename="src/dex-tuple.h" line="32"/>
+      <constructor name="newv" c:identifier="dex_tuple_newv" version="1.3">
+        <doc xml:space="preserve"
+             filename="src/dex-tuple.c"
+             line="41">Copies each value into a new tuple.</doc>
+        <source-position filename="src/dex-tuple.h" line="44"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-tuple.c"
+               line="48">a new tuple</doc>
+          <type name="Tuple" c:type="DexTuple*"/>
+        </return-value>
+        <parameters>
+          <parameter name="values"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="43">values to copy</doc>
+            <array length="1" zero-terminated="0" c:type="const GValue*">
+              <type name="GObject.Value"/>
+            </array>
+          </parameter>
+          <parameter name="n_values" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="44">number of values</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <method name="get_size" c:identifier="dex_tuple_get_size" version="1.3">
+        <source-position filename="src/dex-tuple.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/dex-tuple.c"
+               line="114">the number of values</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="112">a tuple</doc>
+            <type name="Tuple" c:type="DexTuple*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_value_at"
+              c:identifier="dex_tuple_get_value_at"
+              version="1.3">
+        <source-position filename="src/dex-tuple.h" line="41"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/dex-tuple.c"
+               line="130">the borrowed value, or %NULL if out of bounds</doc>
+          <type name="GObject.Value" c:type="const GValue*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="127">a tuple</doc>
+            <type name="Tuple" c:type="DexTuple*"/>
+          </instance-parameter>
+          <parameter name="position" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="128">zero-based position</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="ref" c:identifier="dex_tuple_ref" version="1.3">
+        <source-position filename="src/dex-tuple.h" line="47"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/dex-tuple.c"
+               line="79">@self</doc>
+          <type name="Tuple" c:type="DexTuple*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="77">a tuple</doc>
+            <type name="Tuple" c:type="DexTuple*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="unref" c:identifier="dex_tuple_unref" version="1.3">
+        <source-position filename="src/dex-tuple.h" line="49"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/dex-tuple.c"
+                 line="93">a tuple</doc>
+            <type name="Tuple" c:type="DexTuple*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+    </record>
     <function-macro name="UNAVAILABLE"
                     c:identifier="DEX_UNAVAILABLE"
                     introspectable="0">

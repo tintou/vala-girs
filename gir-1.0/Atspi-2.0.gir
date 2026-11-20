@@ -5659,12 +5659,12 @@ relayed to the currently focussed application, #FALSE if the event delivery shou
       <constructor name="new" c:identifier="atspi_device_x11_new">
         <doc xml:space="preserve"
              filename="atspi/atspi-device-x11.c"
-             line="1167">Creates a new #AtspiDeviceX11.</doc>
+             line="1180">Creates a new #AtspiDeviceX11.</doc>
         <source-position filename="atspi/atspi-device-x11.h" line="54"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="atspi/atspi-device-x11.c"
-               line="1172">a pointer to a newly-created #AtspiDeviceX11.</doc>
+               line="1185">a pointer to a newly-created #AtspiDeviceX11.</doc>
           <type name="DeviceX11" c:type="AtspiDeviceX11*"/>
         </return-value>
       </constructor>
@@ -5673,12 +5673,12 @@ relayed to the currently focussed application, #FALSE if the event delivery shou
                    version="2.55">
         <doc xml:space="preserve"
              filename="atspi/atspi-device-x11.c"
-             line="1149">Creates a new #AtspiDeviceX11 with the given app id.</doc>
+             line="1162">Creates a new #AtspiDeviceX11 with the given app id.</doc>
         <source-position filename="atspi/atspi-device-x11.h" line="56"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="atspi/atspi-device-x11.c"
-               line="1155">a pointer to a newly-created #AtspiDeviceX11.</doc>
+               line="1168">a pointer to a newly-created #AtspiDeviceX11.</doc>
           <type name="DeviceX11" c:type="AtspiDeviceX11*"/>
         </return-value>
         <parameters>
@@ -5688,7 +5688,7 @@ relayed to the currently focussed application, #FALSE if the event delivery shou
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="atspi/atspi-device-x11.c"
-                 line="1151">the application id.</doc>
+                 line="1164">the application id.</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>

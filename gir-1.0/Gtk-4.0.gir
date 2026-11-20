@@ -68682,12 +68682,12 @@ you should use the [signal@Gtk.GLArea::create-context] signal.</doc>
       <constructor name="new" c:identifier="gtk_gl_area_new">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1110">Creates a new `GtkGLArea` widget.</doc>
+             line="1160">Creates a new `GtkGLArea` widget.</doc>
         <source-position filename="gtk/gtkglarea.h" line="76"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1115">a new `GtkGLArea`</doc>
+               line="1165">a new `GtkGLArea`</doc>
           <type name="Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
@@ -68745,7 +68745,7 @@ you should use the [signal@Gtk.GLArea::create-context] signal.</doc>
       <method name="attach_buffers" c:identifier="gtk_gl_area_attach_buffers">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="569">Binds buffers to the framebuffer.
+             line="614">Binds buffers to the framebuffer.
 
 Ensures that the @area framebuffer object is made the current draw
 and read target, and that all the required buffers for the @area
@@ -68762,7 +68762,7 @@ called by application code.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="571">a `GtkGLArea`</doc>
+                 line="616">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68773,21 +68773,21 @@ called by application code.</doc>
               version="4.12">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1257">Gets the allowed APIs.
+             line="1307">Gets the allowed APIs.
 
 See [method@Gtk.GLArea.set_allowed_apis].</doc>
         <source-position filename="gtk/gtkglarea.h" line="82"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1265">the allowed APIs</doc>
+               line="1315">the allowed APIs</doc>
           <type name="Gdk.GLAPI" c:type="GdkGLAPI"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1259">a `GtkGLArea`</doc>
+                 line="1309">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68798,21 +68798,21 @@ See [method@Gtk.GLArea.set_allowed_apis].</doc>
               version="4.12">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1279">Gets the API that is currently in use.
+             line="1329">Gets the API that is currently in use.
 
 If the GL area has not been realized yet, 0 is returned.</doc>
         <source-position filename="gtk/gtkglarea.h" line="84"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1287">the currently used API</doc>
+               line="1337">the currently used API</doc>
           <type name="Gdk.GLAPI" c:type="GdkGLAPI"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1281">a `GtkGLArea`</doc>
+                 line="1331">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68822,19 +68822,19 @@ If the GL area has not been realized yet, 0 is returned.</doc>
               glib:get-property="auto-render">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1478">Returns whether the area is in auto render mode or not.</doc>
+             line="1528">Returns whether the area is in auto render mode or not.</doc>
         <source-position filename="gtk/gtkglarea.h" line="111"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1484">%TRUE if the @area is auto rendering, %FALSE otherwise</doc>
+               line="1534">%TRUE if the @area is auto rendering, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1480">a `GtkGLArea`</doc>
+                 line="1530">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68844,19 +68844,19 @@ If the GL area has not been realized yet, 0 is returned.</doc>
               glib:get-property="context">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1534">Retrieves the `GdkGLContext` used by @area.</doc>
+             line="1584">Retrieves the `GdkGLContext` used by @area.</doc>
         <source-position filename="gtk/gtkglarea.h" line="120"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1540">the `GdkGLContext`</doc>
+               line="1590">the `GdkGLContext`</doc>
           <type name="Gdk.GLContext" c:type="GdkGLContext*"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1536">a `GtkGLArea`</doc>
+                 line="1586">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68864,19 +68864,19 @@ If the GL area has not been realized yet, 0 is returned.</doc>
       <method name="get_error" c:identifier="gtk_gl_area_get_error">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1147">Gets the current error set on the @area.</doc>
+             line="1197">Gets the current error set on the @area.</doc>
         <source-position filename="gtk/gtkglarea.h" line="131"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1153">the `GError`</doc>
+               line="1203">the `GError`</doc>
           <type name="GLib.Error" c:type="GError*"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1149">a `GtkGLArea`</doc>
+                 line="1199">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68886,19 +68886,19 @@ If the GL area has not been realized yet, 0 is returned.</doc>
               glib:get-property="has-depth-buffer">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1353">Returns whether the area has a depth buffer.</doc>
+             line="1403">Returns whether the area has a depth buffer.</doc>
         <source-position filename="gtk/gtkglarea.h" line="101"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1359">%TRUE if the @area has a depth buffer, %FALSE otherwise</doc>
+               line="1409">%TRUE if the @area has a depth buffer, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1355">a `GtkGLArea`</doc>
+                 line="1405">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68908,19 +68908,19 @@ If the GL area has not been realized yet, 0 is returned.</doc>
               glib:get-property="has-stencil-buffer">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1402">Returns whether the area has a stencil buffer.</doc>
+             line="1452">Returns whether the area has a stencil buffer.</doc>
         <source-position filename="gtk/gtkglarea.h" line="106"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1408">%TRUE if the @area has a stencil buffer, %FALSE otherwise</doc>
+               line="1458">%TRUE if the @area has a stencil buffer, %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1404">a `GtkGLArea`</doc>
+                 line="1454">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68929,7 +68929,7 @@ If the GL area has not been realized yet, 0 is returned.</doc>
               c:identifier="gtk_gl_area_get_required_version">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1328">Retrieves the required version of OpenGL.
+             line="1378">Retrieves the required version of OpenGL.
 
 See [method@Gtk.GLArea.set_required_version].</doc>
         <source-position filename="gtk/gtkglarea.h" line="97"/>
@@ -68940,7 +68940,7 @@ See [method@Gtk.GLArea.set_required_version].</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1330">a `GtkGLArea`</doc>
+                 line="1380">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="major"
@@ -68949,7 +68949,7 @@ See [method@Gtk.GLArea.set_required_version].</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1331">return location for the required major version</doc>
+                 line="1381">return location for the required major version</doc>
             <type name="gint" c:type="int*"/>
           </parameter>
           <parameter name="minor"
@@ -68958,7 +68958,7 @@ See [method@Gtk.GLArea.set_required_version].</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1332">return location for the required minor version</doc>
+                 line="1382">return location for the required minor version</doc>
             <type name="gint" c:type="int*"/>
           </parameter>
         </parameters>
@@ -68970,7 +68970,7 @@ See [method@Gtk.GLArea.set_required_version].</doc>
               deprecated-version="4.12">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1195">Returns whether the `GtkGLArea` should use OpenGL ES.
+             line="1245">Returns whether the `GtkGLArea` should use OpenGL ES.
 
 See [method@Gtk.GLArea.set_use_es].</doc>
         <doc-deprecated xml:space="preserve">Use [method@Gtk.GLArea.get_api]</doc-deprecated>
@@ -68978,7 +68978,7 @@ See [method@Gtk.GLArea.set_use_es].</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1203">%TRUE if the `GtkGLArea` should create an OpenGL ES context
+               line="1253">%TRUE if the `GtkGLArea` should create an OpenGL ES context
   and %FALSE otherwise</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -68986,7 +68986,7 @@ See [method@Gtk.GLArea.set_use_es].</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1197">a `GtkGLArea`</doc>
+                 line="1247">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -68994,7 +68994,7 @@ See [method@Gtk.GLArea.set_use_es].</doc>
       <method name="make_current" c:identifier="gtk_gl_area_make_current">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1552">Ensures that the `GdkGLContext` used by @area is associated with
+             line="1602">Ensures that the `GdkGLContext` used by @area is associated with
 the `GtkGLArea`.
 
 This function is automatically called before emitting the
@@ -69008,7 +69008,7 @@ to be called by application code.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1554">a `GtkGLArea`</doc>
+                 line="1604">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -69016,7 +69016,7 @@ to be called by application code.</doc>
       <method name="queue_render" c:identifier="gtk_gl_area_queue_render">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1451">Marks the currently rendered data (if any) as invalid, and queues
+             line="1501">Marks the currently rendered data (if any) as invalid, and queues
 a redraw of the widget.
 
 This ensures that the [signal@Gtk.GLArea::render] signal
@@ -69033,7 +69033,7 @@ emit [signal@Gtk.GLArea::render] on each draw.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1453">a `GtkGLArea`</doc>
+                 line="1503">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
         </parameters>
@@ -69044,7 +69044,7 @@ emit [signal@Gtk.GLArea::render] on each draw.</doc>
               version="4.12">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1221">Sets the allowed APIs to create a context with.
+             line="1271">Sets the allowed APIs to create a context with.
 
 You should check [property@Gtk.GLArea:api] before drawing
 with either API.
@@ -69058,13 +69058,13 @@ By default, all APIs are allowed.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1223">a `GtkGLArea`</doc>
+                 line="1273">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="apis" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1224">the allowed APIs</doc>
+                 line="1274">the allowed APIs</doc>
             <type name="Gdk.GLAPI" c:type="GdkGLAPI"/>
           </parameter>
         </parameters>
@@ -69074,7 +69074,7 @@ By default, all APIs are allowed.</doc>
               glib:set-property="auto-render">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1496">Sets whether the `GtkGLArea` is in auto render mode.
+             line="1546">Sets whether the `GtkGLArea` is in auto render mode.
 
 If @auto_render is %TRUE the [signal@Gtk.GLArea::render] signal will
 be emitted every time the widget draws. This is the default and is
@@ -69093,13 +69093,13 @@ useful when the scene changes seldom, but takes a long time to redraw.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1498">a `GtkGLArea`</doc>
+                 line="1548">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="auto_render" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1499">a boolean</doc>
+                 line="1549">a boolean</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -69107,7 +69107,7 @@ useful when the scene changes seldom, but takes a long time to redraw.</doc>
       <method name="set_error" c:identifier="gtk_gl_area_set_error">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1123">Sets an error on the area which will be shown instead of the
+             line="1173">Sets an error on the area which will be shown instead of the
 GL rendering.
 
 This is useful in the [signal@Gtk.GLArea::create-context]
@@ -69120,7 +69120,7 @@ signal if GL context creation fails.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1125">a `GtkGLArea`</doc>
+                 line="1175">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="error"
@@ -69129,7 +69129,7 @@ signal if GL context creation fails.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1126">a new `GError`, or %NULL to unset the error</doc>
+                 line="1176">a new `GError`, or %NULL to unset the error</doc>
             <type name="GLib.Error" c:type="const GError*"/>
           </parameter>
         </parameters>
@@ -69139,7 +69139,7 @@ signal if GL context creation fails.</doc>
               glib:set-property="has-depth-buffer">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1371">Sets whether the `GtkGLArea` should use a depth buffer.
+             line="1421">Sets whether the `GtkGLArea` should use a depth buffer.
 
 If @has_depth_buffer is %TRUE the widget will allocate and
 enable a depth buffer for the target framebuffer. Otherwise
@@ -69152,13 +69152,13 @@ there will be none.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1373">a `GtkGLArea`</doc>
+                 line="1423">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="has_depth_buffer" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1374">%TRUE to add a depth buffer</doc>
+                 line="1424">%TRUE to add a depth buffer</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -69168,7 +69168,7 @@ there will be none.</doc>
               glib:set-property="has-stencil-buffer">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1420">Sets whether the `GtkGLArea` should use a stencil buffer.
+             line="1470">Sets whether the `GtkGLArea` should use a stencil buffer.
 
 If @has_stencil_buffer is %TRUE the widget will allocate and
 enable a stencil buffer for the target framebuffer. Otherwise
@@ -69181,13 +69181,13 @@ there will be none.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1422">a `GtkGLArea`</doc>
+                 line="1472">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="has_stencil_buffer" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1423">%TRUE to add a stencil buffer</doc>
+                 line="1473">%TRUE to add a stencil buffer</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -69196,7 +69196,7 @@ there will be none.</doc>
               c:identifier="gtk_gl_area_set_required_version">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1304">Sets the required version of OpenGL to be used when creating
+             line="1354">Sets the required version of OpenGL to be used when creating
 the context for the widget.
 
 This function must be called before the area has been realized.</doc>
@@ -69208,19 +69208,19 @@ This function must be called before the area has been realized.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1306">a `GtkGLArea`</doc>
+                 line="1356">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="major" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1307">the major version</doc>
+                 line="1357">the major version</doc>
             <type name="gint" c:type="int"/>
           </parameter>
           <parameter name="minor" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1308">the minor version</doc>
+                 line="1358">the minor version</doc>
             <type name="gint" c:type="int"/>
           </parameter>
         </parameters>
@@ -69232,7 +69232,7 @@ This function must be called before the area has been realized.</doc>
               deprecated-version="4.12">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1165">Sets whether the @area should create an OpenGL or an OpenGL ES context.
+             line="1215">Sets whether the @area should create an OpenGL or an OpenGL ES context.
 
 You should check the capabilities of the `GdkGLContext` before drawing
 with either API.</doc>
@@ -69245,13 +69245,13 @@ with either API.</doc>
           <instance-parameter name="area" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1167">a `GtkGLArea`</doc>
+                 line="1217">a `GtkGLArea`</doc>
             <type name="GLArea" c:type="GtkGLArea*"/>
           </instance-parameter>
           <parameter name="use_es" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1168">whether to use OpenGL or OpenGL ES</doc>
+                 line="1218">whether to use OpenGL or OpenGL ES</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -69265,7 +69265,7 @@ with either API.</doc>
                 default-value="GDK_GL_API_GL | GDK_GL_API_GLES">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="976">The allowed APIs.</doc>
+             line="1026">The allowed APIs.</doc>
         <type name="Gdk.GLAPI"/>
       </property>
       <property name="api"
@@ -69275,7 +69275,7 @@ with either API.</doc>
                 default-value="0">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="991">The API currently in use.</doc>
+             line="1041">The API currently in use.</doc>
         <type name="Gdk.GLAPI"/>
       </property>
       <property name="auto-render"
@@ -69286,7 +69286,7 @@ with either API.</doc>
                 default-value="TRUE">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="910">If set to %TRUE the ::render signal will be emitted every time
+             line="960">If set to %TRUE the ::render signal will be emitted every time
 the widget draws.
 
 This is the default and is useful if drawing the widget is faster.
@@ -69301,7 +69301,7 @@ to redraw.</doc>
       <property name="context" transfer-ownership="none" getter="get_context">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="895">The `GdkGLContext` used by the `GtkGLArea` widget.
+             line="945">The `GdkGLContext` used by the `GtkGLArea` widget.
 
 The `GtkGLArea` widget is responsible for creating the `GdkGLContext`
 instance. If you need to render with other kinds of buffers (stencil,
@@ -69316,7 +69316,7 @@ depth, etc), use render buffers.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="931">If set to %TRUE the widget will allocate and enable a depth buffer for the
+             line="981">If set to %TRUE the widget will allocate and enable a depth buffer for the
 target framebuffer.
 
 Setting this property will enable GL's depth testing as a side effect. If
@@ -69332,7 +69332,7 @@ in your `GtkGLArea::render` handler.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="948">If set to %TRUE the widget will allocate and enable a stencil buffer for the
+             line="998">If set to %TRUE the widget will allocate and enable a stencil buffer for the
 target framebuffer.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
@@ -69346,7 +69346,7 @@ target framebuffer.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="961">If set to %TRUE the widget will try to create a `GdkGLContext` using
+             line="1011">If set to %TRUE the widget will try to create a `GdkGLContext` using
 OpenGL ES instead of OpenGL.</doc>
         <doc-deprecated xml:space="preserve">Use [property@Gtk.GLArea:allowed-apis]</doc-deprecated>
         <type name="gboolean" c:type="gboolean"/>
@@ -69357,7 +69357,7 @@ OpenGL ES instead of OpenGL.</doc>
       <glib:signal name="create-context" when="last">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1068">Emitted when the widget is being realized.
+             line="1118">Emitted when the widget is being realized.
 
 This allows you to override how the GL context is created.
 This is useful when you want to reuse an existing GL context,
@@ -69369,7 +69369,7 @@ of how the construction failed.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1083">a newly created `GdkGLContext`;
+               line="1133">a newly created `GdkGLContext`;
     the `GtkGLArea` widget will take ownership of the returned value.</doc>
           <type name="Gdk.GLContext"/>
         </return-value>
@@ -69377,14 +69377,14 @@ of how the construction failed.</doc>
       <glib:signal name="render" when="last">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1012">Emitted every time the contents of the `GtkGLArea` should be redrawn.
+             line="1062">Emitted every time the contents of the `GtkGLArea` should be redrawn.
 
 The @context is bound to the @area prior to emitting this function,
 and the buffers are painted to the window once the emission terminates.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/gtkglarea.c"
-               line="1022">%TRUE to stop other handlers from being invoked for the event.
+               line="1072">%TRUE to stop other handlers from being invoked for the event.
   %FALSE to propagate the event further.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -69392,7 +69392,7 @@ and the buffers are painted to the window once the emission terminates.</doc>
           <parameter name="context" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1015">the `GdkGLContext` used by @area</doc>
+                 line="1065">the `GdkGLContext` used by @area</doc>
             <type name="Gdk.GLContext"/>
           </parameter>
         </parameters>
@@ -69400,7 +69400,7 @@ and the buffers are painted to the window once the emission terminates.</doc>
       <glib:signal name="resize" when="last">
         <doc xml:space="preserve"
              filename="gtk/gtkglarea.c"
-             line="1038">Emitted once when the widget is realized, and then each time the widget
+             line="1088">Emitted once when the widget is realized, and then each time the widget
 is changed while realized.
 
 This is useful in order to keep GL state up to date with the widget size,
@@ -69418,13 +69418,13 @@ The default handler sets up the GL viewport.</doc>
           <parameter name="width" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1041">the width of the viewport</doc>
+                 line="1091">the width of the viewport</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="height" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/gtkglarea.c"
-                 line="1042">the height of the viewport</doc>
+                 line="1092">the height of the viewport</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -142217,19 +142217,28 @@ in CSS, with names like SymbolicForeground, SymbolicSuccess, etc.
 These can be used whenever a color is required.
 
 In contrast to SVG 1.1 and 2.0, we allow the `transform` attribute
-to be animated with `&lt;animate&gt;`.</doc>
+to be animated with `&lt;animate&gt;`.
+
+
+## On untrusted data
+
+Note that GtkSvg is an-process parser for a complex format and is
+written in C. It was specifically created to support animated icons
+and theme resources, not for general content. If you need to load SVG
+data from untrusted sources, we recommend using frameworks that were
+designed to handle such data, like [glycin](https://lib.rs/crates/glycin).</doc>
       <source-position filename="gtk/svg/gtksvg.h" line="39"/>
       <implements name="Gdk.Paintable"/>
       <implements name="SymbolicPaintable"/>
       <constructor name="new" c:identifier="gtk_svg_new" version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3041">Creates a new, empty SVG paintable.</doc>
+             line="3049">Creates a new, empty SVG paintable.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="42"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3046">the paintable</doc>
+               line="3054">the paintable</doc>
           <type name="Svg" c:type="GtkSvg*"/>
         </return-value>
       </constructor>
@@ -142238,19 +142247,19 @@ to be animated with `&lt;animate&gt;`.</doc>
                    version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3056">Parses the SVG data in @bytes and creates a paintable.</doc>
+             line="3064">Parses the SVG data in @bytes and creates a paintable.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="45"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3062">the paintable</doc>
+               line="3070">the paintable</doc>
           <type name="Svg" c:type="GtkSvg*"/>
         </return-value>
         <parameters>
           <parameter name="bytes" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3058">the data</doc>
+                 line="3066">the data</doc>
             <type name="GLib.Bytes" c:type="GBytes*"/>
           </parameter>
         </parameters>
@@ -142260,19 +142269,19 @@ to be animated with `&lt;animate&gt;`.</doc>
                    version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3076">Parses the SVG data in the resource and creates a paintable.</doc>
+             line="3084">Parses the SVG data in the resource and creates a paintable.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="48"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3082">the paintable</doc>
+               line="3090">the paintable</doc>
           <type name="Svg" c:type="GtkSvg*"/>
         </return-value>
         <parameters>
           <parameter name="path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3078">the resource path</doc>
+                 line="3086">the resource path</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -142283,19 +142292,19 @@ to be animated with `&lt;animate&gt;`.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3352">Returns the currently enabled features.</doc>
+             line="3360">Returns the currently enabled features.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="161"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3358">the enabled features</doc>
+               line="3366">the enabled features</doc>
           <type name="SvgFeatures" c:type="GtkSvgFeatures"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3354">an SVG paintable</doc>
+                 line="3362">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142306,19 +142315,19 @@ to be animated with `&lt;animate&gt;`.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3399">Gets the current overflow value.</doc>
+             line="3407">Gets the current overflow value.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="96"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3405">the current overflow value</doc>
+               line="3413">the current overflow value</doc>
           <type name="Overflow" c:type="GtkOverflow"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3401">an SVG paintable</doc>
+                 line="3409">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142329,19 +142338,19 @@ to be animated with `&lt;animate&gt;`.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3276">Gets the current state of the paintable.</doc>
+             line="3284">Gets the current state of the paintable.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="76"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3282">the state</doc>
+               line="3290">the state</doc>
           <type name="guint" c:type="unsigned int"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3278">an SVG paintable</doc>
+                 line="3286">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142351,7 +142360,7 @@ to be animated with `&lt;animate&gt;`.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3294">Returns a `NULL`-terminated array of
+             line="3302">Returns a `NULL`-terminated array of
 state names, if available.
 
 Note that the returned array and the strings
@@ -142362,7 +142371,7 @@ want to keep it around, you should make a copy.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3308">the state names</doc>
+               line="3316">the state names</doc>
           <array c:type="const char**">
             <type name="utf8"/>
           </array>
@@ -142371,7 +142380,7 @@ want to keep it around, you should make a copy.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3296">an SVG paintable</doc>
+                 line="3304">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="length"
@@ -142381,7 +142390,7 @@ want to keep it around, you should make a copy.</doc>
                      nullable="1">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3297">return location for the number
+                 line="3305">return location for the number
   of strings that are returned</doc>
             <type name="guint" c:type="unsigned int*"/>
           </parameter>
@@ -142393,19 +142402,19 @@ want to keep it around, you should make a copy.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3443">Gets the CSS user stylesheet.</doc>
+             line="3451">Gets the CSS user stylesheet.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="102"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3449">a `GBytes` with the CSS data</doc>
+               line="3457">a `GBytes` with the CSS data</doc>
           <type name="GLib.Bytes" c:type="GBytes*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3445">an SVG paintable</doc>
+                 line="3453">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142416,19 +142425,19 @@ want to keep it around, you should make a copy.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3190">Gets the value of the weight property.</doc>
+             line="3198">Gets the value of the weight property.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="70"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="gtk/svg/gtksvg.c"
-               line="3196">the weight</doc>
+               line="3204">the weight</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3192">an SVG paintable</doc>
+                 line="3200">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142438,7 +142447,7 @@ want to keep it around, you should make a copy.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3099">Loads SVG content into an existing SVG paintable.
+             line="3107">Loads SVG content into an existing SVG paintable.
 
 To track errors while loading SVG content,
 connect to the [signal@Gtk.Svg::error] signal.
@@ -142452,13 +142461,13 @@ This clears any previously loaded content.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3101">an SVG paintable</doc>
+                 line="3109">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="bytes" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3102">the data to load</doc>
+                 line="3110">the data to load</doc>
             <type name="GLib.Bytes" c:type="GBytes*"/>
           </parameter>
         </parameters>
@@ -142468,7 +142477,7 @@ This clears any previously loaded content.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3128">Loads SVG content into an existing SVG paintable.
+             line="3136">Loads SVG content into an existing SVG paintable.
 
 To track errors while loading SVG content,
 connect to the [signal@Gtk.Svg::error] signal.
@@ -142482,13 +142491,13 @@ This clears any previously loaded content.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3130">an SVG paintable</doc>
+                 line="3138">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="path" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3131">the resource path</doc>
+                 line="3139">the resource path</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -142496,7 +142505,7 @@ This clears any previously loaded content.</doc>
       <method name="pause" c:identifier="gtk_svg_pause" version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3570">Stop any playing animations and state transitions.
+             line="3578">Stop any playing animations and state transitions.
 
 SvgAnimations can be paused and started repeatedly.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="90"/>
@@ -142507,7 +142516,7 @@ SvgAnimations can be paused and started repeatedly.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3572">an SVG paintable</doc>
+                 line="3580">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142515,7 +142524,7 @@ SvgAnimations can be paused and started repeatedly.</doc>
       <method name="play" c:identifier="gtk_svg_play" version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3552">Start playing animations and state transitions.
+             line="3560">Start playing animations and state transitions.
 
 SvgAnimations can be paused and started repeatedly.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="87"/>
@@ -142526,7 +142535,7 @@ SvgAnimations can be paused and started repeatedly.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3554">an SVG paintable</doc>
+                 line="3562">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
         </parameters>
@@ -142564,7 +142573,7 @@ of applying animations.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3324">Enables or disables features of the SVG paintable.
+             line="3332">Enables or disables features of the SVG paintable.
 
 By default, all features are enabled.
 
@@ -142578,13 +142587,13 @@ SVG is loaded.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3326">an SVG paintable</doc>
+                 line="3334">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="features" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3327">features to enable</doc>
+                 line="3335">features to enable</doc>
             <type name="SvgFeatures" c:type="GtkSvgFeatures"/>
           </parameter>
         </parameters>
@@ -142594,7 +142603,7 @@ SVG is loaded.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3508">Sets a frame clock.
+             line="3516">Sets a frame clock.
 
 Without a frame clock, GtkSvg will not advance animations.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="83"/>
@@ -142605,13 +142614,13 @@ Without a frame clock, GtkSvg will not advance animations.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3510">an SVG paintable</doc>
+                 line="3518">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="clock" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3511">the frame clock</doc>
+                 line="3519">the frame clock</doc>
             <type name="Gdk.FrameClock" c:type="GdkFrameClock*"/>
           </parameter>
         </parameters>
@@ -142622,7 +142631,7 @@ Without a frame clock, GtkSvg will not advance animations.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3370">Sets whether the rendering will be clipped
+             line="3378">Sets whether the rendering will be clipped
 to the bounds.
 
 Clipping is expected for [iface@Gdk.Paintable]
@@ -142636,13 +142645,13 @@ changed when using a `GtkSvg` as a paintable.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3372">an SVG paintable</doc>
+                 line="3380">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="overflow" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3373">the new overflow value</doc>
+                 line="3381">the new overflow value</doc>
             <type name="Overflow" c:type="GtkOverflow"/>
           </parameter>
         </parameters>
@@ -142652,7 +142661,7 @@ changed when using a `GtkSvg` as a paintable.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3468">Sets a settings object holding settinsg used when
+             line="3476">Sets a settings object holding settinsg used when
 rendering the SVG.</doc>
         <source-position filename="gtk/svg/gtksvg.h" line="105"/>
         <return-value transfer-ownership="none">
@@ -142662,7 +142671,7 @@ rendering the SVG.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3470">an SVG paintable</doc>
+                 line="3478">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="settings"
@@ -142671,7 +142680,7 @@ rendering the SVG.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3471">the settings object</doc>
+                 line="3479">the settings object</doc>
             <type name="Settings" c:type="GtkSettings*"/>
           </parameter>
         </parameters>
@@ -142682,7 +142691,7 @@ rendering the SVG.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3234">Sets the state of the paintable.
+             line="3242">Sets the state of the paintable.
 
 If the paintable is currently playing, the state change
 will apply transitions that are defined in the SVG. If
@@ -142696,13 +142705,13 @@ effect instantaneously.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3236">an SVG paintable</doc>
+                 line="3244">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="state" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3237">the state to set, as a value between 0 and 63</doc>
+                 line="3245">the state to set, as a value between 0 and 63</doc>
             <type name="guint" c:type="unsigned int"/>
           </parameter>
         </parameters>
@@ -142713,7 +142722,7 @@ effect instantaneously.</doc>
               version="4.24">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3417">Sets a CSS user stylesheet to use.
+             line="3425">Sets a CSS user stylesheet to use.
 
 Note that styles are applied at load time,
 so this function must be called before
@@ -142726,7 +142735,7 @@ loading SVG.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3419">an SVG paintable</doc>
+                 line="3427">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="bytes"
@@ -142735,7 +142744,7 @@ loading SVG.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3420">CSS data</doc>
+                 line="3428">CSS data</doc>
             <type name="GLib.Bytes" c:type="GBytes*"/>
           </parameter>
         </parameters>
@@ -142746,7 +142755,7 @@ loading SVG.</doc>
               version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="3159">Sets the weight that is used when rendering.
+             line="3167">Sets the weight that is used when rendering.
 
 The weight affects the effective linewidth when stroking
 paths.
@@ -142761,13 +142770,13 @@ from CSS.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3161">an SVG paintable</doc>
+                 line="3169">an SVG paintable</doc>
             <type name="Svg" c:type="GtkSvg*"/>
           </instance-parameter>
           <parameter name="weight" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="3162">the font weight, as a value between -1 and 1000</doc>
+                 line="3170">the font weight, as a value between -1 and 1000</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -142810,7 +142819,7 @@ from CSS.</doc>
                 default-value="GTK_SVG_ANIMATIONS | GTK_SVG_SYSTEM_RESOURCES | GTK_SVG_EXTERNAL_RESOURCES | GTK_SVG_EXTENSIONS">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2137">Enabled features for this paintable.
+             line="2145">Enabled features for this paintable.
 
 Note that features have to be set before
 loading SVG data to take effect.</doc>
@@ -142825,7 +142834,7 @@ loading SVG data to take effect.</doc>
                 default-value="GTK_OVERFLOW_HIDDEN">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2194">Whether the rendering will be clipped to the bounds.</doc>
+             line="2202">Whether the rendering will be clipped to the bounds.</doc>
         <type name="Overflow"/>
       </property>
       <property name="playing"
@@ -142835,7 +142844,7 @@ loading SVG data to take effect.</doc>
                 default-value="FALSE">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2152">Whether the paintable is currently animating its content.
+             line="2160">Whether the paintable is currently animating its content.
 
 To set this property, use the [method@Gtk.Svg.play] and
 [method@Gtk.Svg.pause] functions.</doc>
@@ -142848,7 +142857,7 @@ To set this property, use the [method@Gtk.Svg.play] and
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2122">Resource to load SVG data from.
+             line="2130">Resource to load SVG data from.
 
 This property is meant to create a paintable
 from a resource in ui files.</doc>
@@ -142863,7 +142872,7 @@ from a resource in ui files.</doc>
                 default-value="0">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2180">The current state of the renderer.
+             line="2188">The current state of the renderer.
 
 This can be a number between 0 and 63.</doc>
         <type name="guint" c:type="guint"/>
@@ -142876,7 +142885,7 @@ This can be a number between 0 and 63.</doc>
                 getter="get_stylesheet">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2206">A CSS stylesheet to apply to the SVG.</doc>
+             line="2214">A CSS stylesheet to apply to the SVG.</doc>
         <type name="GLib.Bytes"/>
       </property>
       <property name="weight"
@@ -142888,14 +142897,14 @@ This can be a number between 0 and 63.</doc>
                 default-value="-1.000000">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2167">If not set to -1, this value overrides the weight used
+             line="2175">If not set to -1, this value overrides the weight used
 when rendering the paintable.</doc>
         <type name="gdouble" c:type="gdouble"/>
       </property>
       <glib:signal name="error" when="last" version="4.22">
         <doc xml:space="preserve"
              filename="gtk/svg/gtksvg.c"
-             line="2220">Signals that an error occurred.
+             line="2228">Signals that an error occurred.
 
 Errors can occur both during parsing and during rendering.
 
@@ -142922,7 +142931,7 @@ to check that the parsing succeeds by connecting to this signal.
           <parameter name="error" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="gtk/svg/gtksvg.c"
-                 line="2223">the error</doc>
+                 line="2231">the error</doc>
             <type name="GLib.Error"/>
           </parameter>
         </parameters>
